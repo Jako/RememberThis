@@ -1,7 +1,7 @@
 RememberThis
 ================================================================================
 
-Remember an id and the correspondenting resource data in a session based list.
+Remember list for MODX Revolution.
 
 Features:
 --------------------------------------------------------------------------------
@@ -23,7 +23,8 @@ MODX Package Management
 Usage
 --------------------------------------------------------------------------------
 
-Most of the snippet settings should be made in the MODX system settings:
+Most of the snippet settings should be made in the MODX system settings and are 
+used in snippet and ajax mode:
 
 Property | Description | Default
 -------------- | ------------------------------------------------- | -------
@@ -49,10 +50,13 @@ debug          | Display debug informations.                       | no
 
 In template chunks all resource fields of the MODX resources could be used as 
 placeholder including template variables with the prefix 'tv.' could be used. 
-If a xPDO package is used, all resource fields of this package could be used 
-as placeholder.
+If a xPDO package is used, all resource fields of this package could be used as 
+placeholder.
 
-Some settings could be used in snippet call:
+The following template system settings could be overridden by snippet call:
+rowTpl, outerTpl, addTpl, noResultsTpl, itemTitleTpl, tvPrefix, language
+
+Some settings could be used only in snippet call:
 
 Parameter | Description | Default
 ----- | ----------- | -------

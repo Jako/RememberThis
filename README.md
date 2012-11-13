@@ -5,7 +5,9 @@ Remember list for MODX Revolution.
 
 Features:
 --------------------------------------------------------------------------------
-RememberThis is small session based remembering snippet solution for MODX Revolution. It has two display modes: The default one displays the session based list and the other displays a link to add elements to the list. The data added to the list could be retreived from MODX resources or from xPDO packages. 
+RememberThis is small session based remembering snippet solution for MODX Revolution. It has two display modes: The default one displays the session based list and the other displays a link to add elements to the list. 
+
+The data added to the list could be retreived from MODX resources or from xPDO packages. If the added data is retreived from xPDO package, the row is referenced by the id column.
 
 Adding and removing elements from the list could be made by url params or by Ajax. A jQuery Ajax script is used by default. 
 
@@ -16,7 +18,7 @@ MODX Package Management
 Usage
 --------------------------------------------------------------------------------
 
-Most of the snippet settings should be made in the MODX system settings:
+Most of the snippet settings should be made in the MODX system settings and are used in snippet and ajax mode:
 
 Property | Description | Default
 ---- | ----------- | -------
@@ -37,7 +39,10 @@ debug | Display debug informations. | no
 
 In template chunks all resource fields of the MODX resources could be used as placeholder including template variables with the prefix 'tv.' could be used. If a xPDO package is used, all resource fields of this package could be used as placeholder.
 
-Some settings could be used in snippet call:
+The following template system settings could be overridden by snippet call:
+rowTpl, outerTpl, addTpl, noResultsTpl, itemTitleTpl, tvPrefix, language
+
+Some settings could be used only in snippet call:
 
 Parameter | Description | Default
 ---- | ----------- | -------
