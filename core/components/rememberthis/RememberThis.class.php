@@ -46,7 +46,6 @@ class RememberThis {
 		$this->templates['rowTpl'] = $options['rowTpl'];
 		$this->templates['outerTpl'] = $options['outerTpl'];
 		$this->templates['addTpl'] = $options['addTpl'];
-		$this->templates['noResultsTpl'] = $parser->getTemplate($options['noResultsTpl']);
 		$this->templates['itemTitleTpl'] = $options['itemTitleTpl'];
 		$this->templates['tvPrefix'] = $options['tvPrefix'];
 		$this->templates['language'] = $options['language'];
@@ -66,7 +65,12 @@ class RememberThis {
 		$modx->lexicon->load('rememberthis:default');
 		$this->language['add'] = $modx->lexicon('rememberthis.add');
 		$this->language['delete'] = $modx->lexicon('rememberthis.delete');
+		$this->language['noresultstext'] = $modx->lexicon('rememberthis.noresultstext');
 
+		$parser = $parser = new rtChunkie($options['noResultsTpl']);
+		$parser->CreateVars($this->language, 'lang');
+		$this->templates['noResultsTpl'] = $parser->Render();
+		
 		$this->gets = array();
 		foreach ($_GET as $key => $value) {
 			if ($key != 'q' && $key != 'add' && $key != 'delete') {

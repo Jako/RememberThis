@@ -1,3 +1,14 @@
-.rememberdoc { padding: 8px; font-size: 0.9em; width: 192px }
-.rememberitem { text-align: right; clear: left }
-.rememberitem .title { float: left; text-align: left; width: 80% }
+.rememberitem { 
+	position: relative
+}
+.rememberitem .title { 
+	margin-right: 26px
+}
+.rememberitem .rememberdelete { 
+	position: absolute; 
+	display: block; 
+	right: 0; 
+	top: 0; 
+	width: 16px; 
+	height: 16px
+}

@@ -9,7 +9,7 @@ function rememberAdd(id) {
 		success: function(data) {
 			jQuery('.rememberload').remove();
 			if (jQuery('.rememberthis .rememberempty').length) {
-				jQuery('.rememberthis').fadeOut('fast', function() {
+				jQuery('.rememberthis').slideUp('fast', function() {
 					jQuery(this).html(data).slideDown('slow');
 				});
 			} else {
@@ -32,10 +32,9 @@ function rememberDelete(id) {
 			'delete': id
 		},
 		success: function(data) {
-			jQuery('.rememberload').remove();
 			if (isNaN(data)) {
-				jQuery('.rememberdoc').slideUp('slow', function() {
-					jQuery(this).html(jQuery.trim(data)).fadeIn('fast');
+				jQuery('.rememberthis').slideUp('slow', function() {
+					jQuery(this).html(jQuery.trim(data)).slideDown('fast');
 				});
 				return true;
 			}
