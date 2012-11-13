@@ -30,13 +30,13 @@ require_once ($class_file);
 $options = array();
 
 // System settings
-$options['rowTpl'] = $modx->getOption('rememberthis.rowTpl', $scriptProperties, $modx->getOption('rememberthis.rowTpl', NULL, '@FILE components/rememberthis/templates/rowTpl.html'));
-$options['outerTpl'] = $modx->getOption('rememberthis.rowTpl', $scriptProperties, $modx->getOption('rememberthis.outerTpl', NULL, '@FILE components/rememberthis/templates/outerTpl.html'));
-$options['addTpl'] = $modx->getOption('rememberthis.rowTpl', $scriptProperties, $modx->getOption('rememberthis.addTpl', NULL, '@FILE components/rememberthis/templates/addTpl.html'));
-$options['noResultsTpl'] = $modx->getOption('rememberthis.rowTpl', $scriptProperties, $modx->getOption('rememberthis.noResultsTpl', NULL, '@FILE components/rememberthis/templates/noResultsTpl.html'));
-$options['itemTitleTpl'] = $modx->getOption('rememberthis.rowTpl', $scriptProperties, $modx->getOption('rememberthis.itemTitleTpl', NULL, '@FILE components/rememberthis/templates/itemTitleTpl.html'));
-$options['tvPrefix'] = $modx->getOption('rememberthis.rowTpl', $scriptProperties, $modx->getOption('rememberthis.tvPrefix', NULL, 'tv.'));
-$options['language'] = $modx->getOption('rememberthis.rowTpl', $scriptProperties, $modx->getOption('rememberthis.language', NULL, 'en'));
+$options['rowTpl'] = $modx->getOption('rowTpl', $scriptProperties, $modx->getOption('rememberthis.rowTpl', NULL, '@FILE components/rememberthis/templates/rowTpl.html'));
+$options['outerTpl'] = $modx->getOption('outerTpl', $scriptProperties, $modx->getOption('rememberthis.outerTpl', NULL, '@FILE components/rememberthis/templates/outerTpl.html'));
+$options['addTpl'] = $modx->getOption('addTpl', $scriptProperties, $modx->getOption('rememberthis.addTpl', NULL, '@FILE components/rememberthis/templates/addTpl.html'));
+$options['noResultsTpl'] = $modx->getOption('noResultsTpl', $scriptProperties, $modx->getOption('rememberthis.noResultsTpl', NULL, '@FILE components/rememberthis/templates/noResultsTpl.html'));
+$options['itemTitleTpl'] = $modx->getOption('itemTitleTpl', $scriptProperties, $modx->getOption('rememberthis.itemTitleTpl', NULL, '@FILE components/rememberthis/templates/itemTitleTpl.html'));
+$options['tvPrefix'] = $modx->getOption('tvPrefix', $scriptProperties, $modx->getOption('rememberthis.tvPrefix', NULL, 'tv.'));
+$options['language'] = $modx->getOption('language', $scriptProperties, $modx->getOption('rememberthis.language', NULL, 'en'));
 $options['packagename'] = $modx->getOption('rememberthis.packagename', NULL, '');
 $options['classname'] = $modx->getOption('rememberthis.classname', NULL, '');
 $options['joins'] = $modx->fromJson($modx->getOption('rememberthis.joins', NULL, ''));

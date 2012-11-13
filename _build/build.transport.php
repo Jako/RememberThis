@@ -32,8 +32,8 @@ set_time_limit(0);
 /* define package */
 define('PKG_NAME', 'RememberThis');
 define('PKG_NAME_LOWER', strtolower(PKG_NAME));
-define('PKG_VERSION', '0.4');
-define('PKG_RELEASE', 'pl');
+define('PKG_VERSION', '0.4.1');
+define('PKG_RELEASE', 'pl-2');
 
 /* define sources */
 $root = dirname(dirname(__FILE__)) . '/';

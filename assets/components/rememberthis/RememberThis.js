@@ -1,8 +1,9 @@
 function rememberAdd(id) {
 	jQuery.ajax({
 		type: 'GET',
-		url: 'assets/components/rememberthis/connector.php',
+		url: 'assets/components/rememberthis/connectors/connector.php',
 		data: {
+			'action': 'remember',
 			'add': id
 		},
 		success: function(data) {
@@ -25,8 +26,9 @@ function rememberAdd(id) {
 function rememberDelete(id) {
 	jQuery.ajax({
 		type: 'GET',
-		url: 'assets/components/rememberthis/connector.php',
+		url: 'assets/components/rememberthis/connectors/connector.php',
 		data: {
+			'action': 'remember',
 			'delete': id
 		},
 		success: function(data) {

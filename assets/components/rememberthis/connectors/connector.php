@@ -20,16 +20,29 @@
  *
  * @package rememberthis
  * @subpackage connector
- * 
- * @author      Thomas Jakobi (thomas.jakobi@partout.info)
- * @copyright   Copyright 2011-2012, Thomas Jakobi
- * @version     0.4
  */
-require_once dirname(dirname(dirname(dirname(__FILE__)))) . '/config.core.php';
+/* Allow anonymous users */
+define('MODX_REQP', false);
+
+/* Require MODx configuration, and base connector file */
+require_once dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/config.core.php';
 require_once MODX_CORE_PATH . 'config/' . MODX_CONFIG_KEY . '.inc.php';
 require_once MODX_CONNECTORS_PATH . 'index.php';
 
 $rememberthisCorePath = $modx->getOption('rememberthis.core_path', null, MODX_CORE_PATH . 'components/rememberthis/');
+
+$version = $modx->getVersionData();
+if (version_compare($version['full_version'], '2.1.1-pl') >= 0) {
+	if ($modx->user->hasSessionContext($modx->context->get('key'))) {
+		$_SERVER['HTTP_MODAUTH'] = $_SESSION["modx.{$modx->context->get('key')}.user.token"];
+	} else {
+		$_SESSION["modx.{$modx->context->get('key')}.user.token"] = 0;
+		$_SERVER['HTTP_MODAUTH'] = 0;
+	}
+} else {
+	$_SERVER['HTTP_MODAUTH'] = $modx->site_id;
+}
+$_REQUEST['HTTP_MODAUTH'] = $_SERVER['HTTP_MODAUTH'];
 
 require_once $rememberthisCorePath . 'RememberThis.class.php';
 
@@ -52,5 +65,11 @@ $options['includeCss'] = intval($modx->getOption('rememberthis.includeCss', NULL
 $options['debug'] = intval($modx->getOption('rememberthis.debug', NULL, 0));
 
 $modx->rememberDoc = new RememberThis($options);
-echo $modx->rememberDoc->Run('ajax', intval($_GET['add']));
+
+/* Handle request */
+$processorsPath = $modx->getOption('core_path') . 'components/rememberthis/processors/';
+$modx->request->handleRequest(array(
+	'processors_path' => $processorsPath,
+	'location' => 'web'
+));
 ?>
