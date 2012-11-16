@@ -70,7 +70,7 @@ class RememberThis {
 		$parser = $parser = new rtChunkie($options['noResultsTpl']);
 		$parser->CreateVars($this->language, 'lang');
 		$this->templates['noResultsTpl'] = $parser->Render();
-		
+
 		$this->gets = array();
 		foreach ($_GET as $key => $value) {
 			if ($key != 'q' && $key != 'add' && $key != 'delete') {
@@ -175,6 +175,12 @@ class RememberThis {
 		if ($this->package['packagename'] == '') {
 			// no packagename -> resource
 			$resource = $modx->getObject('modResource', array('id' => $docId));
+
+			// $modx->resource not set during ajax call
+			if (!$modx->resource) {
+				$modx->resource = &$resource;
+			}
+
 			$tvs = array();
 			$templateVars = &$resource->getMany('TemplateVars');
 			foreach ($templateVars as $templateVar) {
@@ -194,6 +200,11 @@ class RememberThis {
 
 			$modx->addPackage($this->package['packagename'], $modelpath);
 			$resource = $modx->getObject($this->package['classname'], array('id' => $docId));
+
+			// $modx->resource not set during ajax call
+			if (!$modx->resource) {
+				$modx->resource = $modx->newObject('modResource');
+			}
 			$joinvalues = array();
 			foreach ($this->package['joins'] as $join) {
 				$values = $resource->getOne($join);

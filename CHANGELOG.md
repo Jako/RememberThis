@@ -1,6 +1,8 @@
 Changelog
 ================================================================================
 
+- 0.4.3
+    - Fixed phpthumbof problem in ajax call
 - 0.4.2
     - Session problem fixed
     - Javascript and styling issues

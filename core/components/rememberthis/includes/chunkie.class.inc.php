@@ -1,22 +1,18 @@
 <?php
 /*
- * Name: rtChunkie
+ * Name: bloxChunkie
  * Original name: Chunkie
  * Version: 1.0
  * Author: Armand "bS" Pondman (apondman@zerobarrier.nl)
  * Date: Oct 8, 2006 00:00 CET
- * Modiefied for Revolution & rememberthis by Thomas Jakobi (thomas.jakobi@partout.info)
+ * Modified for Revolution & rememberthis by Thomas Jakobi (thomas.jakobi@partout.info)
  */
 
 class rtChunkie {
 
+	var $template;
 	var $templates;
-	var $placeholder;
-	var $phx;
-	var $phxreq;
-	var $phxerror;
-	var $check;
-	
+	var $placeholders;
 	private $depth;
 	private $maxdepth;
 
@@ -33,7 +29,7 @@ class rtChunkie {
 			return;
 		}
 		$keypath = !empty($path) ? $path . "." . $key : $key;
-		
+
 		if (is_array($value)) {
 			foreach ($value as $subkey => $subval) {
 				$this->CreateVars($subval, $subkey, $keypath);
@@ -91,7 +87,8 @@ class rtChunkie {
 					$modx->chunkieCache['@CHUNK'] = array();
 				}
 				if (!array_key_exists($chunkname, $modx->chunkieCache['@CHUNK'])) {
-					if ($chunk = $modx->getObject('modChunk', array('name' => $chunkname))) {
+					$chunk = $modx->getObject('modChunk', array('name' => $chunkname));
+					if ($chunk) {
 						$modx->chunkieCache['@CHUNK'][$chunkname] = $chunk->getContent();
 					} else {
 						$modx->chunkieCache['@CHUNK'][$chunkname] = FALSE;
