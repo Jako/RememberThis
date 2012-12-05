@@ -34,6 +34,7 @@ $options['rowTpl'] = $modx->getOption('rowTpl', $scriptProperties, $modx->getOpt
 $options['outerTpl'] = $modx->getOption('outerTpl', $scriptProperties, $modx->getOption('rememberthis.outerTpl', NULL, '@FILE components/rememberthis/templates/outerTpl.html'));
 $options['addTpl'] = $modx->getOption('addTpl', $scriptProperties, $modx->getOption('rememberthis.addTpl', NULL, '@FILE components/rememberthis/templates/addTpl.html'));
 $options['noResultsTpl'] = $modx->getOption('noResultsTpl', $scriptProperties, $modx->getOption('rememberthis.noResultsTpl', NULL, '@FILE components/rememberthis/templates/noResultsTpl.html'));
+$options['rememberheadTpl'] = $modx->getOption('rememberheadTpl', $scriptProperties, $modx->getOption('rememberthis.rememberheadTpl', NULL, '@FILE components/rememberthis/templates/rememberheadTpl.html'));
 $options['itemTitleTpl'] = $modx->getOption('itemTitleTpl', $scriptProperties, $modx->getOption('rememberthis.itemTitleTpl', NULL, '@FILE components/rememberthis/templates/itemTitleTpl.html'));
 $options['tvPrefix'] = $modx->getOption('tvPrefix', $scriptProperties, $modx->getOption('rememberthis.tvPrefix', NULL, 'tv.'));
 $options['language'] = $modx->getOption('language', $scriptProperties, $modx->getOption('rememberthis.language', NULL, 'en'));

@@ -4,6 +4,7 @@ $_lang['rememberthis_desc'] = "Remember an id and the correspondenting resource 
 $_lang['rememberthis.add'] = 'Merken';
 $_lang['rememberthis.delete'] = 'Entfernen';
 $_lang['rememberthis.noresultstext'] = 'Die Liste ist leer';
+$_lang['rememberthis.rememberhead'] = 'Merkliste';
 
 $_lang['setting_rememberthis.rowTpl'] = 'Row Template';
 $_lang['setting_rememberthis.rowTpl_desc'] = 'Row templage for the list output.';
@@ -16,6 +17,9 @@ $_lang['setting_rememberthis.addTpl_desc'] = 'Template for the add link.';
 
 $_lang['setting_rememberthis.noResultsTpl'] = 'No Results Template';
 $_lang['setting_rememberthis.noResultsTpl_desc'] = 'Template that is displayed, if the list is empty.';
+
+$_lang['setting_rememberthis.rememberhead'] = 'Head Template';
+$_lang['setting_rememberthis.rememberhead_desc'] = 'Template that is displayed as head, if the list is not empty.';
 
 $_lang['setting_rememberthis.itemTitleTpl'] = 'Item Title Template';
 $_lang['setting_rememberthis.itemTitleTpl_desc'] = 'Template for one list item.';

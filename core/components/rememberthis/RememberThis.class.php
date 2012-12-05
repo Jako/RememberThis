@@ -20,10 +20,6 @@
  *
  * @package rememberthis
  * @subpackage classfile
- * 
- * @author      Thomas Jakobi (thomas.jakobi@partout.info)
- * @copyright   Copyright 2008-2012, Thomas Jakobi
- * @version     0.3
  */
 require_once (MODX_CORE_PATH . '/components/rememberthis/includes/chunkie.class.inc.php');
 
@@ -40,8 +36,6 @@ class RememberThis {
 
 	function RememberThis($options) {
 		global $modx;
-
-		$parser = new rtChunkie();
 
 		$this->templates['rowTpl'] = $options['rowTpl'];
 		$this->templates['outerTpl'] = $options['outerTpl'];
@@ -66,8 +60,9 @@ class RememberThis {
 		$this->language['add'] = $modx->lexicon('rememberthis.add');
 		$this->language['delete'] = $modx->lexicon('rememberthis.delete');
 		$this->language['noresultstext'] = $modx->lexicon('rememberthis.noresultstext');
+		$this->language['rememberhead'] = $modx->lexicon('rememberthis.rememberhead');
 
-		$parser = $parser = new rtChunkie($options['noResultsTpl']);
+		$parser = new rtChunkie($options['noResultsTpl']);
 		$parser->CreateVars($this->language, 'lang');
 		$this->templates['noResultsTpl'] = $parser->Render();
 
