@@ -15,7 +15,7 @@ Installation:
 --------------------------------------------------------------------------------
 MODX Package Management
 
-Usage
+Usage:
 --------------------------------------------------------------------------------
 
 Most of the snippet settings should be made in the MODX system settings and are used in snippet and ajax mode:
