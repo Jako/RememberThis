@@ -2,7 +2,7 @@
 /**
  * RememberThis
  *
- * Copyright 2011-2012 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Copyright 2011-2013 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * RememberThis is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -44,7 +44,7 @@ if (version_compare($version['full_version'], '2.1.1-pl') >= 0) {
 }
 $_REQUEST['HTTP_MODAUTH'] = $_SERVER['HTTP_MODAUTH'];
 
-require_once $rememberthisCorePath . 'RememberThis.class.php';
+require_once $rememberthisCorePath . 'elements/model/rememberthis/rememberthis.class.php';
 
 $options = array();
 
@@ -64,7 +64,7 @@ $options['includeScripts'] = intval($modx->getOption('rememberthis.includeScript
 $options['includeCss'] = intval($modx->getOption('rememberthis.includeCss', NULL, 1));
 $options['debug'] = intval($modx->getOption('rememberthis.debug', NULL, 0));
 
-$modx->rememberDoc = new RememberThis($options);
+$modx->rememberDoc = new RememberThis($modx, $options);
 
 /* Handle request */
 $processorsPath = $modx->getOption('core_path') . 'components/rememberthis/processors/';

@@ -2,7 +2,7 @@
 /**
  * RememberThis
  *
- * Copyright 2011-2012 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Copyright 2011-2013 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * RememberThis is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -34,6 +34,17 @@ $snippets[0]->fromArray(array(
 ),'',true,true);
 $properties = include $sources['properties'].'properties.rememberthis.php';
 $snippets[0]->setProperties($properties);
+unset($properties);
+
+$snippets[1]= $modx->newObject('modSnippet');
+$snippets[1]->fromArray(array(
+    'id' => 0,
+    'name' => 'RememberThisHook',
+    'description' => 'FormIt Hook to set a hook value with the remembered data of RememberThis snippet.',
+    'snippet' => getSnippetContent($sources['snippets'].'snippet.rememberthis.php'),
+),'',true,true);
+$properties = include $sources['properties'].'properties.rememberthishook.php';
+$snippets[1]->setProperties($properties);
 unset($properties);
 
 return $snippets;

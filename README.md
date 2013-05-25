@@ -23,7 +23,7 @@ Most of the snippet settings should be made in the MODX system settings and are 
 Property | Description | Default
 ---- | ----------- | -------
 rowTpl | Row templage for the list output. | @FILE components/rememberthis/templates/rowTpl.html
-outerTpl | Outer templage for the list output. | @FILE components/rememberthis/templates/outerTpl.html
+outerTpl | Outer templage for the list output, if the list is not empty. Will be surrounded by a div with class *rememberthis* | @FILE components/rememberthis/templates/outerTpl.html
 addTpl | Template for the add link. | @FILE components/rememberthis/templates/addTpl.html
 noResultsTpl | Template that is displayed, if the list is empty. | @FILE components/rememberthis/templates/noResultsTpl.html
 itemTitleTpl | Template for one list item. | @FILE components/rememberthis/templates/itemTitleTpl.html

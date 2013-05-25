@@ -1,6 +1,10 @@
 Changelog
 ================================================================================
 
+- 0.5
+    - Rewritten rememberthis.js
+    - Use of revoChunkie class
+    - Better templating
 - 0.4.3
     - Fixed phpthumbof problem in ajax call
 - 0.4.2

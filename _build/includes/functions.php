@@ -2,7 +2,7 @@
 /**
  * RememberThis
  *
- * Copyright 2011-2012 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Copyright 2011-2013 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * RememberThis is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 

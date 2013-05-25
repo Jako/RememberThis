@@ -2,7 +2,7 @@
 /**
  * RememberThis
  *
- * Copyright 2008-2012 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Copyright 2008-2013 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * RememberThis is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -20,11 +20,17 @@
  *
  * @package rememberthis
  * @subpackage classfile
+ * 
+ * @author      Thomas Jakobi (thomas.jakobi@partout.info)
+ * @copyright   Copyright 2008-2013, Thomas Jakobi
+ * @version     0.5
  */
-require_once (MODX_CORE_PATH . '/components/rememberthis/includes/chunkie.class.inc.php');
+require_once (MODX_CORE_PATH . 'components/rememberthis/elements/model/chunkie/chunkie.class.inc.php');
 
 class RememberThis {
 
+	// MODX object
+	private $modx;
 	// Template chunks
 	private $templates;
 	// Package to retreive remember data from
@@ -33,10 +39,14 @@ class RememberThis {
 	private $settings;
 	// language
 	private $language;
+	// gets
+	private $gets;
 
-	function RememberThis($options) {
-		global $modx;
+	function RememberThis($modx, $options) {
+		$this->modx = &$modx;
 
+		$this->templates['rememberthisTpl'] = '@FILE components/rememberthis/templates/rememberthisTpl.html';
+		$this->templates['noResultsTpl'] = $options['noResultsTpl'];
 		$this->templates['rowTpl'] = $options['rowTpl'];
 		$this->templates['outerTpl'] = $options['outerTpl'];
 		$this->templates['addTpl'] = $options['addTpl'];
@@ -54,18 +64,16 @@ class RememberThis {
 		$this->settings['mode'] = $options['mode'];
 		$this->settings['debug'] = $options['debug'];
 
-		$modx->setOption('cultureKey', $options['language']);
-		$modx->getService('lexicon', 'modLexicon');
-		$modx->lexicon->load('rememberthis:default');
-		$this->language['add'] = $modx->lexicon('rememberthis.add');
-		$this->language['delete'] = $modx->lexicon('rememberthis.delete');
-		$this->language['noresultstext'] = $modx->lexicon('rememberthis.noresultstext');
-		$this->language['rememberhead'] = $modx->lexicon('rememberthis.rememberhead');
+		$this->modx->setOption('cultureKey', $options['language']);
+		$this->modx->getService('lexicon', 'modLexicon');
+		$this->modx->lexicon->load('rememberthis:default');
+		$this->language['add'] = $this->modx->lexicon('rememberthis.add');
+		$this->language['delete'] = $this->modx->lexicon('rememberthis.delete');
+		$this->language['noresultstext'] = $this->modx->lexicon('rememberthis.noresultstext');
 
-		$parser = new rtChunkie($options['noResultsTpl']);
-		$parser->CreateVars($this->language, 'lang');
-		$this->templates['noResultsTpl'] = $parser->Render();
-
+		if (!isset($_SESSION['rememberThis'])) {
+			$_SESSION['rememberThis'] = array();
+		}
 		$this->gets = array();
 		foreach ($_GET as $key => $value) {
 			if ($key != 'q' && $key != 'add' && $key != 'delete') {
@@ -75,26 +83,31 @@ class RememberThis {
 	}
 
 	function Run($mode, $addId) {
-		global $modx;
-
 		switch ($mode) {
 			case 'add' : {
-					$parser = new rtChunkie($this->templates['addTpl']);
-					$parser->CreateVars($this->language, 'lang');
-					$parser->AddVar('rememberurl', $modx->makeUrl($modx->resource->get('id'), '', array_merge($this->gets, array('add' => $addId))));
-					$parser->AddVar('id', $addId);
-					$output = $parser->Render();
+					$parser = new revoChunkie($this->templates['addTpl'], array('useCorePath' => true));
+					$parser->createVars($this->language, 'lang');
+					$parser->addVar('rememberurl', $this->modx->makeUrl($this->modx->resource->get('id'), '', array_merge($this->gets, array('add' => $addId))));
+					$parser->addVar('id', $addId);
+					$output = $parser->render();
 					break;
 				}
 			case 'ajax' : {
 					if (isset($_GET['add'])) {
 						$index = $this->Add(intval($_GET['add']));
 						if ($index !== FALSE) {
-							$fields = array_merge($_SESSION['rememberThis'][$index]['element'], array('deleteurl' => $modx->makeUrl($modx->getOption('site_start'), '', array('delete' => $index + 1)), 'index' => $index + 1));
-							$parser = new rtChunkie($this->templates['rowTpl']);
-							$parser->CreateVars($this->language, 'lang');
-							$parser->CreateVars($fields);
-							$output = $parser->Render();
+							$fields = array_merge($_SESSION['rememberThis'][$index]['element'], array('deleteurl' => $this->modx->makeUrl($this->modx->getOption('site_start'), '', array('delete' => $index + 1)), 'index' => $index + 1));
+							$parser = new revoChunkie($this->templates['rowTpl'], array('useCorePath' => true));
+							$parser->createVars($this->language, 'lang');
+							$parser->createVars($fields);
+							if (count($_SESSION['rememberThis']) == 1) {
+								$wrapper = $parser->render();
+								$parser = new revoChunkie($this->templates['outerTpl'], array('useCorePath' => true));
+								$parser->createVars($this->language, 'lang');
+								$parser->addVar('wrapper', $wrapper);
+								$output = $parser->render();
+							}
+							$output = $parser->render();
 							if ($this->settings['debug']) {
 								$output .= '<pre>DEBUG: $_SESSION[\'rememberThis\'] = ' . print_r($_SESSION['rememberThis'], TRUE) . '</pre>';
 							}
@@ -108,17 +121,19 @@ class RememberThis {
 					}
 					if (isset($_GET['delete'])) {
 						$this->Delete(intval($_GET['delete']));
-						if (isset($_SESSION['rememberThis'])) {
-							$output = (intval($_GET['delete']) - 1);
+						if (count($_SESSION['rememberThis']) > 0) {
+							$output = (string) intval($_GET['delete']);
 						} else {
-							$output = $this->templates['noResultsTpl'];
+							$parser = new revoChunkie($this->templates['noResultsTpl'], array('useCorePath' => true));
+							$parser->createVars($this->language, 'lang');
+							$output = $parser->render();
 						}
 						if ($this->settings['debug']) {
-							$output .= '<pre>DEBUG: $_SESSION[\'rememberThis\'] = ' . print_r($_SESSION['rememberThis'], TRUE) . '</pre>';
+							$output .= '<pre>DEBUG: $_SESSION["rememberThis"] = ' . print_r($_SESSION['rememberThis'], TRUE) . '</pre>';
 						}
 						break;
 					}
-					if (!isset($_SESSION['rememberThis']) || !is_array($_SESSION['rememberThis']) || count($_SESSION['rememberThis']) == 0) {
+					if (count($_SESSION['rememberThis']) == 0) {
 						$output = $this->templates['noResultsTpl'];
 						break;
 					}
@@ -129,12 +144,12 @@ class RememberThis {
 			default : {
 					if ($this->settings['includeScripts']) {
 						if ($this->settings['jQueryPath'] != '') {
-							$modx->regClientScript($this->settings['jQueryPath']);
+							$this->modx->regClientScript($this->settings['jQueryPath']);
 						}
-						$modx->regClientScript('assets/components/rememberthis/RememberThis.js');
+						$this->modx->regClientScript('assets/components/rememberthis/RememberThis.js');
 					}
 					if ($this->settings['includeCss']) {
-						$modx->regClientCSS('assets/components/rememberthis/RememberThis.css');
+						$this->modx->regClientCSS('assets/components/rememberthis/RememberThis.css');
 					}
 					if (isset($_GET['add'])) {
 						$this->Add(intval($_GET['add']));
@@ -143,15 +158,23 @@ class RememberThis {
 						$this->Delete(intval($_GET['delete']));
 					}
 
-					$parser = new rtChunkie($this->templates['outerTpl']);
-					if (!isset($_SESSION['rememberThis']) || !is_array($_SESSION['rememberThis']) || count($_SESSION['rememberThis']) == 0) {
-						$parser->AddVar('wrapper', $this->templates['noResultsTpl']);
+					if (count($_SESSION['rememberThis']) == 0) {
+						$parser = new revoChunkie($this->templates['noResultsTpl'], array('useCorePath' => true));
+						$parser->createVars($this->language, 'lang');
 					} else {
-						$parser->AddVar('wrapper', $this->Output($this->templates['rowTpl']));
+						$parser = new revoChunkie($this->templates['outerTpl'], array('useCorePath' => true));
+						$parser->createVars($this->language, 'lang');
+						$parser->addVar('wrapper', $this->Output($this->templates['rowTpl']));
 					}
-					$output = $parser->Render();
+					$wrapper = $parser->render();
+
+					$parser = new revoChunkie($this->templates['rememberthisTpl'], array('useCorePath' => true));
+					$parser->createVars($this->language, 'lang');
+					$parser->addVar('wrapper', $wrapper);
+					$output = $parser->render();
+
 					if ($this->settings['debug']) {
-						$output .= '<pre>DEBUG: $_SESSION[\'rememberThis\'] = ' . print_r($_SESSION['rememberThis'], TRUE) . '</pre>';
+						$output .= '<pre>DEBUG: $_SESSION["rememberThis"] = ' . print_r($_SESSION['rememberThis'], TRUE) . '</pre>';
 					}
 				}
 		}
@@ -159,59 +182,38 @@ class RememberThis {
 	}
 
 	function Add($docId) {
-		global $modx;
-		if (!isset($_SESSION['rememberThis'])) {
-			$_SESSION['rememberThis'] = array();
-		}
 		$found = 0;
 		$newElement = array();
 		$newElement['rememberId'] = $docId;
 
 		if ($this->package['packagename'] == '') {
 			// no packagename -> resource
-			$resource = $modx->getObject('modResource', array('id' => $docId));
-
-			// $modx->resource not set during ajax call
-			if (!$modx->resource) {
-				$modx->resource = &$resource;
-			}
-
+			$resource = $this->modx->getObject('modResource', array('id' => $docId));
 			$tvs = array();
 			$templateVars = &$resource->getMany('TemplateVars');
 			foreach ($templateVars as $templateVar) {
 				$tvs[$this->templates['tvPrefix'] . $templateVar->get('name')] = $templateVar->renderOutput($resource->get('id'));
 			}
 			$row = array_merge($resource->toArray(), $tvs);
-
-			$parser = new rtChunkie($this->templates['itemTitleTpl']);
-			$parser->CreateVars($this->language, 'lang');
-			$parser->CreateVars($row);
-
-			$newElement = $row;
-			$newElement['itemtitle'] = $parser->Render();
 		} else {
-			$packagepath = $modx->getOption('core_path') . 'components/' . $this->package['packagename'] . '/';
+			$packagepath = $this->modx->getOption('core_path') . 'components/' . $this->package['packagename'] . '/';
 			$modelpath = $packagepath . 'model/';
 
-			$modx->addPackage($this->package['packagename'], $modelpath);
-			$resource = $modx->getObject($this->package['classname'], array('id' => $docId));
-
-			// $modx->resource not set during ajax call
-			if (!$modx->resource) {
-				$modx->resource = $modx->newObject('modResource');
-			}
+			$this->modx->addPackage($this->package['packagename'], $modelpath);
+			$resource = $this->modx->getObject($this->package['classname'], array('id' => $docId));
 			$joinvalues = array();
 			foreach ($this->package['joins'] as $join) {
 				$values = $resource->getOne($join);
 				$joinvalues[$join] = $values->toArray();
 			}
 			$row = array_merge($joinvalues, $resource->toArray());
-
-			$parser = new rtChunkie($this->templates['itemTitleTpl']);
-			$parser->CreateVars($row);
-			$newElement = $row;
-			$newElement['itemtitle'] = $parser->Render();
 		}
+		$parser = new revoChunkie($this->templates['itemTitleTpl'], array('useCorePath' => true));
+		$parser->createVars($this->language, 'lang');
+		$parser->createVars($row);
+
+		$newElement = $row;
+		$newElement['itemtitle'] = $parser->render();
 		foreach ($_SESSION['rememberThis'] as & $element) {
 			if (!count(array_diff_assoc($element['element'], $newElement))) {
 				$element['count'] += 1;
@@ -232,23 +234,22 @@ class RememberThis {
 			if (isset($_SESSION['rememberThis'][$index])) {
 				unset($_SESSION['rememberThis'][$index]);
 			}
-			if (count($_SESSION['rememberThis']) == 0) {
-				unset($_SESSION['rememberThis']);
-			}
 		}
 	}
 
 	function Output($tpl) {
-		global $modx;
-
 		$output = array();
 		foreach ($_SESSION['rememberThis'] as $nummer => $liste) {
 			if ($tpl != '') {
-				$fields = array_merge($liste['element'], array('deleteurl' => $modx->makeUrl($modx->resource->get('id'), '', array_merge($this->gets, array('delete' => $nummer + 1))), 'index' => $nummer + 1, 'count' => $liste['count']));
-				$parser = new rtChunkie($tpl);
-				$parser->CreateVars($this->language, 'lang');
-				$parser->CreateVars($fields);
-				$output[] = $parser->Render();
+				$fields = array_merge($liste['element'], array(
+					'deleteurl' => $this->modx->makeUrl($this->modx->resource->get('id'), '', array_merge($this->gets, array('delete' => $nummer + 1))),
+					'index' => $nummer + 1,
+					'count' => $liste['count']
+				));
+				$parser = new revoChunkie($tpl, array('useCorePath' => true));
+				$parser->createVars($this->language, 'lang');
+				$parser->createVars($fields);
+				$output[] = $parser->render();
 			} else {
 				$output[] = '<pre>' . print_r($liste, true) . '</pre>';
 			}

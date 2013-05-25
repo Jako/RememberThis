@@ -2,7 +2,7 @@
 /**
  * RememberThis
  *
- * Copyright 2011-2012 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Copyright 2011-2013 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * RememberThis is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU General Public License as published by the Free 
@@ -32,7 +32,7 @@ set_time_limit(0);
 /* define package */
 define('PKG_NAME', 'RememberThis');
 define('PKG_NAME_LOWER', strtolower(PKG_NAME));
-define('PKG_VERSION', '0.4.3');
+define('PKG_VERSION', '0.5');
 define('PKG_RELEASE', 'pl');
 
 /* define sources */
