@@ -20,6 +20,9 @@ $_lang['setting_rememberthis.noResultsTpl_desc'] = 'Template that is displayed, 
 $_lang['setting_rememberthis.itemTitleTpl'] = 'Item Title Template';
 $_lang['setting_rememberthis.itemTitleTpl_desc'] = 'Template for one list item.';
 
+$_lang['setting_rememberthis.ajaxLoaderImg'] = 'AJAX Loader Image';
+$_lang['setting_rememberthis.ajaxLoaderImg_desc'] = 'Image file, that is shown during AJAX requests.';
+
 $_lang['setting_rememberthis.tvPrefix'] = 'Template Variable Prefix';
 $_lang['setting_rememberthis.tvPrefix_desc'] = 'Prefix for template variables in template chunks.';
 

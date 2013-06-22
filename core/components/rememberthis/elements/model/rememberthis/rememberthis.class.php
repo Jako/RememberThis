@@ -23,7 +23,7 @@
  * 
  * @author      Thomas Jakobi (thomas.jakobi@partout.info)
  * @copyright   Copyright 2008-2013, Thomas Jakobi
- * @version     0.5
+ * @version     0.6
  */
 require_once (MODX_CORE_PATH . 'components/rememberthis/elements/model/chunkie/chunkie.class.inc.php');
 
@@ -64,6 +64,8 @@ class RememberThis {
 		$this->settings['mode'] = $options['mode'];
 		$this->settings['debug'] = $options['debug'];
 
+		$this->settings['scriptOptions'][] = 'ajaxLoaderImg: "' . $options['ajaxLoaderImg'] . '"';
+
 		$this->modx->setOption('cultureKey', $options['language']);
 		$this->modx->getService('lexicon', 'modLexicon');
 		$this->modx->lexicon->load('rememberthis:default');
@@ -82,10 +84,10 @@ class RememberThis {
 		}
 	}
 
-	function Run($mode, $addId) {
+	function Run($mode, $addId, $options) {
 		switch ($mode) {
 			case 'add' : {
-					$parser = new revoChunkie($this->templates['addTpl'], array('useCorePath' => true));
+					$parser = new revoChunkie($options['addTpl'], array('useCorePath' => true));
 					$parser->createVars($this->language, 'lang');
 					$parser->addVar('rememberurl', $this->modx->makeUrl($this->modx->resource->get('id'), '', array_merge($this->gets, array('add' => $addId))));
 					$parser->addVar('id', $addId);
@@ -147,6 +149,9 @@ class RememberThis {
 							$this->modx->regClientScript($this->settings['jQueryPath']);
 						}
 						$this->modx->regClientScript('assets/components/rememberthis/RememberThis.js');
+						$parser = new revoChunkie('@FILE components/rememberthis/templates/scriptTpl.html', array('useCorePath' => true));
+						$parser->addVar('options', implode(", ", $this->settings['scriptOptions']));
+						$this->modx->regClientScript($parser->render());
 					}
 					if ($this->settings['includeCss']) {
 						$this->modx->regClientCSS('assets/components/rememberthis/RememberThis.css');
@@ -159,12 +164,12 @@ class RememberThis {
 					}
 
 					if (count($_SESSION['rememberThis']) == 0) {
-						$parser = new revoChunkie($this->templates['noResultsTpl'], array('useCorePath' => true));
+						$parser = new revoChunkie($options['noResultsTpl'], array('useCorePath' => true));
 						$parser->createVars($this->language, 'lang');
 					} else {
-						$parser = new revoChunkie($this->templates['outerTpl'], array('useCorePath' => true));
+						$parser = new revoChunkie($options['outerTpl'], array('useCorePath' => true));
 						$parser->createVars($this->language, 'lang');
-						$parser->addVar('wrapper', $this->Output($this->templates['rowTpl']));
+						$parser->addVar('wrapper', $this->Output($options['rowTpl']));
 					}
 					$wrapper = $parser->render();
 

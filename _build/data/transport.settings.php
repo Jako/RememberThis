@@ -71,6 +71,15 @@ $settings['rememberthis.itemTitleTpl']->fromArray(array(
 	'area' => 'templates',
 		), '', true, true);
 
+$settings['rememberthis.ajaxLoaderImg'] = $modx->newObject('modSystemSetting');
+$settings['rememberthis.ajaxLoaderImg']->fromArray(array(
+	'key' => 'rememberthis.ajaxLoaderImg',
+	'value' => 'assets/components/rememberthis/ajax-loader.gif',
+	'xtype' => 'textfield',
+	'namespace' => 'rememberthis',
+	'area' => 'templates',
+		), '', true, true);
+
 $settings['rememberthis.tvPrefix'] = $modx->newObject('modSystemSetting');
 $settings['rememberthis.tvPrefix']->fromArray(array(
 	'key' => 'rememberthis.tvPrefix',

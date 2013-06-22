@@ -35,6 +35,7 @@ $options['outerTpl'] = $modx->getOption('outerTpl', $scriptProperties, $modx->ge
 $options['addTpl'] = $modx->getOption('addTpl', $scriptProperties, $modx->getOption('rememberthis.addTpl', NULL, '@FILE components/rememberthis/templates/addTpl.html'));
 $options['noResultsTpl'] = $modx->getOption('noResultsTpl', $scriptProperties, $modx->getOption('rememberthis.noResultsTpl', NULL, '@FILE components/rememberthis/templates/noResultsTpl.html'));
 $options['itemTitleTpl'] = $modx->getOption('itemTitleTpl', $scriptProperties, $modx->getOption('rememberthis.itemTitleTpl', NULL, '@FILE components/rememberthis/templates/itemTitleTpl.html'));
+$options['ajaxLoaderImg'] = $modx->getOption('rememberthis.ajaxLoaderImg', NULL, 'assets/components/rememberthis/ajax-loader.gif');
 $options['tvPrefix'] = $modx->getOption('tvPrefix', $scriptProperties, $modx->getOption('rememberthis.tvPrefix', NULL, 'tv.'));
 $options['language'] = $modx->getOption('language', $scriptProperties, $modx->getOption('rememberthis.language', NULL, 'en'));
 $options['packagename'] = $modx->getOption('rememberthis.packagename', NULL, '');
@@ -52,4 +53,4 @@ $addId = $modx->getOption('addId', $scriptProperties, $modx->resource->get('id')
 if (!isset($modx->rememberDoc)) {
 	$modx->rememberDoc = new RememberThis($modx, $options);
 }
-return $modx->rememberDoc->Run($mode, $addId);
+return $modx->rememberDoc->Run($mode, $addId, $options);

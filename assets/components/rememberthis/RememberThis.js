@@ -1,17 +1,31 @@
 (function($) {
 	// default settings
 	var defaults = {
-		ajaxLoaderImg: 'assets/components/rememberthis/ajax-loader.gif'
+		ajaxLoaderImg: 'assets/components/rememberthis/ajax-loader.gif',
+		onBeforeAdd: function(elem, id) {
+		},
+		onAfterAdd: function(elem, id) {
+		},
+		onBeforeDelete: function(elem, id) {
+		},
+		onAfterDelete: function(elem, id) {
+		}
 	};
-	// global variables
-	var loadImage = $('<img>').addClass('rememberload');
+	// globals
+	var settings;
+	var loadImage;
 	var rememberThis = $('.rememberthis');
 
 	// methods
 	var methods = {
 		init: function(options) {
-			var settings = $.extend({}, defaults, options);
-			loadImage.attr('src', settings.ajaxLoaderImg);
+			settings = $.extend({}, defaults, options);
+			if (settings.ajaxLoaderImg !== '') {
+				loadImage = $('<img>').addClass('rememberload').attr('src', settings.ajaxLoaderImg);
+			}
+			else {
+				loadImage = $('<span>').addClass('rememberload');
+			}
 			methods.add();
 			methods.delete(rememberThis);
 		},
@@ -19,17 +33,18 @@
 			$('.rememberadd').click(function(e) {
 				e.preventDefault();
 				$(this).append(loadImage.clone());
-				methods.rememberAdd(methods.queryString($(this).attr('href'), 'add'));
+				methods.rememberAdd(this, methods.queryString($(this).attr('href'), 'add'));
 			});
 		},
 		delete: function(elem) {
 			$('.rememberdelete', elem).click(function(e) {
 				e.preventDefault();
-				$(this).append(loadImage.clone());
-				methods.rememberDelete(methods.queryString($(this).attr('href'), 'delete'), $(this).parent());
+				$(this).hide().after(loadImage.clone());
+				methods.rememberDelete(this, methods.queryString($(this).attr('href'), 'delete'));
 			});
 		},
-		rememberAdd: function(id) {
+		rememberAdd: function(elem, id) {
+			settings.onBeforeAdd.call(elem, id);
 			$.ajax({
 				type: 'GET',
 				url: 'assets/components/rememberthis/connectors/connector.php',
@@ -52,10 +67,12 @@
 							methods.delete(newDoc);
 						}
 					}
+					settings.onAfterAdd.call(elem, id);
 				}
 			});
 		},
-		rememberDelete: function(id, elem) {
+		rememberDelete: function(elem, id) {
+			settings.onBeforeDelete.call(elem, id);
 			$.ajax({
 				type: 'GET',
 				url: 'assets/components/rememberthis/connectors/connector.php',
@@ -69,10 +86,11 @@
 							$(this).html($.trim(data)).slideDown('fast');
 						});
 					} else {
-						elem.slideUp('slow', function() {
+						$(elem).parent().slideUp('slow', function() {
 							$(this).remove();
 						});
 					}
+					settings.onAfterDelete.call(elem, id);
 				}
 			});
 		},
@@ -99,7 +117,3 @@
 		}
 	};
 })(jQuery);
-
-jQuery(document).ready(function() {
-	jQuery('.rememberthis').rememberThis();
-});

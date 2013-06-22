@@ -1,6 +1,10 @@
 Changelog
 ================================================================================
 
+- 0.6
+    - Added parameter ajaxLoaderImg
+    - Prepared rememberthis.js for callbacks
+    - Each snippet call could use its own templates in display mode
 - 0.5
     - Rewritten rememberthis.js
     - Use of revoChunkie class

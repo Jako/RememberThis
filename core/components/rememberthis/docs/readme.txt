@@ -35,6 +35,7 @@ outerTpl       | Outer templage for the list output, if the list   | @FILE compo
 addTpl         | Template for the add link.                        | @FILE components/rememberthis/templates/addTpl.html
 noResultsTpl   | Template that is displayed, if the list is empty. | @FILE components/rememberthis/templates/noResultsTpl.html
 itemTitleTpl   | Template for one list item.                       | @FILE components/rememberthis/templates/itemTitleTpl.html
+ajaxLoaderImg  | Image file, that is shown during AJAX requests.   | assets/components/rememberthis/ajax-loader.gif
 tvPrefix       | Prefix for template variables in template chunks. | tv.
 language       | Snippet language.                                 | en
 packagename    | xPDO package name where the added data is         |
