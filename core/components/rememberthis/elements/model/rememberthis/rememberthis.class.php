@@ -244,17 +244,20 @@ class RememberThis {
 
 	function Output($tpl) {
 		$output = array();
+		$iteration = 0;
 		foreach ($_SESSION['rememberThis'] as $nummer => $liste) {
 			if ($tpl != '') {
 				$fields = array_merge($liste['element'], array(
 					'deleteurl' => $this->modx->makeUrl($this->modx->resource->get('id'), '', array_merge($this->gets, array('delete' => $nummer + 1))),
 					'index' => $nummer + 1,
+					'iteration' => $iteration,
 					'count' => $liste['count']
 				));
 				$parser = new revoChunkie($tpl, array('useCorePath' => true));
 				$parser->createVars($this->language, 'lang');
 				$parser->createVars($fields);
 				$output[] = $parser->render();
+				$iteration++;
 			} else {
 				$output[] = '<pre>' . print_r($liste, true) . '</pre>';
 			}

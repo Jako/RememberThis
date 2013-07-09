@@ -48,7 +48,7 @@ $addId = $modx->getOption('addId', $scriptProperties, $modx->resource->get('id')
 if (!isset($modx->rememberDoc)) {
 	$modx->rememberDoc = new RememberThis($modx, $options);
 }
-$output = $modx->rememberDoc->Run($mode, $addId);
+$output = $modx->rememberDoc->Run($mode, $addId, $options);
 $hook->setValue('rememberthis', $output);
 
 return true;

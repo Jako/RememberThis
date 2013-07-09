@@ -41,7 +41,7 @@ $snippets[1]->fromArray(array(
     'id' => 0,
     'name' => 'RememberThisHook',
     'description' => 'FormIt Hook to set a hook value with the remembered data of RememberThis snippet.',
-    'snippet' => getSnippetContent($sources['snippets'].'snippet.rememberthis.php'),
+    'snippet' => getSnippetContent($sources['snippets'].'snippet.rememberthishook.php'),
 ),'',true,true);
 $properties = include $sources['properties'].'properties.rememberthishook.php';
 $snippets[1]->setProperties($properties);
