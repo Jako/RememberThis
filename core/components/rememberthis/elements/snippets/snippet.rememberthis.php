@@ -19,38 +19,22 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  *
  * @package rememberthis
- * @subpackage snippet
+ * @subpackage formit hook
  */
-$class_file = MODX_CORE_PATH . 'components/rememberthis/elements/model/rememberthis/rememberthis.class.php';
-if (!file_exists($class_file)) {
-	return(sprintf('Classfile "%s" not found. Did you upload the module files?', $class_file));
-}
-require_once ($class_file);
+$rememberThisCorePath = $modx->getOption('rememberthis.core_path', NULL, $modx->getOption('core_path') . 'components/rememberthis/');
+$scriptProperties['rememberThisCorePath'] = $rememberThisCorePath;
 
+// Snippet settings
 $options = array();
-
-// System settings
 $options['rowTpl'] = $modx->getOption('rowTpl', $scriptProperties, $modx->getOption('rememberthis.rowTpl', NULL, '@FILE components/rememberthis/templates/rowTpl.html'));
 $options['outerTpl'] = $modx->getOption('outerTpl', $scriptProperties, $modx->getOption('rememberthis.outerTpl', NULL, '@FILE components/rememberthis/templates/outerTpl.html'));
 $options['addTpl'] = $modx->getOption('addTpl', $scriptProperties, $modx->getOption('rememberthis.addTpl', NULL, '@FILE components/rememberthis/templates/addTpl.html'));
 $options['noResultsTpl'] = $modx->getOption('noResultsTpl', $scriptProperties, $modx->getOption('rememberthis.noResultsTpl', NULL, '@FILE components/rememberthis/templates/noResultsTpl.html'));
-$options['itemTitleTpl'] = $modx->getOption('itemTitleTpl', $scriptProperties, $modx->getOption('rememberthis.itemTitleTpl', NULL, '@FILE components/rememberthis/templates/itemTitleTpl.html'));
-$options['ajaxLoaderImg'] = $modx->getOption('rememberthis.ajaxLoaderImg', NULL, 'assets/components/rememberthis/ajax-loader.gif');
-$options['tvPrefix'] = $modx->getOption('tvPrefix', $scriptProperties, $modx->getOption('rememberthis.tvPrefix', NULL, 'tv.'));
-$options['language'] = $modx->getOption('language', $scriptProperties, $modx->getOption('rememberthis.language', NULL, 'en'));
-$options['packagename'] = $modx->getOption('rememberthis.packagename', NULL, '');
-$options['classname'] = $modx->getOption('rememberthis.classname', NULL, '');
-$options['joins'] = $modx->fromJson($modx->getOption('rememberthis.joins', NULL, ''));
-$options['jQueryPath'] = $modx->getOption('rememberthis.jQueryPath', NULL, '');
-$options['includeScripts'] = intval($modx->getOption('rememberthis.includeScripts', NULL, 1));
-$options['includeCss'] = intval($modx->getOption('rememberthis.includeCss', NULL, 1));
-$options['debug'] = intval($modx->getOption('rememberthis.debug', NULL, 0));
 
 // Snippet settings
 $mode = $modx->getOption('mode', $scriptProperties, 'display');
 $addId = $modx->getOption('addId', $scriptProperties, $modx->resource->get('id'));
 
-if (!isset($modx->rememberDoc)) {
-	$modx->rememberDoc = new RememberThis($modx, $options);
-}
-return $modx->rememberDoc->Run($mode, $addId, $options);
+$modx->getService('rememberthis', 'rememberThis', $rememberThisCorePath . 'model/rememberthis/', $scriptProperties);
+
+return $modx->rememberthis->Run($mode, $addId, $options);

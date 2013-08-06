@@ -21,35 +21,16 @@
  * @package rememberthis
  * @subpackage formit hook
  */
-$class_file = MODX_CORE_PATH . 'components/rememberthis/elements/model/rememberthis/rememberthis.class.php';
-if (!file_exists($class_file)) {
-	return(sprintf('Classfile "%s" not found. Did you upload the module files?', $class_file));
-}
-require_once ($class_file);
-
-$options = array();
-
-// System settings
-$options['rowTpl'] = $modx->getOption('rowTpl', $scriptProperties, $modx->getOption('rememberthis.rowTpl', NULL, '@FILE components/rememberthis/templates/rowTpl.html'));
-$options['outerTpl'] = $modx->getOption('outerTpl', $scriptProperties, $modx->getOption('rememberthis.outerTpl', NULL, '@FILE components/rememberthis/templates/outerTpl.html'));
-$options['tvPrefix'] = $modx->getOption('tvPrefix', $scriptProperties, $modx->getOption('rememberthis.tvPrefix', NULL, 'tv.'));
-$options['language'] = $modx->getOption('language', $scriptProperties, $modx->getOption('rememberthis.language', NULL, 'en'));
-$options['packagename'] = $modx->getOption('rememberthis.packagename', NULL, '');
-$options['classname'] = $modx->getOption('rememberthis.classname', NULL, '');
-$options['joins'] = $modx->fromJson($modx->getOption('rememberthis.joins', NULL, ''));
-$options['debug'] = intval($modx->getOption('rememberthis.debug', NULL, 0));
+$rememberThisCorePath = $modx->getOption('rememberthis.core_path', NULL, $modx->getOption('core_path') . 'components/rememberthis/');
+$scriptProperties['rememberThisCorePath'] = $rememberThisCorePath;
 
 // Snippet settings
-$options['notRememberRedirect'] = intval($modx->getOption('notRememberRedirect', $scriptProperties, $modx->getOption('site_start'), TRUE));
+$scriptProperties['rowTpl'] = $modx->getOption('rememberRowTpl', $scriptProperties, $modx->getOption('rememberthis.rowTpl', NULL, '@FILE components/rememberthis/templates/rowTpl.html'));
+$scriptProperties['outerTpl'] = $modx->getOption('rememberOuterTpl', $scriptProperties, $modx->getOption('rememberthis.outerTpl', NULL, '@FILE components/rememberthis/templates/outerTpl.html'));
 
-$mode = 'hook';
-$addId = $modx->getOption('addId', $scriptProperties, $modx->resource->get('id'));
+$modx->getService('rememberthis', 'rememberThis', $rememberThisCorePath . 'model/rememberthis/', $scriptProperties);
 
-if (!isset($modx->rememberDoc)) {
-	$modx->rememberDoc = new RememberThis($modx, $options);
-}
-$output = $modx->rememberDoc->Run($mode, $addId, $options);
+$output = $modx->rememberthis->Run('hook', $modx->resource->get('id'), $scriptProperties);
 $hook->setValue('rememberthis', $output);
 
 return true;
-?>

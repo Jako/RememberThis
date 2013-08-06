@@ -1,3 +1,3 @@
 <?php
-return $modx->rememberDoc->Run('ajax', intval($_REQUEST['add']));
+return $modx->rememberthis->Run('ajax', intval($_REQUEST['add']));
 ?>

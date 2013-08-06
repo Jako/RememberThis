@@ -1,6 +1,8 @@
 Changelog
 ================================================================================
 
+- 0.6.1
+    - Use of modxChunkie class
 - 0.6
     - Added parameter ajaxLoaderImg
     - Prepared rememberthis.js for callbacks
