@@ -1,0 +1,194 @@
+{
+  "name": "RememberThis",
+  "lowCaseName": "rememberthis",
+  "description": "Remember List for MODX Objects",
+  "author": "Thomas Jakobi",
+  "version": "1.0.1",
+  "package": {
+    "elements": {
+      "snippets": [
+        {
+          "name": "RememberThisList",
+          "file": "rememberthislist.snippet.php",
+          "description": "List output of the remembered xPDO data.",
+          "properties": [
+            {
+              "name": "rowTpl",
+              "value": ""
+            },
+            {
+              "name": "outerTpl",
+              "value": ""
+            },
+            {
+              "name": "noResultsTpl",
+              "value": ""
+            }
+          ]
+        },
+        {
+          "name": "RememberThisAdd",
+          "file": "rememberthisadd.snippet.php",
+          "description": "Show the Add button.",
+          "properties": [
+            {
+              "name": "addId",
+              "value": ""
+            },
+            {
+              "name": "addTpl",
+              "value": ""
+            }
+          ]
+        },
+        {
+          "name": "RememberThisHook",
+          "file": "rememberthis.hook.php",
+          "description": "FormIt Hook to set a hook value with the remembered data of RememberThis snippet.",
+          "properties": [
+            {
+              "name": "rememberRowTpl",
+              "value": ""
+            },
+            {
+              "name": "rememberOuterTpl",
+              "value": ""
+            }
+          ]
+        }
+      ],
+      "chunks": [
+        {
+          "name": "tplRememberThisRow",
+          "file": "rowTpl.html"
+        },
+        {
+          "name": "tplRememberThisOuter",
+          "file": "outerTpl.html"
+        },
+        {
+          "name": "tplRememberThisAdd",
+          "file": "addTpl.html"
+        },
+        {
+          "name": "tplRememberThisNoResults",
+          "file": "noResultsTpl.html"
+        },
+        {
+          "name": "tplRememberThisItemTitle",
+          "file": "itemTitleTpl.html"
+        },
+        {
+          "name": "tplRememberThisScript",
+          "file": "scriptTpl.html"
+        }
+      ]
+    },
+    "systemSettings": [
+      {
+        "key": "ajaxLoaderImg",
+        "area": "templates",
+        "value": ""
+      },
+      {
+        "key": "rowTpl",
+        "area": "templates",
+        "value": "tplRememberThisRow"
+      },
+      {
+        "key": "outerTpl",
+        "area": "templates",
+        "value": "tplRememberThisOuter"
+      },
+      {
+        "key": "addTpl",
+        "area": "templates",
+        "value": "tplRememberThisAdd"
+      },
+      {
+        "key": "noResultsTpl",
+        "area": "templates",
+        "value": "tplRememberThisNoResults"
+      },
+      {
+        "key": "itemTitleTpl",
+        "area": "templates",
+        "value": "tplRememberThisItemTitle"
+      },
+      {
+        "key": "scriptTpl",
+        "area": "templates",
+        "value": "tplRememberThisScript"
+      },
+      {
+        "key": "tvPrefix",
+        "area": "templates",
+        "value": "tv."
+      },
+      {
+        "key": "queryAdd",
+        "area": "templates",
+        "value": "add"
+      },
+      {
+        "key": "queryDelete",
+        "area": "templates",
+        "value": "delete"
+      },
+      {
+        "key": "language",
+        "area": "templates",
+        "value": ""
+      },
+      {
+        "key": "packagename",
+        "area": "package",
+        "value": ""
+      },
+      {
+        "key": "classname",
+        "area": "package",
+        "value": ""
+      },
+      {
+        "key": "keyname",
+        "area": "package",
+        "value": ""
+      },
+      {
+        "key": "joins",
+        "area": "package",
+        "value": ""
+      },
+      {
+        "key": "jQueryPath",
+        "area": "system",
+        "value": ""
+      },
+      {
+        "key": "includeScripts",
+        "area": "system",
+        "type": "combo-boolean",
+        "value": "1"
+      },
+      {
+        "key": "includeCss",
+        "area": "system",
+        "type": "combo-boolean",
+        "value": "1"
+      },
+      {
+        "key": "debug",
+        "area": "system",
+        "type": "combo-boolean",
+        "value": "0"
+      }
+    ]
+  },
+  "build": {
+    "readme": "docs/readme.txt",
+    "license": "docs/license.txt",
+    "changelog": "docs/changelog.txt",
+    "resolver": {}
+  }
+}

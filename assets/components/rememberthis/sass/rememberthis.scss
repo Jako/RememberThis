@@ -1,0 +1,20 @@
+.rememberload {
+  position: relative;
+  left: 0.25em;
+}
+.rememberitem {
+  position: relative;
+  .title {
+    padding-right: 1.5em
+  }
+  .rememberdelete {
+    position: absolute;
+    display: block;
+    right: 0;
+    top: 0;
+  }
+  .rememberload {
+    @extend .rememberdelete;
+    left: auto;
+  }
+}

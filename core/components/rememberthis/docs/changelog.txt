@@ -1,6 +1,11 @@
 Changelog
 ================================================================================
 
+- 1.0.1
+    - Add/Remove query keys are changeable
+- 1.0.0
+    - Total rewrite of code
+    - Snippet(s) renamed
 - 0.6.1
     - Use of modxChunkie class
 - 0.6

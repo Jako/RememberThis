@@ -1,15 +1,19 @@
 <?php
 $_lang['rememberthis'] = 'RememberThis';
 $_lang['rememberthis_desc'] = "Remember an id and the correspondenting resource data in a session based list.";
+
+$_lang['area_templates'] = 'Templates';
+$_lang['area_package'] = 'xPDO Package';
+
 $_lang['rememberthis.add'] = 'Remember';
 $_lang['rememberthis.delete'] = 'Delete';
 $_lang['rememberthis.noresultstext'] = 'The List is empty';
 
 $_lang['setting_rememberthis.rowTpl'] = 'Row Template';
-$_lang['setting_rememberthis.rowTpl_desc'] = 'Row templage for the list output.';
+$_lang['setting_rememberthis.rowTpl_desc'] = 'Row template for the list output.';
 
 $_lang['setting_rememberthis.outerTpl'] = 'Outer Template';
-$_lang['setting_rememberthis.outerTpl_desc'] = 'Outer templage for the list output, if the list is not empty.';
+$_lang['setting_rememberthis.outerTpl_desc'] = 'Outer template for the list output, if the list is not empty.';
 
 $_lang['setting_rememberthis.addTpl'] = 'Add Template';
 $_lang['setting_rememberthis.addTpl_desc'] = 'Template for the add link.';
@@ -26,14 +30,23 @@ $_lang['setting_rememberthis.ajaxLoaderImg_desc'] = 'Image file, that is shown d
 $_lang['setting_rememberthis.tvPrefix'] = 'Template Variable Prefix';
 $_lang['setting_rememberthis.tvPrefix_desc'] = 'Prefix for template variables in template chunks.';
 
-$_lang['setting_rememberthis.language'] = 'Snippet Language';
-$_lang['setting_rememberthis.language_desc'] = 'Snippet language.';
+$_lang['setting_rememberthis.language'] = 'Language';
+$_lang['setting_rememberthis.language_desc'] = 'The frontend language.';
+
+$_lang['setting_rememberthis.queryAdd'] = 'Add Query Key';
+$_lang['setting_rememberthis.queryAdd_desc'] = 'Query key, that is used to add elements to the list.';
+
+$_lang['setting_rememberthis.queryDelete'] = 'Delete Query Key';
+$_lang['setting_rememberthis.queryDelete_desc'] = 'Query key, that is used to remove elements from the list.';
 
 $_lang['setting_rememberthis.packagename'] = 'Packagename';
 $_lang['setting_rememberthis.packagename_desc'] = 'xPDO package name where the added data is retreived from. If empty, the data is retrieved from resources';
 
 $_lang['setting_rememberthis.classname'] = 'Classname';
 $_lang['setting_rememberthis.classname_desc'] = 'xPDO class name where the added data is retreived from.';
+
+$_lang['setting_rememberthis.keyname'] = 'Keyname';
+$_lang['setting_rememberthis.keyname_desc'] = 'xPDO class keyname to retrieve one data row.';
 
 $_lang['setting_rememberthis.joins'] = 'Joins';
 $_lang['setting_rememberthis.joins_desc'] = 'Joins defined in the xPDO class, to retreive the added data.';
