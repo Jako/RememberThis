@@ -3,7 +3,7 @@
   "lowCaseName": "rememberthis",
   "description": "Remember List for MODX Objects",
   "author": "Thomas Jakobi",
-  "version": "1.0.1",
+  "version": "1.1.5",
   "package": {
     "elements": {
       "snippets": [
@@ -23,6 +23,15 @@
             {
               "name": "noResultsTpl",
               "value": ""
+            },
+            {
+              "name": "scriptTpl",
+              "value": ""
+            },
+            {
+              "name": "jsonList",
+              "type": "combo-boolean",
+              "value": "0"
             }
           ]
         },
@@ -53,6 +62,16 @@
             {
               "name": "rememberOuterTpl",
               "value": ""
+            },
+            {
+              "name": "jsonList",
+              "type": "combo-boolean",
+              "value": "0"
+            },
+            {
+              "name": "clearList",
+              "type": "combo-boolean",
+              "value": "0"
             }
           ]
         }
@@ -176,6 +195,22 @@
         "area": "system",
         "type": "combo-boolean",
         "value": "1"
+      },
+      {
+        "key": "useCookie",
+        "area": "cookie",
+        "type": "combo-boolean",
+        "value": "0"
+      },
+      {
+        "key": "cookieName",
+        "area": "cookie",
+        "value": "rememberlist"
+      },
+      {
+        "key": "cookieExpireDays",
+        "area": "cookie",
+        "value": "90"
       },
       {
         "key": "debug",

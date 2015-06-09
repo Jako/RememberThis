@@ -4,6 +4,7 @@ $_lang['rememberthis_desc'] = "Remember an id and the correspondenting resource 
 
 $_lang['area_templates'] = 'Templates';
 $_lang['area_package'] = 'xPDO Package';
+$_lang['area_cookie'] = 'Cookie';
 
 $_lang['rememberthis.add'] = 'Merken';
 $_lang['rememberthis.delete'] = 'Entfernen';
@@ -59,6 +60,15 @@ $_lang['setting_rememberthis.includeScripts_desc'] = 'RememberThis Javascripte a
 
 $_lang['setting_rememberthis.includeCss'] = 'CSS einfügen';
 $_lang['setting_rememberthis.includeCss_desc'] = 'RememberThis CSS am Ende des Head Bereichs einfügen.';
+
+$_lang['setting_rememberthis.useCookie'] = 'Cookie benutzen';
+$_lang['setting_rememberthis.useCookie_desc'] = 'Ein Cookie zum Speichern der gemerkten Daten benutzen.';
+
+$_lang['setting_rememberthis.cookieName'] = 'Cookie Name';
+$_lang['setting_rememberthis.cookieName_desc'] = 'Der Name des Cookie.';
+
+$_lang['setting_rememberthis.cookieExpireDays'] = 'Cookie Laufzeit';
+$_lang['setting_rememberthis.cookieExpireDays_desc'] = 'Die Laufzeit des Cookie (in Tagen).';
 
 $_lang['setting_rememberthis.debug'] = 'Enable Debug';
 $_lang['setting_rememberthis.debug_desc'] = 'Debug Informationen anzeigen.';

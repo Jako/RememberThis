@@ -40,14 +40,14 @@ class RememberThis
 
         $this->modx->lexicon->load('rememberthis:default');
 
-        $corePath = $this->getOption('core_path', $options, $this->modx->getOption('core_path') . 'components/rememberthis/', true);
-        $assetsPath = $this->getOption('assets_path', $options, $this->modx->getOption('assets_path') . 'components/rememberthis/', true);
-        $assetsUrl = $this->getOption('assets_url', $options, $this->modx->getOption('assets_url') . 'components/rememberthis/', true);
+        $corePath = $this->getOption('core_path', $options, $this->modx->getOption('core_path') . 'components/rememberthis/');
+        $assetsPath = $this->getOption('assets_path', $options, $this->modx->getOption('assets_path') . 'components/rememberthis/');
+        $assetsUrl = $this->getOption('assets_url', $options, $this->modx->getOption('assets_url') . 'components/rememberthis/');
 
         // Load some default paths for easier management
         $this->options = array_merge(array(
             'namespace' => $this->namespace,
-            'version' => '1.0.0',
+            'version' => '1.1.0',
             'assetsPath' => $assetsPath,
             'assetsUrl' => $assetsUrl,
             'cssUrl' => $assetsUrl . 'css/',
@@ -81,14 +81,17 @@ class RememberThis
             'includeScripts' => intval($this->getOption('includeScripts', null, 1)),
             'includeCss' => intval($this->getOption('includeCss', null, 1)),
             'debug' => intval($this->getOption('debug', null, 0)),
-            'tvPrefix' => $this->getOption('tvPrefix', $options, 'tv.', true),
-            'ajaxLoaderImg' => $this->getOption('ajaxLoaderImg', null, $this->getOption('assetsUrl') . 'css/ajax-loader.gif'),
-            'language' => $this->getOption('language', $options, $this->modx->getOption('cultureKey'), true),
+            'tvPrefix' => $this->getOption('tvPrefix', $options, 'tv.'),
+            'ajaxLoaderImg' => $this->getOption('ajaxLoaderImg', null, ''),
+            'language' => $modx->getOption('language', $options, $this->modx->getOption('cultureKey')),
             'languages' => array('de', 'en'),
-            'notRememberRedirect' => intval($modx->getOption('notRememberRedirect', $options, false, true)),
+            'notRememberRedirect' => intval($modx->getOption('notRememberRedirect', $options, false)),
             'argSeparator' => ($this->modx->getOption('xhtml_urls')) ? '&amp;' : '&',
-            'queryAdd' => $this->getOption('queryAdd', $options, 'add', true),
-            'queryDelete' => $this->getOption('queryDelete', $options, 'delete', true)
+            'queryAdd' => $this->getOption('queryAdd', $options, 'add'),
+            'queryDelete' => $this->getOption('queryDelete', $options, 'delete'),
+            'useCookie' => intval($this->getOption('useCookie', null, 0)),
+            'cookieName' => $this->getOption('cookieName', $options, 'rememberlist'),
+            'cookieExpireDays' => intval($this->getOption('cookieExpireDays', $options, 90)),
         ));
 
         // Custom options
@@ -129,12 +132,16 @@ class RememberThis
                 $this->modx->regClientCSS($this->getOption('assetsUrl') . 'css/rememberthis.css?v=' . $this->getOption('version'));
             }
 
+            if ($this->getOption('useCookie')) {
+                $this->getCookie();
+            }
+
             // Add/remove items to/from the list
             if (isset($_GET[$this->getOption('queryAdd')])) {
-                $this->elementAdd($_GET[$this->getOption('queryAdd')]);
+                $this->add($_GET[$this->getOption('queryAdd')]);
             }
             if (isset($_GET[$this->getOption('queryDelete')])) {
-                $this->elementDelete(intval($_GET[$this->getOption('queryDelete')]));
+                $this->delete(intval($_GET[$this->getOption('queryDelete')]));
             }
             $this->setOption('init', true);
         }
@@ -145,30 +152,28 @@ class RememberThis
      *
      * @param string $key The option key to search for.
      * @param array $options An array of options that override local options.
-     * @param mixed $default The default value returned, if the option is not found locally or as a namespaced system setting.
-     * @param bool $skipEmpty If true: use default value if option value is empty.
+     * @param mixed $default The default value returned if the option is not found locally or as a
+     * namespaced system setting; by default this value is null.
      * @return mixed The option value or the default value specified.
      */
-    public function getOption($key, $options = array(), $default = null, $skipEmpty = false)
+    public function getOption($key, $options = array(), $default = null)
     {
-        $option = '';
+        $option = $default;
         if (!empty($key) && is_string($key)) {
-            if ($options !== null && array_key_exists($key, $options) && !($skipEmpty && empty($options[$key]))) {
+            if ($options != null && array_key_exists($key, $options)) {
                 $option = $options[$key];
-            } elseif (array_key_exists($key, $this->options) && !($skipEmpty && empty($options[$key]))) {
+            } elseif (array_key_exists($key, $this->options)) {
                 $option = $this->options[$key];
             } elseif (array_key_exists("{$this->namespace}.{$key}", $this->modx->config)) {
-                $option = $this->modx->getOption("{$this->namespace}.{$key}", null, $default, $skipEmpty);
-            } elseif ($skipEmpty) {
-                $option = $default;
+                $option = $this->modx->getOption("{$this->namespace}.{$key}");
             }
         }
         return $option;
     }
 
     /**
-     * @param $key
-     * @param $value
+     * @param $key The option key to set,
+     * @param $value The value to set.
      */
     public function setOption($key, $value)
     {
@@ -177,6 +182,12 @@ class RememberThis
         }
     }
 
+    /**
+     * Generate an url
+     *
+     * @param array $parameter Request parameters.
+     * @return string
+     */
     public function makeUrl($parameter)
     {
         $requestParameter = $this->modx->request->getParameters();
@@ -195,11 +206,11 @@ class RememberThis
     /**
      * Output the add button
      *
-     * @param $addId string Key to add
-     * @param $options array Template options
+     * @param string $addId Key to add.
+     * @param array $options Template options.
      * @return string
      */
-    public function outputAdd($addId, $options)
+    public function showButton($addId, $options)
     {
         $output = $this->modx->getChunk($options['addTpl'], array(
             'rememberurl' => $this->makeUrl(array($this->getOption('queryAdd') => $addId)),
@@ -210,89 +221,99 @@ class RememberThis
     }
 
     /**
-     * Output the AJAX result
+     * Show the AJAX result
      *
-     * @param $options array Template options
+     * @param array $options Template options
      * @return string
      */
-    public function outputAjax($options)
+    public function ajaxResult($options)
     {
         $options['language'] = in_array($options['language'], $this->getOption('languages')) ? $options['language'] : 'en';
         $this->modx->setOption('cultureKey', $options['language']);
 
-        $output = '';
+        $output = array();
         if ($options['add']) {
-            $index = $this->elementAdd($options['add']);
+            $index = $this->add($options['add']);
             if ($index !== false) {
                 $fields = array_merge($_SESSION['rememberThis'][$index]['element'], array(
-                    'deleteurl' => $this->modx->makeUrl($this->getOption('site_start'), '', array($this->getOption('queryDelete') => $index + 1)),
+                    'deleteurl' => $this->modx->makeUrl($this->modx->getOption('site_start'), '', array($this->getOption('queryDelete') => $index + 1)),
                     'deleteid' => $index + 1
                 ));
-                if (count($_SESSION['rememberThis']) == 1) {
-                    $output = $this->modx->getChunk($this->getOption('outerTpl'), array(
-                        'wrapper' => $this->modx->getChunk($this->getOption('rowTpl'), $fields)
-                    ));
-                } else {
-                    $output = $this->modx->getChunk($this->getOption('rowTpl'), $fields);
-                }
+                $output['result'] = $this->modx->getChunk($this->getOption('rowTpl'), $fields);
+                $output['count'] = count($_SESSION['rememberThis']);
             }
             if ($this->getOption('debug')) {
-                $output = '<pre>DEBUG: $_SESSION[\'rememberThis\'] = ' . print_r($_SESSION['rememberThis'], true) . '</pre>';
+                $output['debug'] = '<pre>DEBUG: $_SESSION[\'rememberThis\'] = ' . print_r($_SESSION['rememberThis'], true) . '</pre>';
             }
         } else {
             if ($options['delete']) {
-                $this->elementDelete($options['delete']);
+                $this->delete($options['delete']);
                 if (count($_SESSION['rememberThis']) > 0) {
-                    $output = (string)$options['delete'];
+                    $output['result'] = '';
+                    $output['count'] = count($_SESSION['rememberThis']);
                 } else {
-                    $output = $this->modx->getChunk($this->getOption('noResultsTpl'));
+                    $output['result'] = $this->modx->getChunk($this->getOption('noResultsTpl'));
+                    $output['count'] = 0;
                 }
                 if ($this->getOption('debug')) {
-                    $output .= '<pre>DEBUG: $_SESSION["rememberThis"] = ' . print_r($_SESSION['rememberThis'], true) . '</pre>';
+                    $output['debug'] = '<pre>DEBUG: $_SESSION["rememberThis"] = ' . print_r($_SESSION['rememberThis'], true) . '</pre>';
                 }
-            }
-            if (count($_SESSION['rememberThis']) == 0) {
-                $output = $this->modx->getChunk($this->getOption('noResultsTpl'));
             }
         }
         return $output;
     }
 
     /**
-     * Output the remembered list
+     * Show the remembered list
      *
-     * @param $options array Template options
+     * @param array $options Template options
      * @return string
      */
-    public function outputList($options)
+    public function showList($options)
     {
-        $output = '';
+        $output = array();
+
+        // Generate the list
+        $list = array();
+        foreach ($_SESSION['rememberThis'] as $element) {
+            $list[] = $element['element']['identifier'];
+        }
+        $output['list'] = $list;
+
+        // Generate the result
         if (!count($_SESSION['rememberThis'])) {
             if (!$this->getOption('notRememberRedirect')) {
-                $output = $this->modx->getChunk($options['outerTpl'], array(
-                    'wrapper' => $this->modx->getChunk($options['noResultsTpl'])
+                $output['result'] = $this->modx->getChunk($options['outerTpl'], array(
+                    'wrapper' => $this->modx->getChunk($options['noResultsTpl']),
+                    'count' => ''
                 ));
             } else {
                 $this->modx->sendRedirect($this->modx->makeUrl($this->getOption('notRememberRedirect')));
             }
         } else {
-            $output = $this->modx->getChunk($options['outerTpl'], array(
-                'wrapper' => $this->outputElements($options['rowTpl'])
+            $output['result'] = $this->modx->getChunk($options['outerTpl'], array(
+                'wrapper' => $this->showElements($options['rowTpl']),
+                'count' => (string)count($_SESSION['rememberThis'])
             ));
         }
+
+        // Generate count
+        $output['count'] = count($_SESSION['rememberThis']);
+
+        // Generate debug informations
         if ($this->getOption('debug')) {
-            $output .= '<pre>DEBUG: $_SESSION["rememberThis"] = ' . print_r($_SESSION['rememberThis'], TRUE) . '</pre>';
+            $output['debug'] = '<pre>DEBUG: $_SESSION["rememberThis"] = ' . print_r($_SESSION['rememberThis'], TRUE) . '</pre>';
         }
         return $output;
     }
 
     /**
-     * Output the remembered list elements
+     * Show the remembered list elements
      *
-     * @param $tpl
-     * @return array|string
+     * @param string $tpl Template
+     * @return string
      */
-    public function outputElements($tpl)
+    public function showElements($tpl)
     {
         $output = array();
         $iteration = 0;
@@ -303,8 +324,7 @@ class RememberThis
                     'deleteurl' => $this->makeUrl(array($this->getOption('queryDelete') => $key + 1)),
                     'deleteidentifier' => $this->modx->request->getResourceIdentifier('alias'),
                     'deleteid' => $key + 1,
-                    'iteration' => $iteration,
-                    'count' => $element['count']
+                    'iteration' => $iteration
                 ));
 
                 $output[] = $this->modx->getChunk($tpl, $fields);
@@ -320,10 +340,10 @@ class RememberThis
     /**
      * Add an element to the list
      *
-     * @param $docId
-     * @return bool|mixed
+     * @param integer $docId
+     * @return bool|integer
      */
-    private function elementAdd($docId)
+    private function add($docId)
     {
         $found = 0;
         $newElement = array();
@@ -346,9 +366,12 @@ class RememberThis
             $resource = $this->modx->getObject($this->getOption('classname'), array($this->getOption('keyname') => $docId));
             if ($resource) {
                 $joinvalues = array();
-                foreach ($this->getOption('joins') as $join) {
-                    $values = $resource->getOne($join);
-                    $joinvalues[$join] = $values->toArray();
+                $joinoption = $this->getOption('joins');
+                if ($joinoption) {
+                    foreach ($joinoption as $join) {
+                        $values = $resource->getOne($join);
+                        $joinvalues[$join] = $values->toArray();
+                    }
                 }
                 $row = array_merge($joinvalues, $resource->toArray());
             } else {
@@ -357,17 +380,19 @@ class RememberThis
             }
         }
 
-        $newElement = $row;
+        $newElement['identifier'] = $row[$this->getOption('keyname')];
         $newElement['itemtitle'] = $this->modx->getChunk($this->getOption('itemTitleTpl'), $row);
 
         foreach ($_SESSION['rememberThis'] as & $element) {
             if (!count(array_diff_assoc($element['element'], $newElement))) {
-                $element['count'] += 1;
                 $found = 1;
             }
         }
         if (!$found) {
-            $_SESSION['rememberThis'][] = array('element' => $newElement, 'count' => 1);
+            $_SESSION['rememberThis'][] = array('element' => $newElement);
+            if ($this->getOption('useCookie')) {
+                $this->setCookie();
+            }
             return (key($_SESSION['rememberThis']));
         } else {
             return false;
@@ -377,15 +402,57 @@ class RememberThis
     /**
      * Remove an element from the list
      *
-     * @param $index
+     * @param integer $index
      */
-    private function elementDelete($index)
+    private function delete($index)
     {
         $index--;
         if (isset($_SESSION['rememberThis'])) {
             if (isset($_SESSION['rememberThis'][$index])) {
                 unset($_SESSION['rememberThis'][$index]);
             }
+        }
+        if ($this->getOption('useCookie')) {
+            $this->setCookie();
+        }
+    }
+
+    /**
+     * Remove all elements from the list
+     */
+    private function clear()
+    {
+        if (isset($_SESSION['rememberThis'])) {
+            $_SESSION['rememberThis'] = array();
+        }
+        if ($this->getOption('useCookie')) {
+            $this->setCookie();
+        }
+    }
+
+    /**
+     * Get the remembered list from cookie
+     */
+    private function getCookie()
+    {
+        $cookieName = $this->getOption('cookieName');
+        if (isset($_COOKIE[$cookieName])) {
+            $_SESSION['rememberThis'] = json_decode($_COOKIE[$cookieName], true);
+        }
+    }
+
+    /**
+     * Set the cookie from the remembered list
+     */
+    private function setCookie()
+    {
+        $cookieName = $this->getOption('cookieName');
+        if (!empty($_SESSION['rememberThis'])) {
+            setcookie($cookieName, json_encode($_SESSION['rememberThis']), strtotime('+' . $this->getOption('cookieExpireDays') . ' DAY'), '/');
+            $_COOKIE[$cookieName] = json_encode($_SESSION['rememberThis']);
+        } else {
+            setcookie($cookieName, '', time() - 3600, '/');
+            unset($_COOKIE[$cookieName]);
         }
     }
 }

@@ -29,6 +29,7 @@ parameters:
 
 ###RememberThisAdd
 
+Display the add button.
 
 Property | Description | Default
 -------- | ----------- | -------
@@ -37,21 +38,30 @@ addId | This value (and the correspondenting data) is added to the list. | Curre
 
 ###RememberThisList
 
+Display the list with this snippet.
+
 Property | Description | Default
 -------- | ----------- | -------
 rowTpl | Row template for the list output. | tplRememberThisRow
 outerTpl | Outer template for the list output, if the list is not empty. | tplRememberThisOuter
 noResultsTpl | Template that is displayed, if the list is empty. | tplRememberThisNoResults
 scriptTpl | Template for the javascript call. | tplRememberThisScript
+jsonList | Return the remembered items as JSON encoded array | false 
 
 ###RememberThis (FormIt hook)
 
+The Formit placeholder `rememberthis` will be filled with the content of the list.
+
 Property | Description | Default
 -------- | ----------- | -------
-rowTpl | Row template for the list output. | tplRememberThisRow
-outerTpl | Outer template for the list output, if the list is not empty. | tplRememberThisOuter
+rememberRowTpl | Row template for the list output. | tplRememberThisRow
+rememberOuterTpl | Outer template for the list output, if the list is not empty. | tplRememberThisOuter
+jsonList | Fill the formit placeholder rememberthis with the remembered items as JSON encoded array | false 
+clearList | Clear the list after succesful form submit | false
 
 ###System Settings
+
+All the system settings are prefixed by `rememberthis.`.
 
 Property | Description | Default
 ---- | ----------- | -------

@@ -35,8 +35,8 @@ RememberThisAdd
 Property | Description                                | Default
 -------- | ------------------------------------------ | -------
 addTpl   | Template for the add link.                 | tplRememberThisAdd
-addId    | This value (and the correspondenting data) | Current resource id
-         | is added to the list.                      |
+addId    | This value (and the correspondenting item  | Current resource id
+         | title) is added to the list.               |
 
 RememberThisList
 ----------------
@@ -48,15 +48,20 @@ outerTpl     | Outer template for the list output, if the list   | tplRememberTh
              | is not empty.                                     |
 noResultsTpl | Template that is displayed, if the list is empty. | tplRememberThisNoResults
 scriptTpl    | Template for the javascript call.                 | tplRememberThisScript
+jsonList     | Output a JSON encoded list of element `keyname`   | 0
+             | values.                                           |
 
 RememberThis (FormIt hook)
 ----------------
 
-Property | Description                                     | Default
--------- | ----------------------------------------------- | -------
-rowTpl   | Row template for the list output.               | tplRememberThisRow
-outerTpl | Outer template for the list output, if the list | tplRememberThisOuter
-         | is not empty.                                   |
+Property         | Description                                     | Default
+---------------- | ----------------------------------------------- | -------
+rememberRowTpl   | Row template for the list output.               | tplRememberThisRow
+rememberOuterTpl | Outer template for the list output, if the list | tplRememberThisOuter
+                 | is not empty.                                   |
+jsonList         | Output a JSON encoded list of element `keyname` | 0
+                 | values.                                         |
+clearList        | Clear the list after running the hook.          | 0
 
 System Settings
 ---------------
@@ -69,7 +74,7 @@ outerTpl       | Outer template for the list output, if the list   | tplRemember
                | class 'rememberthis'                              |
 addTpl         | Template for the add link.                        | tplRememberThisAdd
 noResultsTpl   | Template that is displayed, if the list is empty. | tplRememberThisNoResults
-itemTitleTpl   | Template for one list item.                       | tplRememberThisItemTitle
+itemTitleTpl   | Template for one list item title.                 | tplRememberThisItemTitle
 ajaxLoaderImg  | Image file, that is shown during AJAX requests.   | FontAwesome fa-refresh
 tvPrefix       | Prefix for template variables in template chunks. | tv.
 addQuery       | Query key, used to add elements to the list.      | add
@@ -81,6 +86,7 @@ packagename    | xPDO package name where the added data is         |
                | id column of the package or ModResource.          | -
 classname      | xPDO class name where the added data is           |
                | retreived from.                                   | -
+keyname        | xPDO class keyname the data is retreived with     | id
 joins          | Joins defined in the xPDO class, to retreive      |
                | the added data.                                   | -
 jQueryPath     | Path to jQuery script.                            | -

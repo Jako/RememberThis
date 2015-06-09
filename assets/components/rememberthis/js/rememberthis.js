@@ -72,12 +72,14 @@
                     $('.rememberload').remove();
                     if ($('.rememberempty', list).length) {
                         list.slideUp('fast', function () {
+                            $('.remembercount').html(data.count);
                             $(this).html(data.result).slideDown('slow');
                         });
                     } else {
                         if (data.result.length) {
                             var newDoc = $(data.result).attr('style', 'display: none');
                             list.append(newDoc);
+                            $('.remembercount').html(data.count);
                             newDoc.slideDown('slow');
                         }
                     }
@@ -95,12 +97,14 @@
                     delete: id
                 },
                 success: function (data) {
-                    if (isNaN(data.result)) {
+                    if (!data.count) {
                         list.slideUp('slow', function () {
+                            $('.remembercount').html('0');
                             $(this).html($.trim(data.result)).slideDown('fast');
                         });
                     } else {
                         $(elem).parent().slideUp('slow', function () {
+                            $('.remembercount').html(data.count);
                             $(this).remove();
                         });
                     }

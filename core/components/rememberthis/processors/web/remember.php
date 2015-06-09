@@ -12,10 +12,9 @@ $options = array(
     'add' => $modx->getOption('add', $_GET, 0),
     'delete' => intval($modx->getOption('delete', $_GET, 0))
 );
-$result = $modx->rememberthis->outputAjax($options);
+$result = $modx->rememberthis->ajaxResult($options);
 
 // return result
-return json_encode(array(
+return json_encode(array_merge($result, array(
     'success' => true,
-    'result' => $result
-));
+)));
