@@ -16,6 +16,10 @@
         onBeforeAdd: function (list, elem, id) {
         },
         onBeforeDelete: function (list, elem, id) {
+        },
+        onAfterAdd: function (list, elem, id) {
+        },
+        onAfterDelete: function (list, elem, id) {
         }
     };
 
@@ -49,6 +53,7 @@
                 $(this).append(_this.options.loadImage.clone());
                 _this.options.onBeforeAdd.call(_this.$el, this, rememberid);
                 _this.onAdd(_this.$el, this, rememberid);
+                _this.options.onAfterAdd.call(_this.$el, this, rememberid);
             });
             _this.$el.on('click', '.rememberdelete', function (e) {
                 e.preventDefault();
@@ -56,6 +61,7 @@
                 $(this).hide().after(_this.options.loadImage.clone());
                 _this.options.onBeforeDelete.call(_this.$el, this, deleteid);
                 _this.onDelete(_this.$el, this, deleteid);
+                _this.options.onAfterDelete.call(_this.$el, this, deleteid);
             });
         },
         onAdd: function (list, elem, id) {
@@ -76,7 +82,7 @@
                             $(this).html(data.result).slideDown('slow');
                         });
                     } else {
-                        if (data.result.length) {
+                        if (data.result) {
                             var newDoc = $(data.result).attr('style', 'display: none');
                             list.append(newDoc);
                             $('.remembercount').html(data.count);
@@ -99,7 +105,7 @@
                 success: function (data) {
                     if (!data.count) {
                         list.slideUp('slow', function () {
-                            $('.remembercount').html('0');
+                            $('.remembercount').html(data.count);
                             $(this).html($.trim(data.result)).slideDown('fast');
                         });
                     } else {

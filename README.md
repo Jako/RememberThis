@@ -34,7 +34,7 @@ Display the add button.
 Property | Description | Default
 -------- | ----------- | -------
 addTpl | Template for the add link. | tplRememberThisAdd
-addId | This value (and the correspondenting data) is added to the list. | Current resource id
+addId | This value (and the correspondenting item title) is added to the list. | Current resource id
 
 ###RememberThisList
 
@@ -46,7 +46,7 @@ rowTpl | Row template for the list output. | tplRememberThisRow
 outerTpl | Outer template for the list output, if the list is not empty. | tplRememberThisOuter
 noResultsTpl | Template that is displayed, if the list is empty. | tplRememberThisNoResults
 scriptTpl | Template for the javascript call. | tplRememberThisScript
-jsonList | Return the remembered items as JSON encoded array | false 
+jsonList | Output a JSON encoded list of element `keyname` values. | no 
 
 ###RememberThis (FormIt hook)
 
@@ -56,8 +56,8 @@ Property | Description | Default
 -------- | ----------- | -------
 rememberRowTpl | Row template for the list output. | tplRememberThisRow
 rememberOuterTpl | Outer template for the list output, if the list is not empty. | tplRememberThisOuter
-jsonList | Fill the formit placeholder rememberthis with the remembered items as JSON encoded array | false 
-clearList | Clear the list after succesful form submit | false
+jsonList | Fill the formit placeholder `rememberthis` with a JSON encoded list of element `keyname` values. | no 
+clearList | Clear the list after running the hook. | no
 
 ###System Settings
 
@@ -69,6 +69,7 @@ rowTpl | Row template for the list output. | tplRememberThisRow
 outerTpl | Outer template for the list output, if the list is not empty. | tplRememberThisOuter
 addTpl | Template for the add link. | tplRememberThisAdd
 noResultsTpl | Template that is displayed, if the list is empty. | tplRememberThisNoResults
+showZeroCount | Show Zero Values in template. | yes
 itemTitleTpl | Template for one list item. | tplRememberThisItemTitle
 ajaxLoaderImg | Image file, that is shown during AJAX requests. | FontAwesome fa-refresh
 tvPrefix | Prefix for template variables in template chunks. | tv.

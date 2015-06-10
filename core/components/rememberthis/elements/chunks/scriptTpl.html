@@ -1,5 +1,11 @@
 <script type="text/javascript">
     $(document).ready(function () {
-        $('.rememberthis').rememberThis([[+options]]);
+        $('.rememberthis').rememberThis(
+                $.extend([[+options]], {
+                    onAfterAdd: function () {
+                        $('.rememberthis').addClass('changed').delay(500).removeClass('changed');
+                    }
+                })
+        );
     });
 </script>

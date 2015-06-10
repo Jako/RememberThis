@@ -47,7 +47,7 @@ class RememberThis
         // Load some default paths for easier management
         $this->options = array_merge(array(
             'namespace' => $this->namespace,
-            'version' => '1.1.0',
+            'version' => '1.1.6',
             'assetsPath' => $assetsPath,
             'assetsUrl' => $assetsUrl,
             'cssUrl' => $assetsUrl . 'css/',
@@ -69,6 +69,7 @@ class RememberThis
         $this->options = array_merge($this->options, array(
             'wrapperTpl' => $this->getOption('wrapperTpl', $options, 'tplRememberThisWrapper'),
             'noResultsTpl' => $this->getOption('noResultsTpl', $options, 'tplRememberThisNoResults'),
+            'showZeroCount' => intval($this->getOption('showZeroCount', $options, 1)),
             'rowTpl' => $this->getOption('rowTpl', $options, 'tplRememberThisRow'),
             'outerTpl' => $this->getOption('outerTpl', $options, 'tplRememberThisOuter'),
             'addTpl' => $this->getOption('addTpl', $options, 'tplRememberThisAdd'),
@@ -253,7 +254,7 @@ class RememberThis
                     $output['count'] = count($_SESSION['rememberThis']);
                 } else {
                     $output['result'] = $this->modx->getChunk($this->getOption('noResultsTpl'));
-                    $output['count'] = 0;
+                    $output['count'] = $this->getOption('showZeroCount') ? '0' : '';
                 }
                 if ($this->getOption('debug')) {
                     $output['debug'] = '<pre>DEBUG: $_SESSION["rememberThis"] = ' . print_r($_SESSION['rememberThis'], true) . '</pre>';
@@ -285,7 +286,7 @@ class RememberThis
             if (!$this->getOption('notRememberRedirect')) {
                 $output['result'] = $this->modx->getChunk($options['outerTpl'], array(
                     'wrapper' => $this->modx->getChunk($options['noResultsTpl']),
-                    'count' => ''
+                    'count' => $this->getOption('showZeroCount') ? '0' : ''
                 ));
             } else {
                 $this->modx->sendRedirect($this->modx->makeUrl($this->getOption('notRememberRedirect')));

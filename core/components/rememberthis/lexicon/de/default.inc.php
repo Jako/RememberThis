@@ -22,13 +22,19 @@ $_lang['setting_rememberthis.addTpl_desc'] = 'Template für den Hinzufügen Link
 $_lang['setting_rememberthis.noResultsTpl'] = 'Leere Liste-Template';
 $_lang['setting_rememberthis.noResultsTpl_desc'] = 'Template für die leere Liste.';
 
+$_lang['setting_rememberthis.showZeroCount'] = 'Nullwert anzeigen';
+$_lang['setting_rememberthis.showZeroCount_desc'] = 'Nullwert im Template anzeigen.';
+
 $_lang['setting_rememberthis.itemTitleTpl'] = 'Elementtitel-Template';
 $_lang['setting_rememberthis.itemTitleTpl_desc'] = 'Template für den Titel eines Listenelements.';
+
+$_lang['setting_rememberthis.scriptTpl'] = 'Script-Template';
+$_lang['setting_rememberthis.scriptTpl_desc'] = 'Template für den Javascript Aufruf.';
 
 $_lang['setting_rememberthis.ajaxLoaderImg'] = 'AJAX Loader Bild';
 $_lang['setting_rememberthis.ajaxLoaderImg_desc'] = 'Bilddatei, die während eines AJAX Requests angezeigt wird.';
 
-$_lang['setting_rememberthis.tvPrefix'] = 'Template Variable Prefix';
+$_lang['setting_rememberthis.tvPrefix'] = 'Template Variablen Prefix';
 $_lang['setting_rememberthis.tvPrefix_desc'] = 'Prefix für Template Variablen in den Chunks.';
 
 $_lang['setting_rememberthis.language'] = 'Sprache';

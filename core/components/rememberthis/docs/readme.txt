@@ -32,6 +32,8 @@ parameters:
 RememberThisAdd
 ---------------
 
+Display the add button.
+
 Property | Description                                | Default
 -------- | ------------------------------------------ | -------
 addTpl   | Template for the add link.                 | tplRememberThisAdd
@@ -41,6 +43,8 @@ addId    | This value (and the correspondenting item  | Current resource id
 RememberThisList
 ----------------
 
+Display the list with this snippet.
+
 Property     | Description                                       | Default
 ------------ | ------------------------------------------------- | -------
 rowTpl       | Row template for the list output.                 | tplRememberThisRow
@@ -48,20 +52,23 @@ outerTpl     | Outer template for the list output, if the list   | tplRememberTh
              | is not empty.                                     |
 noResultsTpl | Template that is displayed, if the list is empty. | tplRememberThisNoResults
 scriptTpl    | Template for the javascript call.                 | tplRememberThisScript
-jsonList     | Output a JSON encoded list of element `keyname`   | 0
+jsonList     | Output a JSON encoded list of element 'keyname'   | no
              | values.                                           |
 
 RememberThis (FormIt hook)
 ----------------
+
+The Formit placeholder 'rememberthis' will be filled with the content of the list.
 
 Property         | Description                                     | Default
 ---------------- | ----------------------------------------------- | -------
 rememberRowTpl   | Row template for the list output.               | tplRememberThisRow
 rememberOuterTpl | Outer template for the list output, if the list | tplRememberThisOuter
                  | is not empty.                                   |
-jsonList         | Output a JSON encoded list of element `keyname` | 0
+jsonList         | Fill the formit placeholder 'rememberthis'      | no
+                 | with a JSON encoded list of element 'keyname'   |
                  | values.                                         |
-clearList        | Clear the list after running the hook.          | 0
+clearList        | Clear the list after running the hook.          | no
 
 System Settings
 ---------------
@@ -70,10 +77,10 @@ Property       | Description                                       | Default
 -------------- | ------------------------------------------------- | -------
 rowTpl         | Row template for the list output.                 | tplRememberThisRow
 outerTpl       | Outer template for the list output, if the list   | tplRememberThisOuter
-               | is not empty. Will be surrounded by a div with    |
-               | class 'rememberthis'                              |
+               | is not empty.                                     |
 addTpl         | Template for the add link.                        | tplRememberThisAdd
 noResultsTpl   | Template that is displayed, if the list is empty. | tplRememberThisNoResults
+showZeroCount  | Show Zero Values in template.                     | yes
 itemTitleTpl   | Template for one list item title.                 | tplRememberThisItemTitle
 ajaxLoaderImg  | Image file, that is shown during AJAX requests.   | FontAwesome fa-refresh
 tvPrefix       | Prefix for template variables in template chunks. | tv.
@@ -83,7 +90,7 @@ language       | Snippet language.                                 | en
 packagename    | xPDO package name where the added data is         |
                | retreived from. If empty, the data is retrieved   |
                | from resources. The data row is selected by the   |
-               | id column of the package or ModResource.          | -
+               | id column of the package or modResource.          | -
 classname      | xPDO class name where the added data is           |
                | retreived from.                                   | -
 keyname        | xPDO class keyname the data is retreived with     | id

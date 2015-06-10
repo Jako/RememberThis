@@ -1,13 +1,28 @@
 Changelog
 ================================================================================
 
+- 1.1.6
+    - showZeroCount system setting
+    - Default script template chunk contains an example for onAfterAdd callback
+- 1.1.5
+    - Bugfixes for snippet templating settings
+- 1.1.4
+    - clearList parameter in RememberThisHook
+- 1.1.3
+    - rememberthis.list set in RememberThisHook
+- 1.1.2
+    - jsonList parameter
+- 1.1.1
+    - Normalize AJAX result
+    - Bugfix for cookies in AJAX
+- 1.1.0
+    - Optional cookie based remember list
+    - Count list elements placeholder in outer template
 - 1.0.1
     - Add/Remove query keys are changeable
 - 1.0.0
     - Total rewrite of code
     - Snippet(s) renamed
-- 0.6.1
-    - Use of modxChunkie class
 - 0.6
     - Added parameter ajaxLoaderImg
     - Prepared rememberthis.js for callbacks

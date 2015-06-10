@@ -22,8 +22,14 @@ $_lang['setting_rememberthis.addTpl_desc'] = 'Template for the add link.';
 $_lang['setting_rememberthis.noResultsTpl'] = 'No Results Template';
 $_lang['setting_rememberthis.noResultsTpl_desc'] = 'Template that is displayed, if the list is empty.';
 
+$_lang['setting_rememberthis.showZeroCount'] = 'Show Zero Value';
+$_lang['setting_rememberthis.showZeroCount_desc'] = 'Show Zero Values in template.';
+
 $_lang['setting_rememberthis.itemTitleTpl'] = 'Item Title Template';
 $_lang['setting_rememberthis.itemTitleTpl_desc'] = 'Template for one list item.';
+
+$_lang['setting_rememberthis.scriptTpl'] = 'Script Template';
+$_lang['setting_rememberthis.scriptTpl_desc'] = 'Template the script call.';
 
 $_lang['setting_rememberthis.ajaxLoaderImg'] = 'AJAX Loader Image';
 $_lang['setting_rememberthis.ajaxLoaderImg_desc'] = 'Image file, that is shown during AJAX requests.';
