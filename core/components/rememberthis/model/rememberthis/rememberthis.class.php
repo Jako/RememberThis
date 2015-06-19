@@ -76,7 +76,7 @@ class RememberThis
             'itemTitleTpl' => $this->getOption('itemTitleTpl', $options, 'tplRememberThisItemTitle'),
             'packagename' => $this->getOption('packagename', null, ''),
             'classname' => $this->getOption('classname', null, ''),
-            'keyname' => $this->getOption('keyname', null, 'id'),
+            'keyname' => $this->getOption('keyname', null, 'id', true),
             'joins' => $this->modx->fromJson($this->getOption('joins', null, '')),
             'jQueryPath' => $this->getOption('jQueryPath', null, ''),
             'includeScripts' => intval($this->getOption('includeScripts', null, 1)),
@@ -157,7 +157,7 @@ class RememberThis
      * namespaced system setting; by default this value is null.
      * @return mixed The option value or the default value specified.
      */
-    public function getOption($key, $options = array(), $default = null)
+    public function getOption($key, $options = array(), $default = null, $skipEmpty = false)
     {
         $option = $default;
         if (!empty($key) && is_string($key)) {
@@ -165,7 +165,7 @@ class RememberThis
                 $option = $options[$key];
             } elseif (array_key_exists($key, $this->options)) {
                 $option = $this->options[$key];
-            } elseif (array_key_exists("{$this->namespace}.{$key}", $this->modx->config)) {
+            } elseif (array_key_exists("{$this->namespace}.{$key}", $this->modx->config) && (!$skipEmpty || ($skipEmpty && $this->modx->getOption("{$this->namespace}.{$key}") !== ''))) {
                 $option = $this->modx->getOption("{$this->namespace}.{$key}");
             }
         }
