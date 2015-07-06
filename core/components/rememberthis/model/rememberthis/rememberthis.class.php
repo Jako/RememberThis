@@ -69,6 +69,7 @@ class RememberThis
         $this->options = array_merge($this->options, array(
             'wrapperTpl' => $this->getOption('wrapperTpl', $options, 'tplRememberThisWrapper'),
             'noResultsTpl' => $this->getOption('noResultsTpl', $options, 'tplRememberThisNoResults'),
+            'scriptTpl' => $this->getOption('scriptTpl', $options, 'tplRememberThisScript'),
             'showZeroCount' => intval($this->getOption('showZeroCount', $options, 1)),
             'rowTpl' => $this->getOption('rowTpl', $options, 'tplRememberThisRow'),
             'outerTpl' => $this->getOption('outerTpl', $options, 'tplRememberThisOuter'),

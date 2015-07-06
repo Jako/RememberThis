@@ -25,10 +25,6 @@
               "value": ""
             },
             {
-              "name": "scriptTpl",
-              "value": ""
-            },
-            {
               "name": "jsonList",
               "type": "combo-boolean",
               "value": "0"

@@ -51,7 +51,6 @@ rowTpl       | Row template for the list output.                 | tplRememberTh
 outerTpl     | Outer template for the list output, if the list   | tplRememberThisOuter
              | is not empty.                                     |
 noResultsTpl | Template that is displayed, if the list is empty. | tplRememberThisNoResults
-scriptTpl    | Template for the javascript call.                 | tplRememberThisScript
 jsonList     | Output a JSON encoded list of element 'keyname'   | no
              | values.                                           |
 
@@ -80,6 +79,7 @@ outerTpl       | Outer template for the list output, if the list   | tplRemember
                | is not empty.                                     |
 addTpl         | Template for the add link.                        | tplRememberThisAdd
 noResultsTpl   | Template that is displayed, if the list is empty. | tplRememberThisNoResults
+scriptTpl      | Template for the javascript call.                 | tplRememberThisScript
 showZeroCount  | Show Zero Values in template.                     | yes
 itemTitleTpl   | Template for one list item title.                 | tplRememberThisItemTitle
 ajaxLoaderImg  | Image file, that is shown during AJAX requests.   | FontAwesome fa-refresh

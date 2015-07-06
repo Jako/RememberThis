@@ -3,7 +3,10 @@
         $('.rememberthis').rememberThis(
                 $.extend([[+options]], {
                     onAfterAdd: function () {
-                        $('.rememberthis').addClass('changed').delay(500).removeClass('changed');
+                        $('.rememberthis').addClass('changed');
+                        window.setTimeout(function () {
+                            $('.rememberthis').removeClass('changed');
+                        }, 1000);
                     }
                 })
         );

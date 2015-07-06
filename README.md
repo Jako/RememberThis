@@ -45,7 +45,6 @@ Property | Description | Default
 rowTpl | Row template for the list output. | tplRememberThisRow
 outerTpl | Outer template for the list output, if the list is not empty. | tplRememberThisOuter
 noResultsTpl | Template that is displayed, if the list is empty. | tplRememberThisNoResults
-scriptTpl | Template for the javascript call. | tplRememberThisScript
 jsonList | Output a JSON encoded list of element `keyname` values. | no 
 
 ###RememberThis (FormIt hook)
@@ -69,6 +68,7 @@ rowTpl | Row template for the list output. | tplRememberThisRow
 outerTpl | Outer template for the list output, if the list is not empty. | tplRememberThisOuter
 addTpl | Template for the add link. | tplRememberThisAdd
 noResultsTpl | Template that is displayed, if the list is empty. | tplRememberThisNoResults
+scriptTpl | Template for the javascript call. | tplRememberThisScript
 showZeroCount | Show Zero Values in template. | yes
 itemTitleTpl | Template for one list item. | tplRememberThisItemTitle
 ajaxLoaderImg | Image file, that is shown during AJAX requests. | FontAwesome fa-refresh
