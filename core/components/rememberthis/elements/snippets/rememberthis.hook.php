@@ -11,7 +11,8 @@ $rememberthis = $modx->getService('rememberthis', 'RememberThis', $corePath . 'm
 // Snippet settings
 $options = array(
     'rowTpl' => $modx->getOption('rememberRowTpl', $scriptProperties, $rememberthis->getOption('rowTpl'), true),
-    'outerTpl' => $modx->getOption('rememberOuterTpl', $scriptProperties, $rememberthis->getOption('outerTpl'), true)
+    'outerTpl' => $modx->getOption('rememberOuterTpl', $scriptProperties, $rememberthis->getOption('outerTpl'), true),
+    'tplPath' => $modx->getOption('tplPath', $scriptProperties, $rememberthis->getOption('tplPath'), true)
 );
 $jsonList = intval($modx->getOption('jsonList', $scriptProperties, 0));
 $clearList = intval($modx->getOption('clearList', $scriptProperties, 0));

@@ -29,6 +29,12 @@ class RememberThis
     public $options = array();
 
     /**
+     * The internal cache
+     * @var array
+     */
+    private $cache = array();
+
+    /**
      * RememberThis constructor
      *
      * @param modX $modx A reference to the modX instance.
@@ -98,6 +104,7 @@ class RememberThis
 
         // Custom options
         $this->setOption('language', in_array($this->getOption('language'), $this->getOption('languages')) ? $this->getOption('language') : 'en');
+        $this->setOption('tplPath', $this->getOption('tplPath', $options));
 
         // Set script options
         $this->setOption('scriptOptions', array(
@@ -120,18 +127,19 @@ class RememberThis
     public function init()
     {
         if (!$this->getOption('init', null, false)) {
+            $version = (!$this->modx->getObject('modPlugin', array('name' => 'minifyRegistered', 'disabled' => 0))) ? '?v=' . $this->getOption('version') : '';
             if ($this->getOption('includeScripts')) {
                 if ($this->getOption('jQueryPath') != '') {
                     $this->modx->regClientScript($this->getOption('jQueryPath'));
                 }
-                $this->modx->regClientScript($this->getOption('assetsUrl') . 'js/rememberthis.min.js?v=' . $this->getOption('version'));
-                $script = $this->modx->getChunk($this->getOption('scriptTpl'), array(
+                $this->modx->regClientScript($this->getOption('assetsUrl') . 'js/rememberthis.min.js' . $version);
+                $script = $this->getChunk($this->getOption('scriptTpl'), array_merge($this->options, array(
                     'options' => json_encode($this->getOption('scriptOptions'))
-                ));
+                )));
                 $this->modx->regClientScript($script);
             }
             if ($this->getOption('includeCss')) {
-                $this->modx->regClientCSS($this->getOption('assetsUrl') . 'css/rememberthis.css?v=' . $this->getOption('version'));
+                $this->modx->regClientCSS($this->getOption('assetsUrl') . 'css/rememberthis.css' . $version);
             }
 
             if ($this->getOption('useCookie')) {
@@ -174,8 +182,8 @@ class RememberThis
     }
 
     /**
-     * @param $key The option key to set,
-     * @param $value The value to set.
+     * @param string $key The option key to set,
+     * @param mixed $value The value to set.
      */
     public function setOption($key, $value)
     {
@@ -214,11 +222,11 @@ class RememberThis
      */
     public function showButton($addId, $options)
     {
-        $output = $this->modx->getChunk($options['addTpl'], array(
+        $output = $this->getChunk($options['addTpl'], array_merge($options, array(
             'rememberurl' => $this->makeUrl(array($this->getOption('queryAdd') => $addId)),
             'rememberidentifier' => $this->modx->request->getResourceIdentifier('alias'),
             'rememberid' => $addId
-        ));
+        )));
         return $output;
     }
 
@@ -239,9 +247,10 @@ class RememberThis
             if ($index !== false) {
                 $fields = array_merge($_SESSION['rememberThis'][$index]['element'], array(
                     'deleteurl' => $this->modx->makeUrl($this->modx->getOption('site_start'), '', array($this->getOption('queryDelete') => $index + 1)),
-                    'deleteid' => $index + 1
+                    'deleteid' => $index + 1,
+                    'iteration' => count($_SESSION['rememberThis']) - 1
                 ));
-                $output['result'] = $this->modx->getChunk($this->getOption('rowTpl'), $fields);
+                $output['result'] = $this->getChunk($this->getOption('rowTpl'), array_merge($this->options, $fields));
                 $output['count'] = count($_SESSION['rememberThis']);
             }
             if ($this->getOption('debug')) {
@@ -254,7 +263,7 @@ class RememberThis
                     $output['result'] = '';
                     $output['count'] = count($_SESSION['rememberThis']);
                 } else {
-                    $output['result'] = $this->modx->getChunk($this->getOption('noResultsTpl'));
+                    $output['result'] = $this->getChunk($this->getOption('noResultsTpl'), $this->options);
                     $output['count'] = $this->getOption('showZeroCount') ? '0' : '';
                 }
                 if ($this->getOption('debug')) {
@@ -285,18 +294,18 @@ class RememberThis
         // Generate the result
         if (!count($_SESSION['rememberThis'])) {
             if (!$this->getOption('notRememberRedirect')) {
-                $output['result'] = $this->modx->getChunk($options['outerTpl'], array(
-                    'wrapper' => $this->modx->getChunk($options['noResultsTpl']),
+                $output['result'] = $this->getChunk($options['outerTpl'], array_merge($options, array(
+                    'wrapper' => $this->getChunk($options['noResultsTpl']),
                     'count' => $this->getOption('showZeroCount') ? '0' : ''
-                ));
+                )));
             } else {
                 $this->modx->sendRedirect($this->modx->makeUrl($this->getOption('notRememberRedirect')));
             }
         } else {
-            $output['result'] = $this->modx->getChunk($options['outerTpl'], array(
+            $output['result'] = $this->getChunk($options['outerTpl'], array_merge($options, array(
                 'wrapper' => $this->showElements($options['rowTpl']),
                 'count' => (string)count($_SESSION['rememberThis'])
-            ));
+            )));
         }
 
         // Generate count
@@ -329,7 +338,7 @@ class RememberThis
                     'iteration' => $iteration
                 ));
 
-                $output[] = $this->modx->getChunk($tpl, $fields);
+                $output[] = $this->getChunk($tpl, array_merge($this->options, $fields));
                 $iteration++;
             } else {
                 $output[] = '<pre>' . print_r($element, true) . '</pre>';
@@ -348,9 +357,6 @@ class RememberThis
     private function add($docId)
     {
         $found = 0;
-        $newElement = array();
-        $newElement['rememberId'] = $docId;
-
         if (!$this->getOption('packagename')) {
             // no packagename -> resource
             $resource = $this->modx->getObject('modResource', array('id' => $docId));
@@ -382,8 +388,10 @@ class RememberThis
             }
         }
 
+        $newElement = $row;
+        $newElement['rememberId'] = $docId;
         $newElement['identifier'] = $row[$this->getOption('keyname')];
-        $newElement['itemtitle'] = $this->modx->getChunk($this->getOption('itemTitleTpl'), $row);
+        $newElement['itemtitle'] = $this->getChunk($this->getOption('itemTitleTpl'), array_merge($this->options, $row));
 
         foreach ($_SESSION['rememberThis'] as & $element) {
             if (!count(array_diff_assoc($element['element'], $newElement))) {
@@ -456,5 +464,101 @@ class RememberThis
             setcookie($cookieName, '', time() - 3600, '/');
             unset($_COOKIE[$cookieName]);
         }
+    }
+
+    /**
+     * @param $_validTypes
+     * @param $type
+     * @param $source
+     * @param null $properties
+     * @return bool
+     */
+    private function parseTplElement($_validTypes, $type, $source, $properties = null)
+    {
+        global $modx;
+        $output = false;
+        if (!is_string($type) || !in_array($type, $_validTypes)) $type = $modx->getOption('tplType', $properties, '@CHUNK');
+        $content = false;
+        switch ($type) {
+            case '@FILE':
+                $path = $this->getOption('tplPath', $properties, $modx->getOption('assets_path', $properties, MODX_ASSETS_PATH) . 'elements/chunks/', true);
+                $key = $path . $source;
+                if (!isset($this->cache['@FILE'])) $this->cache['@FILE'] = array();
+                if (!array_key_exists($key, $this->cache['@FILE'])) {
+                    if (file_exists($key)) {
+                        $content = file_get_contents($key);
+                    }
+                    $this->cache['@FILE'][$key] = $content;
+                } else {
+                    $content = $this->cache['@FILE'][$key];
+                }
+                if (!empty($content) && $content !== '0') {
+                    $chunk = $modx->newObject('modChunk', array('name' => $key));
+                    $chunk->setCacheable(false);
+                    $output = $chunk->process($properties, $content);
+                }
+                break;
+            case '@INLINE':
+                $uniqid = uniqid();
+                $chunk = $modx->newObject('modChunk', array('name' => "{$type}-{$uniqid}"));
+                $chunk->setCacheable(false);
+                $output = $chunk->process($properties, $source);
+                break;
+            case '@CHUNK':
+            default:
+                $chunk = null;
+                if (!isset($this->cache['@CHUNK'])) $this->cache['@CHUNK'] = array();
+                if (!array_key_exists($source, $this->cache['@CHUNK'])) {
+                    if ($chunk = $modx->getObject('modChunk', array('name' => $source))) {
+                        $this->cache['@CHUNK'][$source] = $chunk->toArray('', true);
+                    } else {
+                        $this->cache['@CHUNK'][$source] = false;
+                    }
+                } elseif (is_array($this->cache['@CHUNK'][$source])) {
+                    $chunk = $modx->newObject('modChunk');
+                    $chunk->fromArray($this->cache['@CHUNK'][$source], '', true, true, true);
+                }
+                if (is_object($chunk)) {
+                    $chunk->setCacheable(false);
+                    $output = $chunk->process($properties);
+                }
+                break;
+        }
+        return $output;
+    }
+
+    /**
+     * @param $tpl
+     * @param null $properties
+     * @return bool
+     */
+    public function getChunk($tpl, $properties = null)
+    {
+        $_validTypes = array(
+            '@CHUNK',
+            '@FILE',
+            '@INLINE'
+        );
+        $output = false;
+        if (!empty($tpl)) {
+            $bound = array(
+                'type' => '@CHUNK',
+                'value' => $tpl
+            );
+            if (strpos($tpl, '@') === 0) {
+                $endPos = strpos($tpl, ' ');
+                if ($endPos > 2 && $endPos < 10) {
+                    $tt = substr($tpl, 0, $endPos);
+                    if (in_array($tt, $_validTypes)) {
+                        $bound['type'] = $tt;
+                        $bound['value'] = substr($tpl, $endPos + 1);
+                    }
+                }
+            }
+            if (is_array($bound) && isset($bound['type']) && isset($bound['value'])) {
+                $output = $this->parseTplElement($_validTypes, $bound['type'], $bound['value'], $properties);
+            }
+        }
+        return $output;
     }
 }

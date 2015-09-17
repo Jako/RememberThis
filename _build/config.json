@@ -3,7 +3,7 @@
   "lowCaseName": "rememberthis",
   "description": "Remember List for MODX Objects",
   "author": "Thomas Jakobi",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "package": {
     "elements": {
       "snippets": [
@@ -162,6 +162,11 @@
         "value": ""
       },
       {
+        "key": "tplPath",
+        "area": "templates",
+        "value": "{assets_path}elements/chunks/"
+      },
+      {
         "key": "packagename",
         "area": "package",
         "value": ""
@@ -174,7 +179,7 @@
       {
         "key": "keyname",
         "area": "package",
-        "value": ""
+        "value": "id"
       },
       {
         "key": "joins",

@@ -7,7 +7,7 @@
   position: relative;
 }
 .rememberitem .title {
-  padding-right: 1.5em;
+  margin-right: 1.5em;
 }
 .rememberitem .rememberdelete, .rememberitem .rememberload {
   position: absolute;

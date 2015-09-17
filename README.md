@@ -76,6 +76,7 @@ tvPrefix | Prefix for template variables in template chunks. | tv.
 addQuery | Query key, used to add elements to the list. | add
 deleteQuery | Query key, used to remove elements from the list. | delete
 language | Snippet language. | en
+tplPath | Base path for template chunks using @FILE binding. | `{assets_path}elements/chunks/`
 packagename | xPDO package name where the added data is retreived from. If empty, the data is retrieved from resources. The data row is selected by the id column of the package or modResource. | -
 classname | xPDO class name where the added data is retreived from. | -
 joins | Joins defined in the xPDO class, to retreive the added data. | -

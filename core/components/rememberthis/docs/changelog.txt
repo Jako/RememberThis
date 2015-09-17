@@ -1,8 +1,12 @@
 Changelog
-================================================================================
+=========
 
+- 1.1.7
+    - @FILE/@INLINE/@CHUNK binding for template chunks
+    - tplPath system setting
 - 1.1.6
-    -
+    - showZeroCount system setting
+    - Default script template chunk contains an example for onAfterAdd callback
 - 1.1.5
     - Bugfixes for snippet templating settings
 - 1.1.4

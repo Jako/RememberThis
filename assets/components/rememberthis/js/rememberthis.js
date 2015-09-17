@@ -103,7 +103,7 @@
                     delete: id
                 },
                 success: function (data) {
-                    if (!data.count) {
+                    if (!data.count || data.count == '0') {
                         list.slideUp('slow', function () {
                             $('.remembercount').html(data.count);
                             $(this).html($.trim(data.result)).slideDown('fast');

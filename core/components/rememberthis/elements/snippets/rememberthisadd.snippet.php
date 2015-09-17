@@ -10,7 +10,8 @@ $rememberthis = $modx->getService('rememberthis', 'RememberThis', $corePath . 'm
 
 // Snippet settings
 $options = array(
-    'addTpl' => $modx->getOption('addTpl', $scriptProperties, $rememberthis->getOption('addTpl'), true)
+    'addTpl' => $modx->getOption('addTpl', $scriptProperties, $rememberthis->getOption('addTpl'), true),
+    'tplPath' => $modx->getOption('tplPath', $scriptProperties, $rememberthis->getOption('tplPath'), true)
 );
 
 // Run options

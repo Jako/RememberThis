@@ -40,6 +40,9 @@ $_lang['setting_rememberthis.tvPrefix_desc'] = 'Prefix für Template Variablen i
 $_lang['setting_rememberthis.language'] = 'Sprache';
 $_lang['setting_rememberthis.language_desc'] = 'Die Sprache im Frontend.';
 
+$_lang['setting_rememberthis.tplPath'] = 'Template Pfad';
+$_lang['setting_rememberthis.tplPath_desc'] = 'Basis Pfad für Template Chunks mit @FILE Binding.';
+
 $_lang['setting_rememberthis.queryAdd'] = 'Hinzufügen Query Key';
 $_lang['setting_rememberthis.queryAdd_desc'] = 'Query Key zum Hinzufügen von Elementen in die Liste.';
 

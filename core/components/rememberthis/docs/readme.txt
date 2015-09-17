@@ -1,10 +1,10 @@
 RememberThis
-================================================================================
+============
 
 Remember list for MODX Revolution.
 
-Features:
---------------------------------------------------------------------------------
+Features
+--------
 RememberThis is small session based remembering snippet solution for MODX 
 Revolution. It displays the session based list and a link to add elements to
 the list.
@@ -16,12 +16,12 @@ referenced by the primary key of the class.
 Adding and removing elements from the list could be made by url params or by 
 AJAX. A jQuery AJAX script is used by default.
 
-Installation:
---------------------------------------------------------------------------------
+Installation
+------------
 MODX Package Management
 
-Usage:
---------------------------------------------------------------------------------
+Usage
+-----
 
 Most of the snippet template settings should be made in the MODX system settings
 and are used in snippet and ajax mode.
@@ -72,6 +72,8 @@ clearList        | Clear the list after running the hook.          | no
 System Settings
 ---------------
 
+All the system settings are prefixed by `rememberthis.`.
+
 Property       | Description                                       | Default
 -------------- | ------------------------------------------------- | -------
 rowTpl         | Row template for the list output.                 | tplRememberThisRow
@@ -87,6 +89,8 @@ tvPrefix       | Prefix for template variables in template chunks. | tv.
 addQuery       | Query key, used to add elements to the list.      | add
 deleteQuery    | Query key, used to remove elements from the list. | delete
 language       | Snippet language.                                 | en
+tplPath        | Base path for template chunks using @FILE         | {assets_path}elements/chunks/
+               | binding.                                          |
 packagename    | xPDO package name where the added data is         |
                | retreived from. If empty, the data is retrieved   |
                | from resources. The data row is selected by the   |

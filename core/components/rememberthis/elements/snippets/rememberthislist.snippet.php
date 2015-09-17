@@ -13,7 +13,8 @@ $rememberthis->init();
 $options = array(
     'rowTpl' => $modx->getOption('rowTpl', $scriptProperties, $rememberthis->getOption('rowTpl'), true),
     'outerTpl' => $modx->getOption('outerTpl', $scriptProperties, $rememberthis->getOption('outerTpl'), true),
-    'noResultsTpl' => $modx->getOption('noResultsTpl', $scriptProperties, $rememberthis->getOption('noResultsTpl'), true)
+    'noResultsTpl' => $modx->getOption('noResultsTpl', $scriptProperties, $rememberthis->getOption('noResultsTpl'), true),
+    'tplPath' => $modx->getOption('tplPath', $scriptProperties, $rememberthis->getOption('tplPath'), true)
 );
 $jsonList = intval($modx->getOption('jsonList', $scriptProperties, 0));
 $clearList = intval($modx->getOption('clearList', $scriptProperties, 0));
