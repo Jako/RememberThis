@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+	<title>Usage - RememberThis</title>
+
+        <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">RememberThis</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="..">Home</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../installation/">Installation</a>
+                </li>
+            
+            
+            
+                <li class="active">
+                    <a href="./">Usage</a>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li >
+                    <a rel="next" href="../installation/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li class="disabled">
+                    <a rel="prev" >
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="https://github.com/Jako/RememberThis">
+                        
+                            <i class="fa fa-github"></i>
+                        
+                        GitHub
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#usage">Usage</a></li>
+        
+            <li><a href="#rememberthisadd">RememberThisAdd</a></li>
+        
+            <li><a href="#rememberthislist">RememberThisList</a></li>
+        
+            <li><a href="#rememberthishook-formit-hook">RememberThisHook (FormIt hook)</a></li>
+        
+            <li><a href="#system-settings">System Settings</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="usage">Usage</h1>
+<p>The package contains two snippets and a formit hook, that use the following parameters<sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">1</a></sup></p>
+<h3 id="rememberthisadd">RememberThisAdd</h3>
+<p>This snippet will display an add button.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>addTpl</td>
+<td>Template for the add link.</td>
+<td>tplRememberThisAdd</td>
+</tr>
+<tr>
+<td>addId</td>
+<td>This value (and the correspondenting item title) is added to the list.</td>
+<td>Current resource id</td>
+</tr>
+</tbody>
+</table>
+<h3 id="rememberthislist">RememberThisList</h3>
+<p>This snippet will display the remembered list.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rowTpl</td>
+<td>Row template for the list output.</td>
+<td>tplRememberThisRow</td>
+</tr>
+<tr>
+<td>outerTpl</td>
+<td>Outer template for the list output, if the list is not empty.</td>
+<td>tplRememberThisOuter</td>
+</tr>
+<tr>
+<td>noResultsTpl</td>
+<td>Template that is displayed, if the list is empty.</td>
+<td>tplRememberThisNoResults</td>
+</tr>
+<tr>
+<td>jsonList</td>
+<td>Output a JSON encoded list of element <code>keyname</code> values.</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+<h3 id="rememberthishook-formit-hook">RememberThisHook (FormIt hook)</h3>
+<p>The Formit placeholder rememberthis i.e. <code>[[+fi.rememberthis]]</code> will be filled with the content of the list. You have to call the hook like this: </p>
+<pre><code>[[!FormIt?
+&amp;hooks=`...,RememberThisHook,...`
+&amp;rememberOuterTpl=`tplRememberOuterMail`
+&amp;rememberRowTpl=`tplRememberRowMail`
+]]
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rememberRowTpl</td>
+<td>Row template for the list output.</td>
+<td>tplRememberThisRow</td>
+</tr>
+<tr>
+<td>rememberOuterTpl</td>
+<td>Outer template for the list output, if the list is not empty.</td>
+<td>tplRememberThisOuter</td>
+</tr>
+<tr>
+<td>jsonList</td>
+<td>Fill the formit placeholder <strong>rememberthis</strong> with a JSON encoded list of element key/values pairs.</td>
+<td>no</td>
+</tr>
+<tr>
+<td>clearList</td>
+<td>Clear the list after running the hook.</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+<h3 id="system-settings">System Settings</h3>
+<p>All the system settings are prefixed by <strong>rememberthis.</strong> and are located in the rememberthis namespace.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rowTpl</td>
+<td>Row template for the list output.</td>
+<td>tplRememberThisRow</td>
+</tr>
+<tr>
+<td>outerTpl</td>
+<td>Outer template for the list output, if the list is not empty.</td>
+<td>tplRememberThisOuter</td>
+</tr>
+<tr>
+<td>addTpl</td>
+<td>Template for the add link.</td>
+<td>tplRememberThisAdd</td>
+</tr>
+<tr>
+<td>noResultsTpl</td>
+<td>Template that is displayed, if the list is empty.</td>
+<td>tplRememberThisNoResults</td>
+</tr>
+<tr>
+<td>scriptTpl</td>
+<td>Template for the javascript call.</td>
+<td>tplRememberThisScript</td>
+</tr>
+<tr>
+<td>showZeroCount</td>
+<td>Show Zero Values in template.</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>itemTitleTpl</td>
+<td>Template for one list item.</td>
+<td>tplRememberThisItemTitle</td>
+</tr>
+<tr>
+<td>ajaxLoaderImg</td>
+<td>Image file, that is shown during AJAX requests.</td>
+<td>FontAwesome fa-refresh</td>
+</tr>
+<tr>
+<td>tvPrefix</td>
+<td>Prefix for template variables in template chunks.</td>
+<td>tv.</td>
+</tr>
+<tr>
+<td>addQuery</td>
+<td>Query key, used to add elements to the list.</td>
+<td>add</td>
+</tr>
+<tr>
+<td>deleteQuery</td>
+<td>Query key, used to remove elements from the list.</td>
+<td>delete</td>
+</tr>
+<tr>
+<td>language</td>
+<td>Snippet language.</td>
+<td>current <strong>cultureKey</strong></td>
+</tr>
+<tr>
+<td>tplPath</td>
+<td>Base path for template chunks using @FILE binding.</td>
+<td><code>{assets_path}elements/chunks/</code></td>
+</tr>
+<tr>
+<td>packagename</td>
+<td>xPDO package name where the added data is retreived from. If empty, the data is retrieved from resources. The data row is selected by the id column of the package or modResource.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>classname</td>
+<td>xPDO class name where the added data is retreived from.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>joins</td>
+<td>Joins defined in the xPDO class, to retreive the added data.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>jQueryPath</td>
+<td>Path to jQuery script.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>includeScripts</td>
+<td>Include javascripts (at the end of the body).</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>includeCss</td>
+<td>Include css (at the end of the head).</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>debug</td>
+<td>Display debug informations.</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+<p>The following templating system settings could be overridden in the snippet calls:
+<strong>rowTpl</strong>, <strong>outerTpl</strong>, <strong>addTpl</strong>, <strong>noResultsTpl</strong></p>
+<p>In template chunks all resource fields of the MODX resources could be used as placeholder including template variables with the prefix 'tv.' could be used. </p>
+<p>If a xPDO package is used, all fields of this package could be used as placeholder.</p>
+<!-- Piwik -->
+
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.partout.info/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 18]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+
+<noscript><p><img src="//piwik.partout.info/piwik.php?idsite=18" style="border:0;" alt="" /></p></noscript>
+
+<!-- End Piwik Code -->
+
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>Most of the snippet templating settings should be made in the MODX system settings, since they are used by the snippets and with ajax.&#160;<a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            
+            <center>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</center>
+        </footer>
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+    </body>
+</html>
