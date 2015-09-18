@@ -53,7 +53,7 @@ class RememberThis
         // Load some default paths for easier management
         $this->options = array_merge(array(
             'namespace' => $this->namespace,
-            'version' => '1.1.6',
+            'version' => '1.1.7',
             'assetsPath' => $assetsPath,
             'assetsUrl' => $assetsUrl,
             'cssUrl' => $assetsUrl . 'css/',
