@@ -1,5 +1,10 @@
-Changelog
-=========
+Changelog for RememberThis
+==========================
+
+- 2.0.0
+    - Added support for form POST. Example addTpl is available in tplRememberThisAddForm.
+    - The javascript plugin could handle multiple lists. The callbacks parameters have to be changed.
+    - The remembered XPDO object could contain properties.
 
 - 1.1.7
     - @FILE/@INLINE/@CHUNK binding for template chunks
@@ -21,19 +26,23 @@ Changelog
 - 1.1.0
     - Optional cookie based remember list
     - Count list elements placeholder in outer template
+
 - 1.0.1
     - Add/Remove query keys are changeable
 - 1.0.0
     - Total rewrite of code
     - Snippet(s) renamed
-- 0.6
+
+- 0.6.0
     - Added parameter ajaxLoaderImg
     - Prepared rememberthis.js for callbacks
     - Each snippet call could use its own templates in display mode
-- 0.5
+
+- 0.5.0
     - Rewritten rememberthis.js
     - Use of revoChunkie class
     - Better templating
+
 - 0.4.3
     - Fixed phpthumbof problem in ajax call
 - 0.4.2
@@ -41,5 +50,5 @@ Changelog
     - Javascript and styling issues
 - 0.4.1
     - All template system settings could be overridden by snippet parameters
-- 0.4
+- 0.4.0
     - Initial public release for MODX Revolution
