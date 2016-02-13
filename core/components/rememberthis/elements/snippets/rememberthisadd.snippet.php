@@ -15,6 +15,6 @@ $options = array(
 );
 
 // Run options
-$addId = $modx->getOption('addId', $scriptProperties, $modx->resource->get('id'));
+$addId = $modx->getOption('addId', $scriptProperties, $modx->resource->get('id'), true);
 
 return $rememberthis->showButton($addId, $options);

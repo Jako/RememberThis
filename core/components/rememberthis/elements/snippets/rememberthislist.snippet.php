@@ -7,22 +7,26 @@
  */
 $corePath = $modx->getOption('rememberthis.core_path', null, $modx->getOption('core_path') . 'components/rememberthis/');
 $rememberthis = $modx->getService('rememberthis', 'RememberThis', $corePath . 'model/rememberthis/');
+$init = $rememberthis->getOption('init', null, false);
 $rememberthis->init();
 
 // Snippet settings
 $options = array(
     'rowTpl' => $modx->getOption('rowTpl', $scriptProperties, $rememberthis->getOption('rowTpl'), true),
     'outerTpl' => $modx->getOption('outerTpl', $scriptProperties, $rememberthis->getOption('outerTpl'), true),
+    'wrapperTpl' => $modx->getOption('wrapperTpl', $scriptProperties, $rememberthis->getOption('wrapperTpl'), true),
     'noResultsTpl' => $modx->getOption('noResultsTpl', $scriptProperties, $rememberthis->getOption('noResultsTpl'), true),
     'tplPath' => $modx->getOption('tplPath', $scriptProperties, $rememberthis->getOption('tplPath'), true)
 );
-$jsonList = intval($modx->getOption('jsonList', $scriptProperties, 0));
-$clearList = intval($modx->getOption('clearList', $scriptProperties, 0));
+$jsonList = $rememberthis->getBooleanOption('jsonList', $scriptProperties, false);
 
 $result = $rememberthis->showList($options);
 if ($jsonList) {
     $output = json_encode($result['list']);
 } else {
     $output = $result['result'];
+    if ($rememberthis->getOption('debug') && !$init) {
+        $output .= '<pre class="rememberdebug">' . $result['debug'] . '</pre>';
+    }
 }
 return $output;

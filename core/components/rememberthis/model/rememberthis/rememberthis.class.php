@@ -3,7 +3,7 @@
 /**
  * RememberThis
  *
- * Copyright 2008-2015 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Copyright 2008-2016 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * @package rememberthis
  * @subpackage classfile
@@ -23,16 +23,32 @@ class RememberThis
     public $namespace = 'rememberthis';
 
     /**
+     * The version
+     * @var string $namespace
+     */
+    public $version = '1.2.0';
+
+    /**
      * The class options
      * @var array $options
      */
     public $options = array();
 
     /**
-     * The internal cache
-     * @var array
+     * Template cache
+     * @var array $_tplCache
      */
-    private $cache = array();
+    private $_tplCache;
+
+    /**
+     * Valid binding types
+     * @var array $_validTypes
+     */
+    private $_validTypes = array(
+        '@CHUNK',
+        '@FILE',
+        '@INLINE'
+    );
 
     /**
      * RememberThis constructor
@@ -53,7 +69,7 @@ class RememberThis
         // Load some default paths for easier management
         $this->options = array_merge(array(
             'namespace' => $this->namespace,
-            'version' => '1.1.7',
+            'version' => $this->version,
             'assetsPath' => $assetsPath,
             'assetsUrl' => $assetsUrl,
             'cssUrl' => $assetsUrl . 'css/',
@@ -100,6 +116,7 @@ class RememberThis
             'useCookie' => intval($this->getOption('useCookie', null, 0)),
             'cookieName' => $this->getOption('cookieName', $options, 'rememberlist'),
             'cookieExpireDays' => intval($this->getOption('cookieExpireDays', $options, 90)),
+            'init' => false
         ));
 
         // Custom options
@@ -118,42 +135,6 @@ class RememberThis
         }
         if (!isset($_SESSION['rememberThis'])) {
             $_SESSION['rememberThis'] = array();
-        }
-    }
-
-    /**
-     * Init scripts and add/delete only once
-     */
-    public function init()
-    {
-        if (!$this->getOption('init', null, false)) {
-            $version = (!$this->modx->getObject('modPlugin', array('name' => 'minifyRegistered', 'disabled' => 0))) ? '?v=' . $this->getOption('version') : '';
-            if ($this->getOption('includeScripts')) {
-                if ($this->getOption('jQueryPath') != '') {
-                    $this->modx->regClientScript($this->getOption('jQueryPath'));
-                }
-                $this->modx->regClientScript($this->getOption('assetsUrl') . 'js/rememberthis.min.js' . $version);
-                $script = $this->getChunk($this->getOption('scriptTpl'), array_merge($this->options, array(
-                    'options' => json_encode($this->getOption('scriptOptions'))
-                )));
-                $this->modx->regClientScript($script);
-            }
-            if ($this->getOption('includeCss')) {
-                $this->modx->regClientCSS($this->getOption('assetsUrl') . 'css/rememberthis.css' . $version);
-            }
-
-            if ($this->getOption('useCookie')) {
-                $this->getCookie();
-            }
-
-            // Add/remove items to/from the list
-            if (isset($_GET[$this->getOption('queryAdd')])) {
-                $this->add($_GET[$this->getOption('queryAdd')]);
-            }
-            if (isset($_GET[$this->getOption('queryDelete')])) {
-                $this->delete(intval($_GET[$this->getOption('queryDelete')]));
-            }
-            $this->setOption('init', true);
         }
     }
 
@@ -193,6 +174,84 @@ class RememberThis
     }
 
     /**
+     * Gets an option through $this->getOption and cast the value to a true boolean automatically,
+     * including strings "false", "true", "yes" and "no".
+     *
+     * @param string $name
+     * @param array $options
+     * @param bool $default
+     * @return bool
+     */
+    public function getBooleanOption($name, array $options = null, $default = null)
+    {
+        $option = $this->getOption($name, $options, $default);
+        return $this->castValueToBool($option);
+    }
+
+    /**
+     * Turns a value into a boolean. This checks for "false", "true", "yes" and "no" strings,
+     * as well as anything PHP can automatically cast to a boolean value.
+     *
+     * @param $value
+     * @return bool
+     */
+    public function castValueToBool($value)
+    {
+        if (in_array(strtolower($value), array('false', 'no'))) {
+            return false;
+        }
+        return (bool)$value;
+    }
+
+    /**
+     * Init scripts and add/delete only once
+     */
+    public function init()
+    {
+        if (!$this->getOption('init', null, false)) {
+            $version = (!$this->modx->getObject('modPlugin', array('name' => 'minifyRegistered', 'disabled' => 0))) ? '?v=' . $this->getOption('version') : '';
+            if ($this->getOption('includeScripts')) {
+                if ($this->getOption('jQueryPath') != '') {
+                    $this->modx->regClientScript($this->getOption('jQueryPath'));
+                }
+                if (!$this->getOption('debug')) {
+                    $this->modx->regClientScript($this->getOption('assetsUrl') . 'js/rememberthis.min.js' . $version);
+                } else {
+                    $this->modx->regClientScript($this->getOption('assetsUrl') . 'js/rememberthis.js' . $version);
+                }
+                $script = $this->getChunk($this->getOption('scriptTpl'), array_merge($this->options, array(
+                    'options' => json_encode($this->getOption('scriptOptions'))
+                )));
+                $this->modx->regClientScript($script);
+            }
+            if ($this->getOption('includeCss')) {
+                $this->modx->regClientCSS($this->getOption('assetsUrl') . 'css/rememberthis.css' . $version);
+            }
+
+            if ($this->getOption('useCookie')) {
+                $this->getCookie();
+            }
+
+            // Add/remove items to/from the list
+            $queryAdd = $this->getOption('queryAdd');
+            if (isset($_REQUEST[$queryAdd])) {
+                $addProperties = array();
+                foreach ($_REQUEST as $key => $value) {
+                    $propertylen = strlen($queryAdd . 'property_');
+                    if (substr($key, 0, $propertylen) == $queryAdd . 'property_') {
+                        $addProperties[substr($key, $propertylen)] = $this->stripTags($value);
+                    }
+                }
+                $this->add($_REQUEST[$queryAdd], $addProperties);
+            }
+            if (isset($_REQUEST[$this->getOption('queryDelete')])) {
+                $this->delete(intval($_REQUEST[$this->getOption('queryDelete')]));
+            }
+            $this->setOption('init', true);
+        }
+    }
+
+    /**
      * Generate an url
      *
      * @param array $parameter Request parameters.
@@ -225,6 +284,7 @@ class RememberThis
         $output = $this->getChunk($options['addTpl'], array_merge($options, array(
             'rememberurl' => $this->makeUrl(array($this->getOption('queryAdd') => $addId)),
             'rememberidentifier' => $this->modx->request->getResourceIdentifier('alias'),
+            'rememberqueryadd' => $this->getOption('queryAdd'),
             'rememberid' => $addId
         )));
         return $output;
@@ -243,7 +303,7 @@ class RememberThis
 
         $output = array();
         if ($options['add']) {
-            $index = $this->add($options['add']);
+            $index = $this->add($options['add'], $options['addproperties']);
             if ($index !== false) {
                 $fields = array_merge($_SESSION['rememberThis'][$index]['element'], array(
                     'deleteurl' => $this->modx->makeUrl($this->modx->getOption('site_start'), '', array($this->getOption('queryDelete') => $index + 1)),
@@ -252,9 +312,15 @@ class RememberThis
                 ));
                 $output['result'] = $this->getChunk($this->getOption('rowTpl'), array_merge($this->options, $fields));
                 $output['count'] = count($_SESSION['rememberThis']);
+                if ($output['count'] == 1) {
+                    $output['result'] = $this->getChunk($this->getOption('outerTpl'), array_merge($this->options, array(
+                        'count' => $output['count'],
+                        'wrapper' => $output['result']
+                    )));
+                }
             }
             if ($this->getOption('debug')) {
-                $output['debug'] = '<pre>DEBUG: $_SESSION[\'rememberThis\'] = ' . print_r($_SESSION['rememberThis'], true) . '</pre>';
+                $output['debug'] = 'DEBUG: $_SESSION[\'rememberThis\'] = ' . print_r($_SESSION['rememberThis'], true);
             }
         } else {
             if ($options['delete']) {
@@ -267,7 +333,7 @@ class RememberThis
                     $output['count'] = $this->getOption('showZeroCount') ? '0' : '';
                 }
                 if ($this->getOption('debug')) {
-                    $output['debug'] = '<pre>DEBUG: $_SESSION["rememberThis"] = ' . print_r($_SESSION['rememberThis'], true) . '</pre>';
+                    $output['debug'] = 'DEBUG: $_SESSION["rememberThis"] = ' . print_r($_SESSION['rememberThis'], true);
                 }
             }
         }
@@ -287,14 +353,21 @@ class RememberThis
         // Generate the list
         $list = array();
         foreach ($_SESSION['rememberThis'] as $element) {
-            $list[] = $element['element']['identifier'];
+            if (isset($element['element']['itemproperties']) && !empty($element['element']['itemproperties'])) {
+                $list[] = array(
+                    'identifier' => $element['element']['identifier'],
+                    'itemproperties' => $element['element']['itemproperties']
+                );
+            } else {
+                $list[] = $element['element']['identifier'];
+            }
         }
         $output['list'] = $list;
 
         // Generate the result
         if (!count($_SESSION['rememberThis'])) {
             if (!$this->getOption('notRememberRedirect')) {
-                $output['result'] = $this->getChunk($options['outerTpl'], array_merge($options, array(
+                $output['result'] = $this->getChunk($options['wrapperTpl'], array_merge($options, array(
                     'wrapper' => $this->getChunk($options['noResultsTpl']),
                     'count' => $this->getOption('showZeroCount') ? '0' : ''
                 )));
@@ -302,9 +375,12 @@ class RememberThis
                 $this->modx->sendRedirect($this->modx->makeUrl($this->getOption('notRememberRedirect')));
             }
         } else {
-            $output['result'] = $this->getChunk($options['outerTpl'], array_merge($options, array(
+            $outer = $this->getChunk($options['outerTpl'], array_merge($options, array(
                 'wrapper' => $this->showElements($options['rowTpl']),
                 'count' => (string)count($_SESSION['rememberThis'])
+            )));
+            $output['result'] = $this->getChunk($options['wrapperTpl'], array_merge($options, array(
+                'wrapper' => $outer
             )));
         }
 
@@ -313,7 +389,7 @@ class RememberThis
 
         // Generate debug informations
         if ($this->getOption('debug')) {
-            $output['debug'] = '<pre>DEBUG: $_SESSION["rememberThis"] = ' . print_r($_SESSION['rememberThis'], TRUE) . '</pre>';
+            $output['debug'] = 'DEBUG: $_SESSION["rememberThis"] = ' . print_r($_SESSION['rememberThis'], TRUE);
         }
         return $output;
     }
@@ -354,7 +430,7 @@ class RememberThis
      * @param integer $docId
      * @return bool|integer
      */
-    private function add($docId)
+    private function add($docId, $properties = array())
     {
         $found = 0;
         if (!$this->getOption('packagename')) {
@@ -365,7 +441,11 @@ class RememberThis
             foreach ($templateVars as $templateVar) {
                 $tvs[$this->getOption('tvPrefix') . $templateVar->get('name')] = $templateVar->renderOutput($resource->get('id'));
             }
-            $row = array_merge($resource->toArray(), $tvs);
+            $row = array_merge(array(
+                'id' => $resource->get('id'),
+                'pagetitle' => $resource->get('pagetitle'),
+                'longtitle' => $resource->get('longtitle')
+            ), $tvs);
         } else {
             $packagepath = $this->modx->getOption('core_path') . 'components/' . $this->getOption('packagename') . '/';
             $modelpath = $packagepath . 'model/';
@@ -391,7 +471,11 @@ class RememberThis
         $newElement = $row;
         $newElement['rememberId'] = $docId;
         $newElement['identifier'] = $row[$this->getOption('keyname')];
-        $newElement['itemtitle'] = $this->getChunk($this->getOption('itemTitleTpl'), array_merge($this->options, $row));
+        $newElement['properties'] = ($properties) ? http_build_query($properties) : '';
+        $newElement['itemtitle'] = $this->getChunk($this->getOption('itemTitleTpl'), array_merge($this->options, $row, $properties));
+        if (!empty($properties)) {
+            $newElement['itemproperties'] = $properties;
+        }
 
         foreach ($_SESSION['rememberThis'] as & $element) {
             if (!count(array_diff_assoc($element['element'], $newElement))) {
@@ -430,7 +514,7 @@ class RememberThis
     /**
      * Remove all elements from the list
      */
-    private function clear()
+    private function clearList()
     {
         if (isset($_SESSION['rememberThis'])) {
             $_SESSION['rememberThis'] = array();
@@ -467,56 +551,76 @@ class RememberThis
     }
 
     /**
-     * @param $_validTypes
+     * Strip HTML & MODX tags
+     * @param string $string
+     * @return string
+     */
+    function stripTags($string)
+    {
+        $string = strip_tags($string);
+        return preg_replace("/\\[\\[([^\\[\\]]++|(?R))*?\\]\\]/s", '', $string);
+    }
+
+    /**
+     * Parse a chunk (with template bindings)
+     * Modified parseTplElement method from getResources package (https://github.com/opengeek/getResources)
+     *
      * @param $type
      * @param $source
      * @param null $properties
      * @return bool
      */
-    private function parseTplElement($_validTypes, $type, $source, $properties = null)
+    private function parseChunk($type, $source, $properties = null)
     {
-        global $modx;
         $output = false;
-        if (!is_string($type) || !in_array($type, $_validTypes)) $type = $modx->getOption('tplType', $properties, '@CHUNK');
+
+        if (!is_string($type) || !in_array($type, $this->_validTypes)) {
+            $type = $this->modx->getOption('tplType', $properties, '@CHUNK');
+        }
+
         $content = false;
         switch ($type) {
             case '@FILE':
-                $path = $this->getOption('tplPath', $properties, $modx->getOption('assets_path', $properties, MODX_ASSETS_PATH) . 'elements/chunks/', true);
+                $path = $this->modx->getOption('tplPath', $properties, $this->modx->getOption('assets_path', $properties, MODX_ASSETS_PATH) . 'elements/chunks/');
                 $key = $path . $source;
-                if (!isset($this->cache['@FILE'])) $this->cache['@FILE'] = array();
-                if (!array_key_exists($key, $this->cache['@FILE'])) {
+                if (!isset($this->_tplCache['@FILE'])) {
+                    $this->_tplCache['@FILE'] = array();
+                }
+                if (!array_key_exists($key, $this->_tplCache['@FILE'])) {
                     if (file_exists($key)) {
                         $content = file_get_contents($key);
                     }
-                    $this->cache['@FILE'][$key] = $content;
+                    $this->_tplCache['@FILE'][$key] = $content;
                 } else {
-                    $content = $this->cache['@FILE'][$key];
+                    $content = $this->_tplCache['@FILE'][$key];
                 }
                 if (!empty($content) && $content !== '0') {
-                    $chunk = $modx->newObject('modChunk', array('name' => $key));
+                    $chunk = $this->modx->newObject('modChunk', array('name' => $key));
                     $chunk->setCacheable(false);
                     $output = $chunk->process($properties, $content);
                 }
                 break;
             case '@INLINE':
                 $uniqid = uniqid();
-                $chunk = $modx->newObject('modChunk', array('name' => "{$type}-{$uniqid}"));
+                $chunk = $this->modx->newObject('modChunk', array('name' => "{$type}-{$uniqid}"));
                 $chunk->setCacheable(false);
                 $output = $chunk->process($properties, $source);
                 break;
             case '@CHUNK':
             default:
                 $chunk = null;
-                if (!isset($this->cache['@CHUNK'])) $this->cache['@CHUNK'] = array();
-                if (!array_key_exists($source, $this->cache['@CHUNK'])) {
-                    if ($chunk = $modx->getObject('modChunk', array('name' => $source))) {
-                        $this->cache['@CHUNK'][$source] = $chunk->toArray('', true);
+                if (!isset($this->_tplCache['@CHUNK'])) {
+                    $this->_tplCache['@CHUNK'] = array();
+                }
+                if (!array_key_exists($source, $this->_tplCache['@CHUNK'])) {
+                    if ($chunk = $this->modx->getObject('modChunk', array('name' => $source))) {
+                        $this->_tplCache['@CHUNK'][$source] = $chunk->toArray('', true);
                     } else {
-                        $this->cache['@CHUNK'][$source] = false;
+                        $this->_tplCache['@CHUNK'][$source] = false;
                     }
-                } elseif (is_array($this->cache['@CHUNK'][$source])) {
-                    $chunk = $modx->newObject('modChunk');
-                    $chunk->fromArray($this->cache['@CHUNK'][$source], '', true, true, true);
+                } elseif (is_array($this->_tplCache['@CHUNK'][$source])) {
+                    $chunk = $this->modx->newObject('modChunk');
+                    $chunk->fromArray($this->_tplCache['@CHUNK'][$source], '', true, true, true);
                 }
                 if (is_object($chunk)) {
                     $chunk->setCacheable(false);
@@ -528,17 +632,15 @@ class RememberThis
     }
 
     /**
+     * Get and parse a chunk (with template bindings)
+     * Modified parseTpl method from getResources package (https://github.com/opengeek/getResources)
+     *
      * @param $tpl
      * @param null $properties
      * @return bool
      */
     public function getChunk($tpl, $properties = null)
     {
-        $_validTypes = array(
-            '@CHUNK',
-            '@FILE',
-            '@INLINE'
-        );
         $output = false;
         if (!empty($tpl)) {
             $bound = array(
@@ -549,14 +651,14 @@ class RememberThis
                 $endPos = strpos($tpl, ' ');
                 if ($endPos > 2 && $endPos < 10) {
                     $tt = substr($tpl, 0, $endPos);
-                    if (in_array($tt, $_validTypes)) {
+                    if (in_array($tt, $this->_validTypes)) {
                         $bound['type'] = $tt;
                         $bound['value'] = substr($tpl, $endPos + 1);
                     }
                 }
             }
             if (is_array($bound) && isset($bound['type']) && isset($bound['value'])) {
-                $output = $this->parseTplElement($_validTypes, $bound['type'], $bound['value'], $properties);
+                $output = $this->parseChunk($bound['type'], $bound['value'], $properties);
             }
         }
         return $output;

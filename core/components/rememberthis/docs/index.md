@@ -1,6 +1,7 @@
 #RememberThis
 
-RememberThis is a session based remember list for MODX Revolution. It displays the session based list and shows a link to add elements to the list.
+RememberThis is a session based remember list for MODX Revolution. It displays 
+the session based list and shows a link to add elements to the list.
 
 ### Requirements
 
@@ -14,6 +15,7 @@ RememberThis is a session based remember list for MODX Revolution. It displays t
 * The data added to the list could be retreived from MODX resources or from xPDO packages.
 * Adding and removing elements from the list could be made by url params or by AJAX.
 * jQuery AJAX script with extendable callbacks.
+* FormIt hooks to mail the remembered list.
 
 <!-- Piwik -->
 <script type="text/javascript">

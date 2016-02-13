@@ -11,10 +11,13 @@ $_lang['rememberthis.delete'] = 'Entfernen';
 $_lang['rememberthis.noresultstext'] = 'Die Liste ist leer';
 
 $_lang['setting_rememberthis.rowTpl'] = 'Zeilen-Template';
-$_lang['setting_rememberthis.rowTpl_desc'] = 'Zeilen-Template für die Ausgabe der Liste.';
+$_lang['setting_rememberthis.rowTpl_desc'] = 'Zeilen-Template für die Ausgabe der Listenelemente.';
 
-$_lang['setting_rememberthis.outerTpl'] = 'Mantel-Template';
-$_lang['setting_rememberthis.outerTpl_desc'] = 'Mantel-Template für die Ausgabe der Liste, wenn die Liste nicht leer ist.';
+$_lang['setting_rememberthis.outerTpl'] = 'Außen-Template';
+$_lang['setting_rememberthis.outerTpl_desc'] = 'Außen-Template für die Ausgabe der Liste, wenn die Liste nicht leer ist.';
+
+$_lang['setting_rememberthis.wrapperTpl'] = 'Wrapper-Template';
+$_lang['setting_rememberthis.wrapperTpl_desc'] = 'Wrapper-Template für die Ausgabe des Mantels oder die leere Liste.';
 
 $_lang['setting_rememberthis.addTpl'] = 'Hinzufügen-Template';
 $_lang['setting_rememberthis.addTpl_desc'] = 'Template für den Hinzufügen Link.';

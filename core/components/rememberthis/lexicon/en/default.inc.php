@@ -11,10 +11,13 @@ $_lang['rememberthis.delete'] = 'Delete';
 $_lang['rememberthis.noresultstext'] = 'The List is empty';
 
 $_lang['setting_rememberthis.rowTpl'] = 'Row Template';
-$_lang['setting_rememberthis.rowTpl_desc'] = 'Row template for the list output.';
+$_lang['setting_rememberthis.rowTpl_desc'] = 'Row template for the output of a list element.';
 
 $_lang['setting_rememberthis.outerTpl'] = 'Outer Template';
-$_lang['setting_rememberthis.outerTpl_desc'] = 'Outer template for the list output, if the list is not empty.';
+$_lang['setting_rememberthis.outerTpl_desc'] = 'Outer template for the output of the list, if the list is not empty.';
+
+$_lang['setting_rememberthis.wrapperTpl'] = 'Wrapper Template';
+$_lang['setting_rememberthis.wrapperTpl_desc'] = 'Wrapper template for the outer output or the empty output.';
 
 $_lang['setting_rememberthis.addTpl'] = 'Add Template';
 $_lang['setting_rememberthis.addTpl_desc'] = 'Template for the add link.';
@@ -29,7 +32,7 @@ $_lang['setting_rememberthis.itemTitleTpl'] = 'Item Title Template';
 $_lang['setting_rememberthis.itemTitleTpl_desc'] = 'Template for one list item.';
 
 $_lang['setting_rememberthis.scriptTpl'] = 'Script Template';
-$_lang['setting_rememberthis.scriptTpl_desc'] = 'Template the script call.';
+$_lang['setting_rememberthis.scriptTpl_desc'] = 'Template for the javascript call.';
 
 $_lang['setting_rememberthis.ajaxLoaderImg'] = 'AJAX Loader Image';
 $_lang['setting_rememberthis.ajaxLoaderImg_desc'] = 'Image file, that is shown during AJAX requests.';

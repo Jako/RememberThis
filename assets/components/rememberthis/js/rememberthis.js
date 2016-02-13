@@ -1,7 +1,7 @@
 /**
  * RememberThis
  *
- * Copyright 2008-2015 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Copyright 2008-2016 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * @package rememberthis
  * @subpackage javascript
@@ -9,36 +9,38 @@
 ;
 (function ($, window, document, undefined) {
 
-    var pluginName = 'rememberThis';
+    var pluginName = 'rememberThis',
     // default settings
-    var defaults = {
-        ajaxLoaderImg: '',
-        onBeforeAdd: function (list, elem, id) {
-        },
-        onBeforeDelete: function (list, elem, id) {
-        },
-        onAfterAdd: function (list, elem, id) {
-        },
-        onAfterDelete: function (list, elem, id) {
-        }
-    };
+        defaults = {
+            ajaxLoaderImg: '',
+            listSelector: '.rememberthis',
+            onBeforeAdd: function (list, otherlists, elem, id) {
+            },
+            onBeforeDelete: function (list, otherlists, elem, id) {
+            },
+            onAfterAdd: function (list, otherlists, elem, id) {
+            },
+            onAfterDelete: function (list, otherlists, elem, id) {
+            }
+        };
 
     // plugin function
-    function Plugin(el, options) {
+    function Plugin(el, options, firstCall) {
         // Extending options
         this.options = $.extend({}, defaults, options);
 
         // Private
+        this.$el = $(el);
+        this.$other = $(this.options.listSelector).not(this.$el);
         this._defaults = defaults;
         this._name = pluginName;
-        this.$el = $(el);
 
-        this.init();
+        this.init(firstCall);
     }
 
     // Separate functionality from object creation
     Plugin.prototype = {
-        init: function () {
+        init: function (firstCall) {
             var _this = this;
 
             if (_this.options.ajaxLoaderImg !== '') {
@@ -47,24 +49,45 @@
             else {
                 _this.options.loadImage = $('<i>').addClass('fa fa-refresh fa-spin rememberload');
             }
-            $('.rememberadd').on('click', function (e) {
-                e.preventDefault();
-                var rememberid = $(this).data('add');
-                $(this).append(_this.options.loadImage.clone());
-                _this.options.onBeforeAdd.call(_this.$el, this, rememberid);
-                _this.onAdd(_this.$el, this, rememberid);
-                _this.options.onAfterAdd.call(_this.$el, this, rememberid);
-            });
+            if (firstCall) {
+                $('.rememberadd').on('click', function (e) {
+                    e.preventDefault();
+                    var rememberid = $(this).data('add');
+                    $(this).append(_this.options.loadImage.clone());
+                    _this.options.onBeforeAdd.call(_this.$el, _this.$other, this, rememberid, []);
+                    _this.onAdd(_this.$el, _this.$other, this, rememberid, []);
+                    _this.options.onAfterAdd.call(_this.$el, _this.$other, this, rememberid, []);
+                });
+                $('.rememberaddform').on('submit', function (e) {
+                    e.preventDefault();
+                    var rememberid = $(this).data('add');
+                    var serializedForm = {};
+                    $.each($(this).serializeArray(), function (i, input) {
+                        if (serializedForm.hasOwnProperty(input.name)) {
+                            if (typeof serializedForm[input.name] === 'string') {
+                                serializedForm[input.name] = [serializedForm[input.name]];
+                            }
+                            serializedForm[input.name].push(input.value);
+                        } else {
+                            serializedForm[input.name] = input.value;
+                        }
+                    });
+                    $(this).append(_this.options.loadImage.clone());
+                    _this.options.onBeforeAdd.call(_this.$el, _this.$other, this, rememberid, serializedForm);
+                    _this.onAdd(_this.$el, _this.$other, this, rememberid, serializedForm);
+                    _this.options.onAfterAdd.call(_this.$el, _this.$other, this, rememberid, serializedForm);
+                });
+            }
             _this.$el.on('click', '.rememberdelete', function (e) {
                 e.preventDefault();
                 var deleteid = $(this).data('delete');
                 $(this).hide().after(_this.options.loadImage.clone());
-                _this.options.onBeforeDelete.call(_this.$el, this, deleteid);
-                _this.onDelete(_this.$el, this, deleteid);
-                _this.options.onAfterDelete.call(_this.$el, this, deleteid);
+                _this.options.onBeforeDelete.call(_this.$el, _this.$other, this, deleteid);
+                _this.onDelete(_this.$el, _this.$other, this, deleteid);
+                _this.options.onAfterDelete.call(_this.$el, _this.$other, this, deleteid);
             });
         },
-        onAdd: function (list, elem, id) {
+        onAdd: function (list, otherlists, elem, id, addproperties) {
             var _this = this;
             $.ajax({
                 type: 'GET',
@@ -72,27 +95,45 @@
                 data: {
                     language: _this.options.language,
                     action: 'remember',
-                    add: id
+                    add: id,
+                    addproperties: addproperties
                 },
                 success: function (data) {
                     $('.rememberload').remove();
-                    if ($('.rememberempty', list).length) {
-                        list.slideUp('fast', function () {
-                            $('.remembercount').html(data.count);
-                            $(this).html(data.result).slideDown('slow');
-                        });
-                    } else {
-                        if (data.result) {
+                    if (data.result) {
+                        if ($('.rememberempty', list).length) {
+                            list.slideUp('fast', function () {
+                                $('.remembercount').html(data.count);
+                                $(this).html(data.result).slideDown('slow');
+                            });
+                            if (otherlists.length) {
+                                otherlists.each(function () {
+                                    $(this).slideUp('fast', function () {
+                                        $(this).html($.trim(data.result)).slideDown('slow');
+                                    });
+                                });
+                            }
+                        } else {
                             var newDoc = $(data.result).attr('style', 'display: none');
                             list.append(newDoc);
                             $('.remembercount').html(data.count);
+                            if (otherlists.length) {
+                                otherlists.each(function () {
+                                    var otherDoc = newDoc.clone();
+                                    $(this).append(otherDoc);
+                                    otherDoc.slideDown('slow');
+                                });
+                            }
                             newDoc.slideDown('slow');
                         }
+                    }
+                    if (data.debug) {
+                        $('.rememberdebug').html(data.debug);
                     }
                 }
             });
         },
-        onDelete: function (list, elem, id) {
+        onDelete: function (list, otherlists, elem, id) {
             var _this = this;
             $.ajax({
                 type: 'GET',
@@ -108,11 +149,30 @@
                             $('.remembercount').html(data.count);
                             $(this).html($.trim(data.result)).slideDown('fast');
                         });
+                        if (otherlists.length) {
+                            otherlists.each(function () {
+                                $(this).slideUp('slow', function () {
+                                    $(this).html($.trim(data.result)).slideDown('fast');
+                                });
+                            });
+                        }
                     } else {
-                        $(elem).parent().slideUp('slow', function () {
+                        var listelem = $(elem).parent();
+                        var listindex = listelem.index();
+                        listelem.slideUp('slow', function () {
                             $('.remembercount').html(data.count);
                             $(this).remove();
                         });
+                        if (otherlists.length) {
+                            otherlists.each(function () {
+                                $(this).children().eq(listindex).slideUp('slow', function () {
+                                    $(this).remove();
+                                });
+                            });
+                        }
+                    }
+                    if (data.debug) {
+                        $('.rememberdebug').html(data.debug);
                     }
                 }
             });
@@ -123,10 +183,12 @@
     $.fn[pluginName] = function (options) {
         var args = arguments;
         if (options === undefined || typeof options === 'object') {
+            var firstCall = true;
             return this.each(function () {
                 if (!$.data(this, 'plugin_' + pluginName)) {
-                    $.data(this, 'plugin_' + pluginName, new Plugin(this, options));
+                    $.data(this, 'plugin_' + pluginName, new Plugin(this, options, firstCall));
                 }
+                firstCall = false;
             });
         } else if (typeof options === 'string' && options[0] !== '_' && options !== 'init') {
             var returns;

@@ -1,6 +1,13 @@
 Changelog for RememberThis
 ==========================
 
+- 2.0.0
+    - Added wrapperTpl to RememberThisList snippet. The wrapper template contains the outer output or the empty output.
+    - Added support for form POST. Example addTpl is available in tplRememberThisAddForm.
+    - The javascript plugin could handle multiple lists. The callbacks parameters were changed for this reason.
+    - The remembered XPDO object could contain properties.
+    - The json encoded list and the rememberthis.list hook value contains an array of associative arrays of element identifiers and itemproperties.
+
 - 1.1.7
     - @FILE/@INLINE/@CHUNK binding for template chunks
     - tplPath system setting

@@ -12,10 +12,12 @@ $rememberthis = $modx->getService('rememberthis', 'RememberThis', $corePath . 'm
 $options = array(
     'rowTpl' => $modx->getOption('rememberRowTpl', $scriptProperties, $rememberthis->getOption('rowTpl'), true),
     'outerTpl' => $modx->getOption('rememberOuterTpl', $scriptProperties, $rememberthis->getOption('outerTpl'), true),
+    'wrapperTpl' => $modx->getOption('rememberWrapperTpl', $scriptProperties, $rememberthis->getOption('wrapperTpl'), true),
+    'noResultsTpl' => $modx->getOption('rememberNoResultsTpl', $scriptProperties, $rememberthis->getOption('noResultsTpl'), true),
     'tplPath' => $modx->getOption('tplPath', $scriptProperties, $rememberthis->getOption('tplPath'), true)
 );
-$jsonList = intval($modx->getOption('jsonList', $scriptProperties, 0));
-$clearList = intval($modx->getOption('clearList', $scriptProperties, 0));
+$jsonList = $rememberthis->getBooleanOption('jsonList', $scriptProperties, false);
+$clearList = $rememberthis->getBooleanOption('clearList', $scriptProperties, false);
 
 $result = $rememberthis->showList($options);
 if ($jsonList) {
