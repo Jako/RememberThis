@@ -119,7 +119,7 @@
 <p>The package contains two snippets and a formit hook, that use the following 
 parameters<sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">1</a></sup></p>
 <h3 id="rememberthisadd">RememberThisAdd</h3>
-<p>This snippet will display an add button.</p>
+<p>This snippet will display an add button. It has the following properties:</p>
 <table>
 <thead>
 <tr>
@@ -141,9 +141,12 @@ parameters<sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">
 </tr>
 </tbody>
 </table>
-<p>The add template could contain a link or a form to add xPDO objects to the list. 
-The form could contain form fields and the link could contain parameters to set properties of the remembered xPDO object. The field names and url parameters have to be prefixed with <code>[[+rememberqueryadd]]property_</code>. The placeholder rememberqueryadd contains the system setting rememberthis.addQuery.</p>
-<p>The following placeholders are available in the addTpl template chunk.</p>
+<p>The add template could contain a link or a form to add xPDO objects as element 
+to the list. The form could contain form fields and the link could contain 
+parameters to set properties of the remembered element. The field names and url 
+parameters have to be prefixed with <code>[[+rememberqueryadd]]property_</code>.</p>
+<h4 id="placeholders">Placeholders</h4>
+<p>The following placeholders are available in the <strong>addTpl</strong> template chunk:</p>
 <table>
 <thead>
 <tr>
@@ -154,20 +157,20 @@ The form could contain form fields and the link could contain parameters to set 
 <tbody>
 <tr>
 <td>rememberurl</td>
-<td>Link to add an xPDO object to the list.</td>
+<td>Link to add an xPDO object as element to the list.</td>
 </tr>
 <tr>
 <td>rememberid</td>
-<td>The ID to reference the added xPDO object.</td>
+<td>The identifier to reference the added element.</td>
 </tr>
 <tr>
 <td>rememberqueryadd</td>
-<td>The query parameter to add an xPDO object to the list.</td>
+<td>The query parameter to add an element to the list<sup id="fnref:3"><a class="footnote-ref" href="#fn:3" rel="footnote">3</a></sup>.</td>
 </tr>
 </tbody>
 </table>
 <h3 id="rememberthislist">RememberThisList</h3>
-<p>This snippet will display the remembered list.</p>
+<p>This snippet will display the remembered list. It has the following properties:</p>
 <table>
 <thead>
 <tr>
@@ -188,18 +191,24 @@ The form could contain form fields and the link could contain parameters to set 
 <td>tplRememberThisOuter</td>
 </tr>
 <tr>
+<td>wrapperTpl</td>
+<td>Wrapper template for the outer output or the empty output.</td>
+<td>tplRememberThisWrapper</td>
+</tr>
+<tr>
 <td>noResultsTpl</td>
 <td>Template that is displayed, if the list is empty.</td>
 <td>tplRememberThisNoResults</td>
 </tr>
 <tr>
 <td>jsonList</td>
-<td>Output a JSON encoded list of element <code>keyname</code> values.</td>
+<td>Output a JSON encoded object of element identifiers<sup id="fnref:4"><a class="footnote-ref" href="#fn:4" rel="footnote">4</a></sup> and element itemproperties.</td>
 <td>No</td>
 </tr>
 </tbody>
 </table>
-<p>The following placeholders are available in the rowTpl template chunk.</p>
+<h4 id="placeholders_1">Placeholders</h4>
+<p>The following placeholders are available in the <strong>rowTpl</strong> template chunk:</p>
 <table>
 <thead>
 <tr>
@@ -210,27 +219,27 @@ The form could contain form fields and the link could contain parameters to set 
 <tbody>
 <tr>
 <td>identifier</td>
-<td>The ID of the added xPDO object.</td>
+<td>The identifier of the added element.</td>
 </tr>
 <tr>
 <td>properties</td>
-<td>The properties for the xPDO object.</td>
+<td>The properties for the added element.</td>
 </tr>
 <tr>
 <td>itemtitle</td>
-<td>The title of the added xPDO object. This title is rendered with the chunk referenced by the <code>itemTitleTpl</code> system setting<sup id="fnref:3"><a class="footnote-ref" href="#fn:3" rel="footnote">3</a></sup></td>
+<td>The title of the added element. This title is rendered with the chunk referenced by the <code>itemTitleTpl</code> system setting<sup id="fnref:5"><a class="footnote-ref" href="#fn:5" rel="footnote">5</a></sup></td>
 </tr>
 <tr>
 <td>deleteurl</td>
-<td>The url to delete this xPDO object from the list.</td>
+<td>The url to delete this element from the list.</td>
 </tr>
 <tr>
 <td>deleteid</td>
-<td>The row ID to delete this xPDO object from the list.</td>
+<td>The row ID to delete this element from the list.</td>
 </tr>
 </tbody>
 </table>
-<p>The following placeholders are available in the outerTpl template chunk.</p>
+<p>The following placeholders are available in the <strong>outerTpl</strong> template chunk:</p>
 <table>
 <thead>
 <tr>
@@ -241,7 +250,7 @@ The form could contain form fields and the link could contain parameters to set 
 <tbody>
 <tr>
 <td>count</td>
-<td>The count of added xPDO objects in the list.</td>
+<td>The count of added elements in the list.</td>
 </tr>
 <tr>
 <td>wrapper</td>
@@ -250,8 +259,7 @@ The form could contain form fields and the link could contain parameters to set 
 </tbody>
 </table>
 <h3 id="rememberthishook-formit-hook">RememberThisHook (FormIt hook)</h3>
-<p>The Formit placeholder rememberthis i.e. <code>[[+fi.rememberthis]]</code> will be filled 
-with the content of the list. You have to call the hook like this: </p>
+<p>The FormIt hook sets some placeholders in FormIt. You have to call the hook like this: </p>
 <pre><code>[[!FormIt?
 &amp;hooks=`...,RememberThisHook,...`
 &amp;rememberOuterTpl=`tplRememberOuterMail`
@@ -259,6 +267,7 @@ with the content of the list. You have to call the hook like this: </p>
 ]]
 </code></pre>
 
+<p>The hook has the following properties:</p>
 <table>
 <thead>
 <tr>
@@ -279,8 +288,18 @@ with the content of the list. You have to call the hook like this: </p>
 <td>tplRememberThisOuter</td>
 </tr>
 <tr>
+<td>rememberWrapperTpl</td>
+<td>Wrapper template for the outer output or the empty output.</td>
+<td>tplRememberThisWrapper</td>
+</tr>
+<tr>
+<td>noResultsTpl</td>
+<td>Template that is displayed, if the list is empty.</td>
+<td>tplRememberThisNoResults</td>
+</tr>
+<tr>
 <td>jsonList</td>
-<td>Fill the formit placeholder <strong>rememberthis</strong> with a JSON encoded list of element key/values pairs.</td>
+<td>Output a JSON encoded array of associative arrays of element identifiers<sup id="fnref:4"><a class="footnote-ref" href="#fn:4" rel="footnote">4</a></sup> and element itemproperties.</td>
 <td>No</td>
 </tr>
 <tr>
@@ -290,8 +309,57 @@ with the content of the list. You have to call the hook like this: </p>
 </tr>
 </tbody>
 </table>
+<h4 id="placeholders_2">Placeholders</h4>
+<p>The following placeholders are available in the <strong>rowTpl</strong> template chunk:</p>
+<table>
+<thead>
+<tr>
+<th>Placeholder</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>identifier</td>
+<td>The identifier<sup id="fnref:4"><a class="footnote-ref" href="#fn:4" rel="footnote">4</a></sup> of the added element.</td>
+</tr>
+<tr>
+<td>properties</td>
+<td>The properties for the element.</td>
+</tr>
+<tr>
+<td>itemtitle</td>
+<td>The title of the added element. This title is rendered with the chunk referenced by the <code>itemTitleTpl</code> system setting<sup id="fnref:5"><a class="footnote-ref" href="#fn:5" rel="footnote">5</a></sup></td>
+</tr>
+</tbody>
+</table>
+<h4 id="formit-placeholders">FormIt Placeholders</h4>
+<p>The following FormIt placeholders (<code>[[!+fi. ...]]</code>)  are set by the hook:</p>
+<table>
+<thead>
+<tr>
+<th>Placeholder</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rememberthis</td>
+<td>The output of the rememberWrapperTpl template chunk (or the JSON encoded array of associative arrays of element identifiers<sup id="fnref:4"><a class="footnote-ref" href="#fn:4" rel="footnote">4</a></sup> and element itemproperties in the remembered list, if <strong>jsonList</strong> property is enabled).</td>
+</tr>
+<tr>
+<td>rememberthis.list</td>
+<td>An array of associative arrays of element identifiers and element itemproperties in the remembered list.</td>
+</tr>
+<tr>
+<td>rememberthis.count</td>
+<td>The count of added elements in the list</td>
+</tr>
+</tbody>
+</table>
 <h3 id="system-settings">System Settings</h3>
-<p>All the system settings are prefixed by <strong>rememberthis.</strong> and are located in the rememberthis namespace.</p>
+<p>The RememberThis system settings are prefixed by <strong>rememberthis.</strong> and are 
+located in the rememberthis namespace.</p>
 <table>
 <thead>
 <tr>
@@ -348,7 +416,7 @@ with the content of the list. You have to call the hook like this: </p>
 </tr>
 <tr>
 <td>addQuery</td>
-<td>Query key, used to add elements to the list.</td>
+<td>Query key, used to add xPDO objects as elements to the list.</td>
 <td>add</td>
 </tr>
 <tr>
@@ -373,7 +441,7 @@ with the content of the list. You have to call the hook like this: </p>
 </tr>
 <tr>
 <td>classname</td>
-<td>xPDO class name where the added data is retreived from.</td>
+<td>xPDO classname where the added data is retreived from.</td>
 <td>-</td>
 </tr>
 <tr>
@@ -403,16 +471,17 @@ with the content of the list. You have to call the hook like this: </p>
 </tr>
 <tr>
 <td>debug</td>
-<td>Display debug informations.</td>
+<td>Display debug informations<sup id="fnref:6"><a class="footnote-ref" href="#fn:6" rel="footnote">6</a></sup>.</td>
 <td>No</td>
 </tr>
 </tbody>
 </table>
-<p>The following templating system settings could be overridden in the snippet 
-calls: <strong>rowTpl</strong>, <strong>outerTpl</strong>, <strong>addTpl</strong>, <strong>noResultsTpl</strong></p>
-<p>In template chunks all resource fields of the MODX resources could be used as 
-placeholder including template variables with the prefix 'tv.' could be used. </p>
-<p>If a xPDO package is used, all fields of this package could be used as 
+<p>The following templating system settings could be overridden by snippet 
+properties: <strong>rowTpl</strong>, <strong>outerTpl</strong>, <strong>addTpl</strong>, <strong>noResultsTpl</strong></p>
+<p>In the <strong>rowTpl</strong> template chunk all resource fields could be used as 
+placeholder (template variables have to be prefixed using the prefix set in 
+<strong>tvPrefix</strong>), if no xPDO package/classname is used. If a xPDO 
+package/classname is used, all fields of the xPDO class could be used as 
 placeholder.</p>
 <!-- Piwik -->
 
@@ -440,10 +509,19 @@ placeholder.</p>
 <p>Most of the snippet templating settings should be made in the MODX system settings, since they are used by the snippets and with ajax.&#160;<a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
 <li id="fn:2">
-<p>The xPDO object package and class name have to be selected&#160;<a class="footnote-backref" href="#fnref:2" rev="footnote" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+<p>If a xPDO object package and classname is used, the object is referenced by the column with the <code>keyname</code> system setting.&#160;<a class="footnote-backref" href="#fnref:2" rev="footnote" title="Jump back to footnote 2 in the text">&#8617;</a></p>
 </li>
 <li id="fn:3">
-<p>In the <code>itemTitleTpl</code> template chunk all column names of the xPDO object could be referenced by a placeholder with this name. Also all properties could be referenced with the property name, i.e. a property set by <code>[[+rememberqueryadd]]property_test</code> could be referenced with a placeholder <code>[[+test]]</code>.&#160;<a class="footnote-backref" href="#fnref:3" rev="footnote" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+<p>The placeholder rememberqueryadd is filled with the <code>addQuery</code> system setting.&#160;<a class="footnote-backref" href="#fnref:3" rev="footnote" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+<li id="fn:4">
+<p>The identifier is set by the <code>keyname</code> system setting, if the xPDO object package and classname is used.&#160;<a class="footnote-backref" href="#fnref:4" rev="footnote" title="Jump back to footnote 4 in the text">&#8617;</a></p>
+</li>
+<li id="fn:5">
+<p>In the <code>itemTitleTpl</code> template chunk all column names of the xPDO object could be referenced by a placeholder with this name. Also all properties could be referenced with the property name, i.e. a property set by <code>[[+rememberqueryadd]]property_test</code> could be referenced with the placeholder <code>[[+test]]</code>.&#160;<a class="footnote-backref" href="#fnref:5" rev="footnote" title="Jump back to footnote 5 in the text">&#8617;</a></p>
+</li>
+<li id="fn:6">
+<p><strong>CAUTION</strong>: If you display the RememberThisList snippet call multiple on the page, all snippet calls have to be different, to show the debug information.&#160;<a class="footnote-backref" href="#fnref:6" rev="footnote" title="Jump back to footnote 6 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div></div>
