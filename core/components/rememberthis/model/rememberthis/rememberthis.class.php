@@ -380,7 +380,8 @@ class RememberThis
                 'count' => (string)count($_SESSION['rememberThis'])
             )));
             $output['result'] = $this->getChunk($options['wrapperTpl'], array_merge($options, array(
-                'wrapper' => $outer
+                'wrapper' => $outer,
+                'count' => (string)count($_SESSION['rememberThis'])
             )));
         }
 
