@@ -100,6 +100,8 @@ Placeholder | Description
 identifier | The identifier[^4] of the added element.
 properties | The properties for the element.
 itemtitle | The title of the added element. This title is rendered with the chunk referenced by the `itemTitleTpl` system setting[^5]
+itemcount | The value of an input field with the name `count_[[+rowid]]`, if the form is posted. 
+rowid | The row ID of the element.
 
 #### FormIt Placeholders
 

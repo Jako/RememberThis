@@ -412,8 +412,16 @@ class RememberThis
                     'deleteurl' => $this->makeUrl(array($this->getOption('queryDelete') => $key + 1)),
                     'deleteidentifier' => $this->modx->request->getResourceIdentifier('alias'),
                     'deleteid' => $key + 1,
+                    'rowid' => $key + 1,
                     'iteration' => $iteration
                 ));
+                // Fill the itemcount placeholder with the count_xxx field value
+                if (count($_POST)) {
+                    $itemcount = (isset($_POST['count_' . ($key + 1)]) && intval($_POST['count_' . ($key + 1)])) ? intval($_POST['count_' . ($key + 1)]) : 1;
+                    $fields = array_merge($fields, array(
+                        'itemcount' => $itemcount
+                    ));
+                }
 
                 $output[] = $this->getChunk($tpl, array_merge($this->options, $fields));
                 $iteration++;

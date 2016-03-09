@@ -2,6 +2,8 @@ Changelog for RememberThis
 ==========================
 
 - 2.0.0
+    - Added itemcount placeholder in the row template.
+- 2.0.0
     - Added wrapperTpl to RememberThisList snippet. The wrapper template contains the outer output or the empty output.
     - Added support for form POST. Example addTpl is available in tplRememberThisAddForm.
     - The javascript plugin could handle multiple lists. The callbacks parameters were changed for this reason.
