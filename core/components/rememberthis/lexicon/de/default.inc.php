@@ -82,5 +82,5 @@ $_lang['setting_rememberthis.cookieName_desc'] = 'Der Name des Cookie.';
 $_lang['setting_rememberthis.cookieExpireDays'] = 'Cookie Laufzeit';
 $_lang['setting_rememberthis.cookieExpireDays_desc'] = 'Die Laufzeit des Cookie (in Tagen).';
 
-$_lang['setting_rememberthis.debug'] = 'Enable Debug';
+$_lang['setting_rememberthis.debug'] = 'Debug';
 $_lang['setting_rememberthis.debug_desc'] = 'Debug Informationen anzeigen.';
