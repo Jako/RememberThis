@@ -1,0 +1,9 @@
+<form class="rememberaddform" action="[[~[[*id]]]]" method="post" data-add="[[+rememberid]]">
+    <input type="hidden" name="[[+rememberqueryadd]]" value="[[+rememberid]]">
+    <select class="form-control" name="[[+rememberqueryadd]]property_test">
+        <option value="1" [[#get.test:eq=`1`:then=`selected="selected"`]]>One</option>
+        <option value="2" [[#get.test:eq=`2`:then=`selected="selected"`]]>Two</option>
+    </select>
+
+    <button class="btn btn-default"><i class="fa fa-plus-square"></i> [[%rememberthis.add? &namespace=`rememberthis`]]</button>
+</form>
