@@ -113,34 +113,33 @@ rememberthis | The output of the rememberWrapperTpl template chunk (or the JSON 
 rememberthis.list | An array of associative arrays of element identifiers and element itemproperties in the remembered list.
 rememberthis.count | The count of added elements in the list
 
-###System Settings
+### System Settings
 
-The RememberThis system settings are prefixed by **rememberthis.** and are 
-located in the rememberthis namespace.
+RememberThis uses the following system settings in the namespace `rememberthis`.
 
 Property | Description | Default
 ---- | ----------- | -------
-rowTpl | Row template for the list output. | tplRememberThisRow
-outerTpl | Outer template for the list output, if the list is not empty. | tplRememberThisOuter
-addTpl | Template for the add link. | tplRememberThisAdd
-noResultsTpl | Template that is displayed, if the list is empty. | tplRememberThisNoResults
-scriptTpl | Template for the javascript call. | tplRememberThisScript
-showZeroCount | Show Zero Values in template. | yes
-itemTitleTpl | Template for one list item. | tplRememberThisItemTitle
-ajaxLoaderImg | Image file, that is shown during AJAX requests. | FontAwesome fa-refresh
-tvPrefix | Prefix for template variables in template chunks. | tv.
-addQuery | Query key, used to add xPDO objects as elements to the list. | add
-deleteQuery | Query key, used to remove elements from the list. | delete
-language | Snippet language. | current **cultureKey**
-tplPath | Base path for template chunks using @FILE binding. | `{assets_path}elements/chunks/`
-packagename | xPDO package name where the added data is retreived from. If empty, the data is retrieved from resources. The data row is selected by the id of the resource or by the `keyname` column of the `classname` xPDO class. | -
-classname | xPDO classname where the added data is retreived from. | -
-keyname | xPDO class keyname to retrieve one data row. | id
-joins | Joins defined in the xPDO class, to retreive the added data. | -
-jQueryPath | Path to jQuery script. | -
-includeScripts | Include javascripts (at the end of the body). | Yes
-includeCss | Include css (at the end of the head). | Yes
-debug | Display debug informations[^6]. | No
+rememberthis.rowTpl | Row template for the list output. | tplRememberThisRow
+rememberthis.outerTpl | Outer template for the list output, if the list is not empty. | tplRememberThisOuter
+rememberthis.addTpl | Template for the add link. | tplRememberThisAdd
+rememberthis.noResultsTpl | Template that is displayed, if the list is empty. | tplRememberThisNoResults
+rememberthis.scriptTpl | Template for the javascript call. | tplRememberThisScript
+rememberthis.showZeroCount | Show Zero Values in template. | yes
+rememberthis.itemTitleTpl | Template for one list item. | tplRememberThisItemTitle
+rememberthis.ajaxLoaderImg | Image file, that is shown during AJAX requests. | FontAwesome fa-refresh
+rememberthis.tvPrefix | Prefix for template variables in template chunks. | tv.
+rememberthis.addQuery | Query key, used to add xPDO objects as elements to the list. | add
+rememberthis.deleteQuery | Query key, used to remove elements from the list. | delete
+rememberthis.language | Snippet language. | current **cultureKey**
+rememberthis.tplPath | Base path for template chunks using @FILE binding. | `{assets_path}elements/chunks/`
+rememberthis.packagename | xPDO package name where the added data is retreived from. If empty, the data is retrieved from resources. The data row is selected by the id of the resource or by the `keyname` column of the `classname` xPDO class. | -
+rememberthis.classname | xPDO classname where the added data is retreived from. | -
+rememberthis.keyname | xPDO class keyname to retrieve one data row. | id
+rememberthis.joins | Joins defined in the xPDO class, to retreive the added data. | -
+rememberthis.jQueryPath | Path to jQuery script. | -
+rememberthis.includeScripts | Include javascripts (at the end of the body). | Yes
+rememberthis.includeCss | Include css (at the end of the head). | Yes
+rememberthis.debug | Display debug informations[^6]. | No
 
 [^6]: **CAUTION**: If you display the RememberThisList snippet call multiple on the page, all snippet calls have to be different, to show the debug information.
 
