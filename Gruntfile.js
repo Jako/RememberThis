@@ -9,22 +9,32 @@ module.exports = function (grunt) {
         ' * Build date: <%= grunt.template.today("yyyy-mm-dd") %>\n' +
         ' */\n',
         usebanner: {
-            dist: {
+            css: {
                 options: {
                     position: 'top',
                     banner: '<%= banner %>'
                 },
                 files: {
                     src: [
-                        'assets/components/rememberthis/js/rememberthis.min.js',
                         'assets/components/rememberthis/css/rememberthis.css',
                         'assets/components/rememberthis/css/rememberthis.min.css'
+                    ]
+                }
+            },
+            js: {
+                options: {
+                    position: 'top',
+                    banner: '<%= banner %>'
+                },
+                files: {
+                    src: [
+                        'assets/components/rememberthis/js/rememberthis.min.js'
                     ]
                 }
             }
         },
         uglify: {
-            rememberthis: {
+            web: {
                 src: [
                     'assets/components/rememberthis/js/rememberthis.js'
                 ],
@@ -40,6 +50,21 @@ module.exports = function (grunt) {
                 files: {
                     'assets/components/rememberthis/css/rememberthis.css': 'assets/components/rememberthis/sass/rememberthis.scss'
                 }
+            }
+        },
+        postcss: {
+            options: {
+                processors: [
+                    require('pixrem')(),
+                    require('autoprefixer')({
+                        browsers: 'last 2 versions, ie >= 8'
+                    })
+                ]
+            },
+            dist: {
+                src: [
+                    'assets/components/rememberthis/css/rememberthis.css'
+                ]
             }
         },
         cssmin: {
@@ -93,7 +118,36 @@ module.exports = function (grunt) {
             },
             css: {
                 files: ['assets/components/rememberthis/sass/rememberthis.scss'],
-                tasks: ['sass', 'cssmin', 'usebanner', 'sftp:css']
+                tasks: ['sass', 'postcss', 'cssmin', 'usebanner', 'sftp:css']
+            }
+        },
+        bump: {
+            copyright: {
+                files: [{
+                    src: 'core/components/rememberthis/model/rememberthis/rememberthis.class.php',
+                    dest: 'core/components/rememberthis/model/rememberthis/rememberthis.class.php'
+                },{
+                    src: 'assets/components/rememberthis/js/rememberthis.js',
+                    dest: 'assets/components/rememberthis/js/rememberthis.js'
+                }],
+                options: {
+                    replacements: [{
+                        pattern: /Copyright 2008(-\d{4})? by/g,
+                        replacement: 'Copyright ' + (new Date().getFullYear() > 2008 ? '2008-' : '') + new Date().getFullYear() + ' by'
+                    }]
+                }
+            },
+            version: {
+                files: [{
+                    src: 'core/components/rememberthis/model/rememberthis/rememberthis.class.php',
+                    dest: 'core/components/rememberthis/model/rememberthis/rememberthis.class.php'
+                }],
+                options: {
+                    replacements: [{
+                        pattern: /version = '\d+.\d+.\d+[-a-z0-9]*'/ig,
+                        replacement: 'version = \'' + '<%= modx.version %>' + '\''
+                    }]
+                }
             }
         }
     });
@@ -105,7 +159,10 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-banner');
     grunt.loadNpmTasks('grunt-ssh');
     grunt.loadNpmTasks('grunt-sass');
+    grunt.loadNpmTasks('grunt-postcss');
+    grunt.loadNpmTasks('grunt-string-replace');
+    grunt.renameTask('string-replace', 'bump');
 
     //register the task
-    grunt.registerTask('default', ['uglify', 'sass', 'cssmin', 'usebanner', 'sftp']);
+    grunt.registerTask('default', ['bump', 'uglify', 'sass', 'postcss', 'cssmin', 'usebanner', 'sftp']);
 };

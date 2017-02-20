@@ -4,7 +4,15 @@
  *
  * @package rememberthis
  * @subpackage processor
+ *
+ * @var modX $modx
  */
+
+$corePath = $modx->getOption('rememberthis.core_path', null, $modx->getOption('core_path') . 'components/rememberthis/');
+/** @var RememberThis $rememberthis */
+$rememberthis = $modx->getService('rememberthis', 'RememberThis', $corePath . 'model/rememberthis/', array(
+    'core_path' => $corePath
+));
 
 // set processing options
 $options = array(
@@ -15,13 +23,13 @@ $options = array(
 );
 
 foreach ($modx->getOption('addproperties', $_GET, array()) as $key => $value) {
-    $propertylen = strlen($modx->rememberthis->getOption(('queryAdd')) . 'property_');
-    if (substr($key, 0, $propertylen) == $modx->rememberthis->getOption(('queryAdd')) . 'property_') {
-        $options['addproperties'][substr($key, $propertylen)] = $modx->rememberthis->stripTags($value);
+    $propertylen = strlen($rememberthis->getOption(('queryAdd')) . 'property_');
+    if (substr($key, 0, $propertylen) == $rememberthis->getOption(('queryAdd')) . 'property_') {
+        $options['addproperties'][substr($key, $propertylen)] = $rememberthis->stripTags($value);
     }
 }
 
-$result = $modx->rememberthis->ajaxResult($options);
+$result = $rememberthis->ajaxResult($options);
 
 // return result
 return json_encode(array_merge($result, array(

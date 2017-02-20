@@ -4,8 +4,13 @@
  *
  * @package rememberthis
  * @subpackage formit hook
+ *
+ * @var modX $modx
+ * @var array $scriptProperties
+ * @var fiHooks $hook
  */
 $corePath = $modx->getOption('rememberthis.core_path', null, $modx->getOption('core_path') . 'components/rememberthis/');
+/** @var RememberThis $rememberthis */
 $rememberthis = $modx->getService('rememberthis', 'RememberThis', $corePath . 'model/rememberthis/');
 
 // Snippet settings

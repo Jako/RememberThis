@@ -4,8 +4,12 @@
  *
  * @package rememberthis
  * @subpackage snippet
+ *
+ * @var modX $modx
+ * @var array $scriptProperties
  */
 $corePath = $modx->getOption('rememberthis.core_path', null, $modx->getOption('core_path') . 'components/rememberthis/');
+/** @var RememberThis $rememberthis */
 $rememberthis = $modx->getService('rememberthis', 'RememberThis', $corePath . 'model/rememberthis/');
 $init = $rememberthis->getOption('init', null, false);
 $rememberthis->init();

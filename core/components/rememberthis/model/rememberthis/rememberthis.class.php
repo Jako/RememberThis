@@ -3,7 +3,7 @@
 /**
  * RememberThis
  *
- * Copyright 2008-2016 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Copyright 2008-2017 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * @package rememberthis
  * @subpackage classfile
@@ -26,7 +26,7 @@ class RememberThis
      * The version
      * @var string $namespace
      */
-    public $version = '1.2.0';
+    public $version = '2.0.2';
 
     /**
      * The class options
@@ -294,7 +294,7 @@ class RememberThis
      * Show the AJAX result
      *
      * @param array $options Template options
-     * @return string
+     * @return array
      */
     public function ajaxResult($options)
     {
@@ -437,7 +437,8 @@ class RememberThis
      * Add an element to the list
      *
      * @param integer $docId
-     * @return bool|integer
+     * @param array $properties
+     * @return bool|int
      */
     private function add($docId, $properties = array())
     {
@@ -446,6 +447,7 @@ class RememberThis
             // no packagename -> resource
             $resource = $this->modx->getObject('modResource', array('id' => $docId));
             $tvs = array();
+            /** @var modTemplateVar[] $templateVars */
             $templateVars = &$resource->getMany('TemplateVars');
             foreach ($templateVars as $templateVar) {
                 $tvs[$this->getOption('tvPrefix') . $templateVar->get('name')] = $templateVar->renderOutput($resource->get('id'));
@@ -460,6 +462,7 @@ class RememberThis
             $modelpath = $packagepath . 'model/';
 
             $this->modx->addPackage($this->getOption('packagename'), $modelpath);
+            /** @var xPDOObject $resource */
             $resource = $this->modx->getObject($this->getOption('classname'), array($this->getOption('keyname') => $docId));
             if ($resource) {
                 $joinvalues = array();
@@ -523,7 +526,7 @@ class RememberThis
     /**
      * Remove all elements from the list
      */
-    private function clearList()
+    public function clearList()
     {
         if (isset($_SESSION['rememberThis'])) {
             $_SESSION['rememberThis'] = array();

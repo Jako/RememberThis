@@ -1,7 +1,7 @@
 /**
  * RememberThis
  *
- * Copyright 2008-2016 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Copyright 2008-2017 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * @package rememberthis
  * @subpackage javascript
@@ -10,17 +10,17 @@
 (function ($, window, document, undefined) {
 
     var pluginName = 'rememberThis',
-    // default settings
+        // default settings
         defaults = {
             ajaxLoaderImg: '',
             listSelector: '.rememberthis',
-            onBeforeAdd: function (list, otherlists, elem, id) {
+            onBeforeAdd: function (list, otherlists, elem, id, data) {
             },
-            onBeforeDelete: function (list, otherlists, elem, id) {
+            onBeforeDelete: function (list, otherlists, elem, id, data) {
             },
-            onAfterAdd: function (list, otherlists, elem, id) {
+            onAfterAdd: function (list, otherlists, elem, id, data) {
             },
-            onAfterDelete: function (list, otherlists, elem, id) {
+            onAfterDelete: function (list, otherlists, elem, id, data) {
             }
         };
 
@@ -53,10 +53,12 @@
                 $('.rememberadd').on('click', function (e) {
                     e.preventDefault();
                     var rememberid = $(this).data('add');
+                    var properties = $(this).data();
+                    delete properties.add;
                     $(this).append(_this.options.loadImage.clone());
-                    _this.options.onBeforeAdd.call(_this.$el, _this.$other, this, rememberid, []);
-                    _this.onAdd(_this.$el, _this.$other, this, rememberid, []);
-                    _this.options.onAfterAdd.call(_this.$el, _this.$other, this, rememberid, []);
+                    _this.options.onBeforeAdd.call(_this.$el, _this.$other, this, rememberid, properties);
+                    _this.onAdd(_this.$el, _this.$other, this, rememberid, properties);
+                    _this.options.onAfterAdd.call(_this.$el, _this.$other, this, rememberid, properties);
                 });
                 $('.rememberaddform').on('submit', function (e) {
                     e.preventDefault();
@@ -144,7 +146,7 @@
                     delete: id
                 },
                 success: function (data) {
-                    if (!data.count || data.count == '0') {
+                    if (!data.count || data.count === '0') {
                         list.slideUp('slow', function () {
                             $('.remembercount').html(data.count);
                             $(this).html($.trim(data.result)).slideDown('fast');

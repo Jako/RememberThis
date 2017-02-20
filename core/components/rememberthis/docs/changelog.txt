@@ -1,7 +1,9 @@
 Changelog for RememberThis
 ==========================
 
-- 2.0.0
+- 2.0.2
+    - Remember additional properties set in the data attributes in link mode.
+- 2.0.1
     - Added itemcount placeholder in the row template.
 - 2.0.0
     - Added wrapperTpl to RememberThisList snippet. The wrapper template contains the outer output or the empty output.
