@@ -475,7 +475,7 @@ class RememberThis
                 }
                 $row = array_merge($joinvalues, $resource->toArray());
             } else {
-                $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Could not retreive an object with key "' . $this->getOption('keyname') . '" and value "' . $docId . '"', '', 'RememberThis');
+                $this->modx->log(xPDO::LOG_LEVEL_INFO, 'Could not retreive an object with key "' . $this->getOption('keyname') . '" and value "' . $docId . '"', '', 'RememberThis');
                 return false;
             }
         }
