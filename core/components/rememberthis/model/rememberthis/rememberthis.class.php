@@ -99,7 +99,7 @@ class RememberThis
             'itemTitleTpl' => $this->getOption('itemTitleTpl', $options, 'tplRememberThisItemTitle'),
             'packagename' => $this->getOption('packagename', null, ''),
             'classname' => $this->getOption('classname', null, ''),
-            'keyname' => $this->getOption('keyname', null, 'id'),
+            'keyname' => $this->getOption('keyname', null, 'id', true),
             'joins' => $this->modx->fromJson($this->getOption('joins', null, '')),
             'jQueryPath' => $this->getOption('jQueryPath', null, ''),
             'includeScripts' => intval($this->getOption('includeScripts', null, 1)),
