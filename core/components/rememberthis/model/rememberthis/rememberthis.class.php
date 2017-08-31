@@ -344,7 +344,7 @@ class RememberThis
      * Show the remembered list
      *
      * @param array $options Template options
-     * @return string
+     * @return array
      */
     public function showList($options)
     {
