@@ -1,11 +1,11 @@
-#Usage
+# Usage
 
 The package contains two snippets and a formit hook, that use the following 
 parameters[^1]
 
 [^1]: Most of the snippet templating settings should be made in the MODX system settings, since they are used by the snippets and with ajax.
 
-###RememberThisAdd
+### RememberThisAdd
 
 This snippet will display an add button. It has the following properties:
 
@@ -33,7 +33,7 @@ rememberqueryadd | The query parameter to add an element to the list[^3].
 
 [^3]: The placeholder rememberqueryadd is filled with the `addQuery` system setting.
 
-###RememberThisList
+### RememberThisList
 
 This snippet will display the remembered list. It has the following properties:
 
@@ -68,7 +68,7 @@ wrapper | The wrapper containing all rows of the list.
 
 [^5]: In the `itemTitleTpl` template chunk all column names of the xPDO object could be referenced by a placeholder with this name. Also all properties could be referenced with the property name, i.e. a property set by `[[+rememberqueryadd]]property_test` could be referenced with the placeholder `[[+test]]`.
 
-###RememberThisHook (FormIt hook)
+### RememberThisHook (FormIt hook)
 
 The FormIt hook sets some placeholders in FormIt. You have to call the hook like this: 
 
@@ -139,9 +139,10 @@ rememberthis.joins | Joins defined in the xPDO class, to retreive the added data
 rememberthis.jQueryPath | Path to jQuery script. | -
 rememberthis.includeScripts | Include javascripts (at the end of the body). | Yes
 rememberthis.includeCss | Include css (at the end of the head). | Yes
-rememberthis.debug | Display debug informations[^6]. | No
+rememberthis.debug | Display debug informations. | No
 
-[^6]: **CAUTION**: If you display the RememberThisList snippet call multiple on the page, all snippet calls have to be different, to show the debug information.
+!!! caution
+    If you display the RememberThisList snippet call multiple on the page, all snippet calls have to be different, to show the debug information.
 
 The following templating system settings could be overridden by snippet 
 properties: **rowTpl**, **outerTpl**, **addTpl**, **noResultsTpl**
@@ -151,19 +152,3 @@ placeholder (template variables have to be prefixed using the prefix set in
 **tvPrefix**), if no xPDO package/classname is used. If a xPDO 
 package/classname is used, all fields of the xPDO class could be used as 
 placeholder.
-
-<!-- Piwik -->
-<script type="text/javascript">
-  var _paq = _paq || [];
-  _paq.push(['trackPageView']);
-  _paq.push(['enableLinkTracking']);
-  (function() {
-    var u="//piwik.partout.info/";
-    _paq.push(['setTrackerUrl', u+'piwik.php']);
-    _paq.push(['setSiteId', 19]);
-    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-  })();
-</script>
-<noscript><p><img src="//piwik.partout.info/piwik.php?idsite=19" style="border:0;" alt="" /></p></noscript>
-<!-- End Piwik Code -->

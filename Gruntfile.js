@@ -34,9 +34,9 @@ module.exports = function (grunt) {
             }
         },
         uglify: {
-            web: {
+            mgr: {
                 src: [
-                    'assets/components/rememberthis/js/rememberthis.js'
+                    'source/js/rememberthis.js'
                 ],
                 dest: 'assets/components/rememberthis/js/rememberthis.min.js'
             }
@@ -48,7 +48,7 @@ module.exports = function (grunt) {
             },
             dist: {
                 files: {
-                    'assets/components/rememberthis/css/rememberthis.css': 'assets/components/rememberthis/sass/rememberthis.scss'
+                    'assets/components/rememberthis/css/rememberthis.css': 'source/sass/rememberthis.scss'
                 }
             }
         },
@@ -75,6 +75,20 @@ module.exports = function (grunt) {
                 dest: 'assets/components/rememberthis/css/rememberthis.min.css'
             }
         },
+        imagemin: {
+            img: {
+                options: {
+                    optimizationLevel: 7,
+                    svgoPlugins: [{removeViewBox: false}]
+                },
+                files: [{
+                    expand: true,
+                    cwd: 'source/img',
+                    src: ['**/*.{png,jpg,gif}'],
+                    dest: 'assets/components/rememberthis/img'
+                }]
+            }
+        },
         sftp: {
             css: {
                 files: {
@@ -96,7 +110,6 @@ module.exports = function (grunt) {
             js: {
                 files: {
                     "./": [
-                        'assets/components/rememberthis/js/rememberthis.js',
                         'assets/components/rememberthis/js/rememberthis.min.js'
                     ]
                 },
@@ -112,7 +125,7 @@ module.exports = function (grunt) {
             }
         },
         watch: {
-            scripts: {
+            js: {
                 files: ['assets/components/rememberthis/js/rememberthis.js'],
                 tasks: ['uglify', 'usebanner', 'sftp:js']
             },
@@ -126,13 +139,13 @@ module.exports = function (grunt) {
                 files: [{
                     src: 'core/components/rememberthis/model/rememberthis/rememberthis.class.php',
                     dest: 'core/components/rememberthis/model/rememberthis/rememberthis.class.php'
-                },{
+                }, {
                     src: 'assets/components/rememberthis/js/rememberthis.js',
                     dest: 'assets/components/rememberthis/js/rememberthis.js'
                 }],
                 options: {
                     replacements: [{
-                        pattern: /Copyright 2008(-\d{4})? by/g,
+                        pattern: /Copyright \d{4}(-\d{4})? by/g,
                         replacement: 'Copyright ' + (new Date().getFullYear() > 2008 ? '2008-' : '') + new Date().getFullYear() + ' by'
                     }]
                 }
@@ -148,21 +161,34 @@ module.exports = function (grunt) {
                         replacement: 'version = \'' + '<%= modx.version %>' + '\''
                     }]
                 }
+            },
+            docs: {
+                files: [{
+                    src: 'mkdocs.yml',
+                    dest: 'mkdocs.yml'
+                }],
+                options: {
+                    replacements: [{
+                        pattern: /&copy; \d{4}(-\d{4})?/g,
+                        replacement: '&copy; ' + (new Date().getFullYear() > 2008 ? '2008-' : '') + new Date().getFullYear()
+                    }]
+                }
             }
         }
     });
 
     //load the packages
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-banner');
-    grunt.loadNpmTasks('grunt-ssh');
-    grunt.loadNpmTasks('grunt-sass');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-imagemin');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-postcss');
+    grunt.loadNpmTasks('grunt-sass');
+    grunt.loadNpmTasks('grunt-ssh');
     grunt.loadNpmTasks('grunt-string-replace');
     grunt.renameTask('string-replace', 'bump');
 
     //register the task
-    grunt.registerTask('default', ['bump', 'uglify', 'sass', 'postcss', 'cssmin', 'usebanner', 'sftp']);
+    grunt.registerTask('default', ['bump', 'uglify', 'sass', 'postcss', 'cssmin', 'imagemin', 'usebanner', 'sftp']);
 };
