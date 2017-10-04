@@ -9,9 +9,11 @@
  * @var array $scriptProperties
  * @var fiHooks $hook
  */
-$corePath = $modx->getOption('rememberthis.core_path', null, $modx->getOption('core_path') . 'components/rememberthis/');
+$path = $modx->getOption('rememberthis.core_path', null, $modx->getOption('core_path') . 'components/rememberthis/');
 /** @var RememberThis $rememberthis */
-$rememberthis = $modx->getService('rememberthis', 'RememberThis', $corePath . 'model/rememberthis/');
+$rememberthis = $modx->getService('rememberthis', 'RememberThis', $path . 'model/rememberthis/', array(
+    'core_path' => $path
+));
 
 // Snippet settings
 $options = array(

@@ -1,7 +1,7 @@
 /*!
  * RememberThis - Remember List for xPDO Objects
  * Version: 2.0.2
- * Build date: 2017-02-20
+ * Build date: 2017-10-04
  */
 
-.rememberload{position:relative;left:.25em}.rememberitem{position:relative}.rememberitem .title{margin-right:1.5em}.rememberitem .rememberdelete,.rememberitem .rememberload{position:absolute;display:block;right:0;top:0}.rememberitem .rememberload{left:auto}
+.rememberload{left:.25em;position:relative}.rememberitem{position:relative}.rememberitem .title{margin-right:1.5em}.rememberitem .rememberdelete,.rememberitem .rememberload{display:block;position:absolute;right:0;top:0}.rememberitem .rememberload{left:auto}

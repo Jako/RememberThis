@@ -1,15 +1,16 @@
 .rememberload {
-  position: relative;
   left: 0.25em;
+  position: relative;
 }
+
 .rememberitem {
   position: relative;
   .title {
     margin-right: 1.5em
   }
   .rememberdelete {
-    position: absolute;
     display: block;
+    position: absolute;
     right: 0;
     top: 0;
   }
