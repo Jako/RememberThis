@@ -126,12 +126,22 @@ module.exports = function (grunt) {
         },
         watch: {
             js: {
-                files: ['assets/components/rememberthis/js/rememberthis.js'],
+                files: [
+                    'assets/components/rememberthis/js/rememberthis.js'
+                ],
                 tasks: ['uglify', 'usebanner', 'sftp:js']
             },
             css: {
-                files: ['assets/components/rememberthis/sass/rememberthis.scss'],
+                files: [
+                    'assets/components/rememberthis/sass/rememberthis.scss'
+                ],
                 tasks: ['sass', 'postcss', 'cssmin', 'usebanner', 'sftp:css']
+            },
+            config: {
+                files: [
+                    '_build/config.json'
+                ],
+                tasks: ['default']
             }
         },
         bump: {
