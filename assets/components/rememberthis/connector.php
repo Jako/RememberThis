@@ -20,13 +20,10 @@ $rememberthis = $modx->getService('rememberthis', 'RememberThis', $corePath . 'm
     'core_path' => $corePath
 ));
 
-if ($modx->user->hasSessionContext($modx->context->get('key'))) {
-    $_SERVER['HTTP_MODAUTH'] = $_SESSION["modx.{$modx->context->get('key')}.user.token"];
-} else {
-    $_SESSION["modx.{$modx->context->get('key')}.user.token"] = 0;
-    $_SERVER['HTTP_MODAUTH'] = 0;
+// Set HTTP_MODAUTH for web processors
+if (defined('MODX_REQP') && MODX_REQP === false) {
+    $_SERVER['HTTP_MODAUTH'] = $modx->user->getUserToken($modx->context->get('key'));
 }
-$_REQUEST['HTTP_MODAUTH'] = $_SERVER['HTTP_MODAUTH'];
 
 // Handle request
 $modx->request->handleRequest(array(
