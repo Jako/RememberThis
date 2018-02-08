@@ -19,7 +19,7 @@
         <meta name="msapplication-config" content="../assets/images/browserconfig.xml">
         <meta name="theme-color" content="#ffffff">
       
-      <meta name="generator" content="mkdocs-0.16.3, mkdocs-material-1.10.1">
+      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-1.10.1">
     
     
       
@@ -122,7 +122,7 @@
   
 
 
-  <a href="https://github.com/Jako/RememberThis" title="Go to repository" class="md-source" data-md-source="github">
+  <a href="https://github.com/Jako/RememberThis/" title="Go to repository" class="md-source" data-md-source="github">
     
       <div class="md-source__icon">
         <svg viewBox="0 0 24 24" width="24" height="24">
@@ -169,7 +169,7 @@
   
 
 
-  <a href="https://github.com/Jako/RememberThis" title="Go to repository" class="md-source" data-md-source="github">
+  <a href="https://github.com/Jako/RememberThis/" title="Go to repository" class="md-source" data-md-source="github">
     
       <div class="md-source__icon">
         <svg viewBox="0 0 24 24" width="24" height="24">
@@ -540,6 +540,7 @@ parameters have to be prefixed with <code>[[+rememberqueryadd]]property_</code>.
 </tr>
 </tbody>
 </table>
+<p>The snippet will try to display a list from the database, when the request parameter <code>rememberthis</code> is not empty.</p>
 <h4 id="placeholders_1">Placeholders<a class="headerlink" href="#placeholders_1" title="Permanent link">&para;</a></h4>
 <p>The following placeholders are available in the <strong>rowTpl</strong> template chunk:</p>
 <table>
@@ -640,6 +641,11 @@ parameters have to be prefixed with <code>[[+rememberqueryadd]]property_</code>.
 <td>Clear the list after running the hook.</td>
 <td>No</td>
 </tr>
+<tr>
+<td>saveList</td>
+<td>Save the list with a hash in the database.</td>
+<td>No</td>
+</tr>
 </tbody>
 </table>
 <h4 id="placeholders_2">Placeholders<a class="headerlink" href="#placeholders_2" title="Permanent link">&para;</a></h4>
@@ -695,6 +701,10 @@ parameters have to be prefixed with <code>[[+rememberqueryadd]]property_</code>.
 <tr>
 <td>rememberthis.count</td>
 <td>The count of added elements in the list</td>
+</tr>
+<tr>
+<td>rememberthis.hash</td>
+<td>The hash of the saved list in the database. The RememberThisList snippet could be triggered by the request parameter <code>rememberthis</code> containing this hash. That way remembered lists could be mailed to other users.</td>
 </tr>
 </tbody>
 </table>
@@ -901,7 +911,7 @@ placeholder.</p>
     <div class="md-footer-meta__inner md-grid">
       <div class="md-footer-copyright">
         
-          <div>&copy; 2008-2017 <a href="https://treehillstudio.com">Treehill Studio</a></div>
+          <div>&copy; 2008-2018 <a href="https://treehillstudio.com">Treehill Studio</a></div>
         
         <div>powered by
           <a href="http://www.mkdocs.org" title="MkDocs">
@@ -931,6 +941,10 @@ placeholder.</p>
       
       
       <script>app.initialize({url:{base:".."}})</script>
+      
+        <script src="../search/require.js"></script>
+      
+        <script src="../search/search.js"></script>
       
     
     
