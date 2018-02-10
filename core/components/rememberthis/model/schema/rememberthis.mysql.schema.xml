@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model package="rememberthis" baseClass="xPDOObject" platform="mysql" defaultEngine="InnoDB" phpdoc-package="rememberthis" phpdoc-subpackage="model" version="1.1">
+    <object class="RememberThisList" table="rememberthis_list" extends="xPDOSimpleObject">
+        <field key="user_id" dbtype="int" precision="10" phptype="integer" null="false" default="0"/>
+        <field key="list" dbtype="text" phptype="json" null="true"/>
+        <field key="hash" dbtype="varchar" precision="32" phptype="string" null="true"/>
+        <field key="createdon" dbtype="datetime" phptype="timestamp" null="true"/>
+    </object>
+</model>

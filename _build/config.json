@@ -3,7 +3,7 @@
   "lowCaseName": "rememberthis",
   "description": "Remember List for xPDO Objects",
   "author": "Thomas Jakobi",
-  "version": "2.0.2",
+  "version": "2.1.0-rc4",
   "package": {
     "elements": {
       "snippets": [
@@ -70,6 +70,11 @@
             },
             {
               "name": "clearList",
+              "type": "combo-boolean",
+              "value": "0"
+            },
+            {
+              "name": "saveList",
               "type": "combo-boolean",
               "value": "0"
             }
@@ -204,6 +209,12 @@
         "value": ""
       },
       {
+        "key": "useDatabase",
+        "area": "system",
+        "type": "combo-boolean",
+        "value": "0"
+      },
+      {
         "key": "jQueryPath",
         "area": "system",
         "value": ""
@@ -242,6 +253,11 @@
         "type": "combo-boolean",
         "value": "0"
       }
+    ]
+  },
+  "database": {
+    "tables": [
+      "RememberThisList"
     ]
   },
   "build": {

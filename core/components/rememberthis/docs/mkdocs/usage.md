@@ -45,6 +45,8 @@ wrapperTpl | Wrapper template for the outer output or the empty output. | tplRem
 noResultsTpl | Template that is displayed, if the list is empty. | tplRememberThisNoResults
 jsonList | Output a JSON encoded object of element identifiers[^4] and element itemproperties. | No 
 
+The snippet will try to display a list from the database, when the request parameter `rememberthis` is not empty.
+
 [^4]: The identifier is set by the `keyname` system setting, if the xPDO object package and classname is used.
 
 #### Placeholders
@@ -90,6 +92,7 @@ rememberWrapperTpl | Wrapper template for the outer output or the empty output. 
 noResultsTpl | Template that is displayed, if the list is empty. | tplRememberThisNoResults
 jsonList | Output a JSON encoded array of associative arrays of element identifiers[^4] and element itemproperties. | No 
 clearList | Clear the list after running the hook. | No
+saveList | Save the list with a hash in the database. | No
 
 #### Placeholders
 
@@ -112,6 +115,7 @@ Placeholder | Description
 rememberthis | The output of the rememberWrapperTpl template chunk (or the JSON encoded array of associative arrays of element identifiers[^4] and element itemproperties in the remembered list, if **jsonList** property is enabled).
 rememberthis.list | An array of associative arrays of element identifiers and element itemproperties in the remembered list.
 rememberthis.count | The count of added elements in the list
+rememberthis.hash | The hash of the saved list in the database. The RememberThisList snippet could be triggered by the request parameter `rememberthis` containing this hash. That way remembered lists could be mailed to other users.
 
 ### System Settings
 

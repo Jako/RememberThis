@@ -3,7 +3,7 @@
 /**
  * RememberThis
  *
- * Copyright 2008-2017 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Copyright 2008-2018 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * @package rememberthis
  * @subpackage classfile
@@ -26,7 +26,7 @@ class RememberThis
      * The version
      * @var string $namespace
      */
-    public $version = '2.0.2';
+    public $version = '2.1.0-rc4';
 
     /**
      * The class options
@@ -107,15 +107,16 @@ class RememberThis
             'debug' => intval($this->getOption('debug', null, 0)),
             'tvPrefix' => $this->getOption('tvPrefix', $options, 'tv.'),
             'ajaxLoaderImg' => $this->getOption('ajaxLoaderImg', null, ''),
-            'language' => $modx->getOption('language', $options, $this->modx->getOption('cultureKey')),
+            'language' => $this->modx->getOption('language', $options, $this->modx->getOption('cultureKey')),
             'languages' => array('de', 'en'),
-            'notRememberRedirect' => intval($modx->getOption('notRememberRedirect', $options, false)),
+            'notRememberRedirect' => intval($this->modx->getOption('notRememberRedirect', $options, false)),
             'argSeparator' => ($this->modx->getOption('xhtml_urls')) ? '&amp;' : '&',
             'queryAdd' => $this->getOption('queryAdd', $options, 'add'),
             'queryDelete' => $this->getOption('queryDelete', $options, 'delete'),
             'useCookie' => intval($this->getOption('useCookie', null, 0)),
             'cookieName' => $this->getOption('cookieName', $options, 'rememberlist'),
             'cookieExpireDays' => intval($this->getOption('cookieExpireDays', $options, 90)),
+            'useDatabase' => intval($this->getOption('useDatabase', null, 0)),
             'init' => false
         ));
 
@@ -136,6 +137,8 @@ class RememberThis
         if (!isset($_SESSION['rememberThis'])) {
             $_SESSION['rememberThis'] = array();
         }
+
+        $this->modx->addPackage('rememberthis', $this->getOption('modelPath'));
     }
 
     /**
@@ -174,42 +177,15 @@ class RememberThis
     }
 
     /**
-     * Gets an option through $this->getOption and cast the value to a true boolean automatically,
-     * including strings "false", "true", "yes" and "no".
-     *
-     * @param string $name
-     * @param array $options
-     * @param bool $default
-     * @return bool
-     */
-    public function getBooleanOption($name, array $options = null, $default = null)
-    {
-        $option = $this->getOption($name, $options, $default);
-        return $this->castValueToBool($option);
-    }
-
-    /**
-     * Turns a value into a boolean. This checks for "false", "true", "yes" and "no" strings,
-     * as well as anything PHP can automatically cast to a boolean value.
-     *
-     * @param $value
-     * @return bool
-     */
-    public function castValueToBool($value)
-    {
-        if (in_array(strtolower($value), array('false', 'no'))) {
-            return false;
-        }
-        return (bool)$value;
-    }
-
-    /**
      * Init scripts and add/delete only once
      */
     public function init()
     {
         if (!$this->getOption('init', null, false)) {
-            $version = (!$this->modx->getObject('modPlugin', array('name' => 'minifyRegistered', 'disabled' => 0))) ? '?v=' . $this->getOption('version') : '';
+            $version = (!$this->modx->getObject('modPlugin', array(
+                'name' => 'minifyRegistered',
+                'disabled' => 0
+            ))) ? '?v=' . $this->getOption('version') : '';
             if ($this->getOption('includeScripts')) {
                 if ($this->getOption('jQueryPath') != '') {
                     $this->modx->regClientScript($this->getOption('jQueryPath'));
@@ -231,6 +207,9 @@ class RememberThis
             if ($this->getOption('useCookie')) {
                 $this->getCookie();
             }
+            if ($this->getOption('useDatabase') && $this->modx->user->id) {
+                $this->getDBRecord();
+            }
 
             // Add/remove items to/from the list
             $queryAdd = $this->getOption('queryAdd');
@@ -247,6 +226,7 @@ class RememberThis
             if (isset($_REQUEST[$this->getOption('queryDelete')])) {
                 $this->delete(intval($_REQUEST[$this->getOption('queryDelete')]));
             }
+
             $this->setOption('init', true);
         }
     }
@@ -352,20 +332,29 @@ class RememberThis
 
         // Generate the list
         $list = array();
-        foreach ($_SESSION['rememberThis'] as $element) {
+        if (!$options['hash']) {
+            $list = $_SESSION['rememberThis'];
+        } else {
+            $listObject = $this->modx->getObject('RememberThisList', array(
+                'hash' => $options['hash']
+            ));
+            if ($listObject) {
+                $list = $listObject->get('list');
+            }
+        }
+        foreach ($list as $element) {
             if (isset($element['element']['itemproperties']) && !empty($element['element']['itemproperties'])) {
-                $list[] = array(
+                $output['list'][] = array(
                     'identifier' => $element['element']['identifier'],
                     'itemproperties' => $element['element']['itemproperties']
                 );
             } else {
-                $list[] = $element['element']['identifier'];
+                $output['list'][] = $element['element']['identifier'];
             }
         }
-        $output['list'] = $list;
 
         // Generate the result
-        if (!count($_SESSION['rememberThis'])) {
+        if (!count($list)) {
             if (!$this->getOption('notRememberRedirect')) {
                 $output['result'] = $this->getChunk($options['wrapperTpl'], array_merge($options, array(
                     'wrapper' => $this->getChunk($options['noResultsTpl']),
@@ -376,7 +365,7 @@ class RememberThis
             }
         } else {
             $outer = $this->getChunk($options['outerTpl'], array_merge($options, array(
-                'wrapper' => $this->showElements($options['rowTpl']),
+                'wrapper' => $this->showElements($list, $options['rowTpl']),
                 'count' => (string)count($_SESSION['rememberThis'])
             )));
             $output['result'] = $this->getChunk($options['wrapperTpl'], array_merge($options, array(
@@ -390,7 +379,7 @@ class RememberThis
 
         // Generate debug informations
         if ($this->getOption('debug')) {
-            $output['debug'] = 'DEBUG: $_SESSION["rememberThis"] = ' . print_r($_SESSION['rememberThis'], TRUE);
+            $output['debug'] = 'DEBUG: $_SESSION["rememberThis"] = ' . print_r($_SESSION['rememberThis'], true);
         }
         return $output;
     }
@@ -398,15 +387,16 @@ class RememberThis
     /**
      * Show the remembered list elements
      *
+     * @param array $list List
      * @param string $tpl Template
      * @return string
      */
-    public function showElements($tpl)
+    public function showElements($list, $tpl)
     {
         $output = array();
         $iteration = 0;
 
-        foreach ($_SESSION['rememberThis'] as $key => $element) {
+        foreach ($list as $key => $element) {
             if ($tpl != '') {
                 $fields = array_merge($element['element'], array(
                     'deleteurl' => $this->makeUrl(array($this->getOption('queryDelete') => $key + 1)),
@@ -499,6 +489,9 @@ class RememberThis
             if ($this->getOption('useCookie')) {
                 $this->setCookie();
             }
+            if ($this->getOption('useDatabase') && $this->modx->user->id) {
+                $this->setDBRecord();
+            }
             return (key($_SESSION['rememberThis']));
         } else {
             return false;
@@ -521,6 +514,29 @@ class RememberThis
         if ($this->getOption('useCookie')) {
             $this->setCookie();
         }
+        if ($this->getOption('useDatabase') && $this->modx->user->id) {
+            $this->setDBRecord();
+        }
+    }
+
+    /**
+     * Save the the remembered list with a hash as a database record
+     */
+    public function saveList()
+    {
+        $hash = md5(json_encode($_SESSION['rememberThis']) . time() . $this->modx->site_id);
+
+        /** @var RememberThisList $list */
+        $list = $this->modx->newObject('RememberThisList');
+        $list->fromArray(array(
+            'user_id' => $this->modx->user->id,
+            'createdon' => time(),
+            'hash' => $hash,
+            'list' => $_SESSION['rememberThis']
+        ));
+        $list->save();
+
+        return $hash;
     }
 
     /**
@@ -533,6 +549,9 @@ class RememberThis
         }
         if ($this->getOption('useCookie')) {
             $this->setCookie();
+        }
+        if ($this->getOption('useDatabase') && $this->modx->user->id) {
+            $this->setDBRecord();
         }
     }
 
@@ -560,6 +579,44 @@ class RememberThis
             setcookie($cookieName, '', time() - 3600, '/');
             unset($_COOKIE[$cookieName]);
         }
+    }
+
+    /**
+     * Get the remembered list from database record
+     */
+    private function getDBRecord()
+    {
+        /** @var RememberThisList $list */
+        if ($list = $this->modx->getObject('RememberThisList', array(
+            'user_id' => $this->modx->user->id,
+            'hash:IS' => null
+        ))) {
+            if ($list->get('createdon') && strtotime($list->get('createdon')) <= strtotime('-30 day')) {
+                $list->remove();
+            } else {
+                $_SESSION['rememberThis'] = $list->get('list');
+            }
+        }
+    }
+
+    /**
+     * Save a database record from the remembered list
+     */
+    private function setDBRecord()
+    {
+        /** @var RememberThisList $list */
+        if (!$list = $this->modx->getObject('RememberThisList', array(
+            'user_id' => $this->modx->user->id,
+            'hash:IS' => null
+        ))) {
+            $list = $this->modx->newObject('RememberThisList');
+            $list->fromArray(array(
+                'user_id' => $this->modx->user->id,
+                'createdon' => time()
+            ));
+        }
+        $list->set('list', $_SESSION['rememberThis']);
+        $list->save();
     }
 
     /**
