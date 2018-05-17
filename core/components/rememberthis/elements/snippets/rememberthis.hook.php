@@ -23,8 +23,9 @@ $options = array(
     'noResultsTpl' => $modx->getOption('rememberNoResultsTpl', $scriptProperties, $rememberthis->getOption('noResultsTpl'), true),
     'tplPath' => $modx->getOption('tplPath', $scriptProperties, $rememberthis->getOption('tplPath'), true)
 );
-$jsonList = $rememberthis->getBooleanOption('jsonList', $scriptProperties, false);
-$clearList = $rememberthis->getBooleanOption('clearList', $scriptProperties, false);
+$jsonList = (bool)$modx->getOption('jsonList', $scriptProperties, false, true);
+$clearList = (bool)$modx->getOption('clearList', $scriptProperties, false, true);
+$saveList = (bool)$modx->getOption('saveList', $scriptProperties, false, true);
 
 $result = $rememberthis->showList($options);
 if ($jsonList) {
@@ -34,6 +35,10 @@ if ($jsonList) {
 }
 $hook->setValue('rememberthis.list', $result['list']);
 $hook->setValue('rememberthis.count', $result['count']);
+
+if ($saveList) {
+    $hook->setValue('rememberthis.hash', $rememberthis->saveList());
+}
 
 if ($clearList) {
     $rememberthis->clearList();

@@ -45,6 +45,8 @@ wrapperTpl | Wrapper template for the outer output or the empty output. | tplRem
 noResultsTpl | Template that is displayed, if the list is empty. | tplRememberThisNoResults
 jsonList | Output a JSON encoded object of element identifiers[^4] and element itemproperties. | No 
 
+The snippet will try to display a list from the database, when the request parameter `rememberthis` is not empty.
+
 [^4]: The identifier is set by the `keyname` system setting, if the xPDO object package and classname is used.
 
 #### Placeholders
@@ -90,6 +92,7 @@ rememberWrapperTpl | Wrapper template for the outer output or the empty output. 
 noResultsTpl | Template that is displayed, if the list is empty. | tplRememberThisNoResults
 jsonList | Output a JSON encoded array of associative arrays of element identifiers[^4] and element itemproperties. | No 
 clearList | Clear the list after running the hook. | No
+saveList | Save the list with a hash in the database. | No
 
 #### Placeholders
 
@@ -112,6 +115,7 @@ Placeholder | Description
 rememberthis | The output of the rememberWrapperTpl template chunk (or the JSON encoded array of associative arrays of element identifiers[^4] and element itemproperties in the remembered list, if **jsonList** property is enabled).
 rememberthis.list | An array of associative arrays of element identifiers and element itemproperties in the remembered list.
 rememberthis.count | The count of added elements in the list
+rememberthis.hash | The hash of the saved list in the database. The RememberThisList snippet could be triggered by the request parameter `rememberthis` containing this hash. That way remembered lists could be mailed to other users.
 
 ### System Settings
 
@@ -121,6 +125,7 @@ Property | Description | Default
 ---- | ----------- | -------
 rememberthis.rowTpl | Row template for the list output. | tplRememberThisRow
 rememberthis.outerTpl | Outer template for the list output, if the list is not empty. | tplRememberThisOuter
+rememberthis.wrapperTpl | Wrapper template for the outer output or the empty output. | tplRememberThisWrapper
 rememberthis.addTpl | Template for the add link. | tplRememberThisAdd
 rememberthis.noResultsTpl | Template that is displayed, if the list is empty. | tplRememberThisNoResults
 rememberthis.scriptTpl | Template for the javascript call. | tplRememberThisScript
@@ -128,8 +133,8 @@ rememberthis.showZeroCount | Show Zero Values in template. | yes
 rememberthis.itemTitleTpl | Template for one list item. | tplRememberThisItemTitle
 rememberthis.ajaxLoaderImg | Image file, that is shown during AJAX requests. | FontAwesome fa-refresh
 rememberthis.tvPrefix | Prefix for template variables in template chunks. | tv.
-rememberthis.addQuery | Query key, used to add xPDO objects as elements to the list. | add
-rememberthis.deleteQuery | Query key, used to remove elements from the list. | delete
+rememberthis.queryAdd | Query key, used to add xPDO objects as elements to the list. | add
+rememberthis.queryDelete | Query key, used to remove elements from the list. | delete
 rememberthis.language | Snippet language. | current **cultureKey**
 rememberthis.tplPath | Base path for template chunks using @FILE binding. | `{assets_path}elements/chunks/`
 rememberthis.packagename | xPDO package name where the added data is retreived from. If empty, the data is retrieved from resources. The data row is selected by the id of the resource or by the `keyname` column of the `classname` xPDO class. | -
@@ -139,6 +144,10 @@ rememberthis.joins | Joins defined in the xPDO class, to retreive the added data
 rememberthis.jQueryPath | Path to jQuery script. | -
 rememberthis.includeScripts | Include javascripts (at the end of the body). | Yes
 rememberthis.includeCss | Include css (at the end of the head). | Yes
+rememberthis.useCookie  | Save the remembered data in a cookie. | No
+rememberthis.cookieName  | The name of the cookie. | rememberlist
+rememberthis.cookieExpireDays  | The expiration time of the cookie (in days). | 90
+rememberthis.useDatabase  | Save the remembered list in the database (only if the frontend user is logged into the site). | No
 rememberthis.debug | Display debug informations. | No
 
 !!! caution

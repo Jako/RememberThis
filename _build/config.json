@@ -3,7 +3,7 @@
   "lowCaseName": "rememberthis",
   "description": "Remember List for xPDO Objects",
   "author": "Thomas Jakobi",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "package": {
     "elements": {
       "snippets": [
@@ -72,6 +72,11 @@
               "name": "clearList",
               "type": "combo-boolean",
               "value": "0"
+            },
+            {
+              "name": "saveList",
+              "type": "combo-boolean",
+              "value": "0"
             }
           ]
         }
@@ -113,11 +118,6 @@
     },
     "systemSettings": [
       {
-        "key": "ajaxLoaderImg",
-        "area": "templates",
-        "value": ""
-      },
-      {
         "key": "rowTpl",
         "area": "templates",
         "value": "tplRememberThisRow"
@@ -143,6 +143,11 @@
         "value": "tplRememberThisNoResults"
       },
       {
+        "key": "scriptTpl",
+        "area": "templates",
+        "value": "tplRememberThisScript"
+      },
+      {
         "key": "showZeroCount",
         "area": "templates",
         "type": "combo-boolean",
@@ -154,9 +159,9 @@
         "value": "tplRememberThisItemTitle"
       },
       {
-        "key": "scriptTpl",
+        "key": "ajaxLoaderImg",
         "area": "templates",
-        "value": "tplRememberThisScript"
+        "value": ""
       },
       {
         "key": "tvPrefix",
@@ -237,11 +242,22 @@
         "value": "90"
       },
       {
+        "key": "useDatabase",
+        "area": "system",
+        "type": "combo-boolean",
+        "value": "0"
+      },
+      {
         "key": "debug",
         "area": "system",
         "type": "combo-boolean",
         "value": "0"
       }
+    ]
+  },
+  "database": {
+    "tables": [
+      "RememberThisList"
     ]
   },
   "build": {
