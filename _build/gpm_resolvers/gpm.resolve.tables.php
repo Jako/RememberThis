@@ -22,9 +22,11 @@ if ($object->xpdo) {
             $modx->addPackage('rememberthis', $modelPath, null);
 
 
+
             $manager = $modx->getManager();
 
             $manager->createObjectContainer('RememberThisList');
+
 
             break;
     }
