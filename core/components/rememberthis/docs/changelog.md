@@ -2,7 +2,7 @@ Changelog for RememberThis
 ==========================
 
 - 2.1.0
-    - User based list saved in the database (only if the user is logged into the site and the useDatabase system setting is active).
+    - The remembered list could be saved in the database (only if the frontend user is logged into the site and the useDatabase system setting is active).
     - Save the remembered list in a FormIt hook with a hash in the database and make it possible to mail remembered lists to other users.
 - 2.0.2
     - Remember additional properties set in the data attributes in link mode.

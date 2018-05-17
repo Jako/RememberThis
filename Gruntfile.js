@@ -11,7 +11,7 @@ module.exports = function (grunt) {
         usebanner: {
             css: {
                 options: {
-                    position: 'top',
+                    position: 'bottom',
                     banner: '<%= banner %>'
                 },
                 files: {
@@ -68,7 +68,7 @@ module.exports = function (grunt) {
             }
         },
         cssmin: {
-            rememberthis: {
+            css: {
                 src: [
                     'assets/components/rememberthis/css/rememberthis.css'
                 ],
@@ -149,9 +149,6 @@ module.exports = function (grunt) {
                 files: [{
                     src: 'core/components/rememberthis/model/rememberthis/rememberthis.class.php',
                     dest: 'core/components/rememberthis/model/rememberthis/rememberthis.class.php'
-                }, {
-                    src: 'assets/components/rememberthis/js/rememberthis.js',
-                    dest: 'assets/components/rememberthis/js/rememberthis.js'
                 }],
                 options: {
                     replacements: [{
