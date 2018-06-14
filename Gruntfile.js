@@ -2,7 +2,6 @@ module.exports = function (grunt) {
     // Project configuration.
     grunt.initConfig({
         modx: grunt.file.readJSON('_build/config.json'),
-        sshconfig: grunt.file.readJSON('/Users/jako/Documents/MODx/partout.json'),
         banner: '/*!\n' +
         ' * <%= modx.name %> - <%= modx.description %>\n' +
         ' * Version: <%= modx.version %>\n' +
@@ -89,53 +88,18 @@ module.exports = function (grunt) {
                 }]
             }
         },
-        sftp: {
-            css: {
-                files: {
-                    "./": [
-                        'assets/components/rememberthis/css/rememberthis.css',
-                        'assets/components/rememberthis/css/rememberthis.min.css'
-                    ]
-                },
-                options: {
-                    path: '<%= sshconfig.hostpath %>develop/rememberthis/',
-                    srcBasePath: 'develop/rememberthis/',
-                    host: '<%= sshconfig.host %>',
-                    username: '<%= sshconfig.username %>',
-                    privateKey: '<%= sshconfig.privateKey %>',
-                    passphrase: '<%= sshconfig.passphrase %>',
-                    showProgress: true
-                }
-            },
-            js: {
-                files: {
-                    "./": [
-                        'assets/components/rememberthis/js/rememberthis.min.js'
-                    ]
-                },
-                options: {
-                    path: '<%= sshconfig.hostpath %>develop/rememberthis/',
-                    srcBasePath: 'develop/rememberthis/',
-                    host: '<%= sshconfig.host %>',
-                    username: '<%= sshconfig.username %>',
-                    privateKey: '<%= sshconfig.privateKey %>',
-                    passphrase: '<%= sshconfig.passphrase %>',
-                    showProgress: true
-                }
-            }
-        },
         watch: {
             js: {
                 files: [
                     'assets/components/rememberthis/js/rememberthis.js'
                 ],
-                tasks: ['uglify', 'usebanner', 'sftp:js']
+                tasks: ['uglify', 'usebanner']
             },
             css: {
                 files: [
                     'assets/components/rememberthis/sass/rememberthis.scss'
                 ],
-                tasks: ['sass', 'postcss', 'cssmin', 'usebanner', 'sftp:css']
+                tasks: ['sass', 'postcss', 'cssmin', 'usebanner']
             },
             config: {
                 files: [
@@ -192,10 +156,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-postcss');
     grunt.loadNpmTasks('grunt-sass');
-    grunt.loadNpmTasks('grunt-ssh');
     grunt.loadNpmTasks('grunt-string-replace');
     grunt.renameTask('string-replace', 'bump');
 
     //register the task
-    grunt.registerTask('default', ['bump', 'uglify', 'sass', 'postcss', 'cssmin', 'imagemin', 'usebanner', 'sftp']);
+    grunt.registerTask('default', ['bump', 'uglify', 'sass', 'postcss', 'cssmin', 'imagemin', 'usebanner']);
 };
