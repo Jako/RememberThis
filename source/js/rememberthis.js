@@ -48,7 +48,7 @@
                 _this.options.loadImage = $('<i>').addClass('fa fa-refresh fa-spin rememberload');
             }
             if (firstCall) {
-                $('.rememberadd').on('click', function (e) {
+                $(document).on('click', '.rememberadd', function (e) {
                     e.preventDefault();
                     var rememberid = $(this).data('add');
                     var properties = $(this).data();
@@ -58,7 +58,7 @@
                     _this.onAdd(_this.$el, _this.$other, this, rememberid, properties);
                     _this.options.onAfterAdd.call(_this.$el, _this.$other, this, rememberid, properties);
                 });
-                $('.rememberaddform').on('submit', function (e) {
+                $(document).on('submit', '.rememberaddform', function (e) {
                     e.preventDefault();
                     var rememberid = $(this).data('add');
                     var serializedForm = {};
