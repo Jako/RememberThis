@@ -9,6 +9,7 @@
  * @var array $scriptProperties
  * @var fiHooks $hook
  */
+
 $path = $modx->getOption('rememberthis.core_path', null, $modx->getOption('core_path') . 'components/rememberthis/');
 /** @var RememberThis $rememberthis */
 $rememberthis = $modx->getService('rememberthis', 'RememberThis', $path . 'model/rememberthis/', array(
@@ -21,7 +22,8 @@ $options = array(
     'outerTpl' => $modx->getOption('rememberOuterTpl', $scriptProperties, $rememberthis->getOption('outerTpl'), true),
     'wrapperTpl' => $modx->getOption('rememberWrapperTpl', $scriptProperties, $rememberthis->getOption('wrapperTpl'), true),
     'noResultsTpl' => $modx->getOption('rememberNoResultsTpl', $scriptProperties, $rememberthis->getOption('noResultsTpl'), true),
-    'tplPath' => $modx->getOption('tplPath', $scriptProperties, $rememberthis->getOption('tplPath'), true)
+    'tplPath' => $modx->getOption('tplPath', $scriptProperties, $rememberthis->getOption('tplPath'), true),
+    'properties' => $scriptProperties
 );
 $jsonList = (bool)$modx->getOption('jsonList', $scriptProperties, false, true);
 $clearList = (bool)$modx->getOption('clearList', $scriptProperties, false, true);

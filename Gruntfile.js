@@ -3,10 +3,10 @@ module.exports = function (grunt) {
     grunt.initConfig({
         modx: grunt.file.readJSON('_build/config.json'),
         banner: '/*!\n' +
-        ' * <%= modx.name %> - <%= modx.description %>\n' +
-        ' * Version: <%= modx.version %>\n' +
-        ' * Build date: <%= grunt.template.today("yyyy-mm-dd") %>\n' +
-        ' */\n',
+            ' * <%= modx.name %> - <%= modx.description %>\n' +
+            ' * Version: <%= modx.version %>\n' +
+            ' * Build date: <%= grunt.template.today("yyyy-mm-dd") %>\n' +
+            ' */\n',
         usebanner: {
             css: {
                 options: {
@@ -33,7 +33,7 @@ module.exports = function (grunt) {
             }
         },
         uglify: {
-            mgr: {
+            js: {
                 src: [
                     'source/js/rememberthis.js'
                 ],
@@ -78,12 +78,11 @@ module.exports = function (grunt) {
         imagemin: {
             img: {
                 options: {
-                    optimizationLevel: 7,
-                    svgoPlugins: [{removeViewBox: false}]
+                    optimizationLevel: 7
                 },
                 files: [{
                     expand: true,
-                    cwd: 'source/img',
+                    cwd: 'source/img/',
                     src: ['**/*.{png,jpg,gif}'],
                     dest: 'assets/components/rememberthis/img'
                 }]
@@ -92,15 +91,15 @@ module.exports = function (grunt) {
         watch: {
             js: {
                 files: [
-                    'assets/components/rememberthis/js/rememberthis.js'
+                    'source/**/*.js'
                 ],
-                tasks: ['uglify', 'usebanner']
+                tasks: ['uglify', 'usebanner:js']
             },
             css: {
                 files: [
-                    'assets/components/rememberthis/sass/rememberthis.scss'
+                    'source/**/*.scss'
                 ],
-                tasks: ['sass', 'postcss', 'cssmin', 'usebanner']
+                tasks: ['sass', 'postcss', 'cssmin', 'usebanner:css']
             },
             config: {
                 files: [
@@ -161,5 +160,5 @@ module.exports = function (grunt) {
     grunt.renameTask('string-replace', 'bump');
 
     //register the task
-    grunt.registerTask('default', ['bump', 'uglify', 'sass', 'postcss', 'cssmin', 'imagemin', 'usebanner']);
+    grunt.registerTask('default', ['bump', 'uglify', 'sass', 'postcss', 'cssmin', 'usebanner']);
 };

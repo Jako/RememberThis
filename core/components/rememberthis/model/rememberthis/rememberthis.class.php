@@ -3,7 +3,7 @@
 /**
  * RememberThis
  *
- * Copyright 2008-2018 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Copyright 2008-2019 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * @package rememberthis
  * @subpackage classfile
@@ -26,7 +26,7 @@ class RememberThis
      * The version
      * @var string $namespace
      */
-    public $version = '2.2.0';
+    public $version = '2.2.1';
 
     /**
      * The class options
@@ -247,6 +247,11 @@ class RememberThis
         }
         if (isset($requestParameter[$this->getOption('queryDelete')])) {
             unset($requestParameter[$this->getOption('queryDelete')]);
+        }
+        foreach ($requestParameter as $key => $value) {
+            if (strpos($key, $this->getOption('queryAdd') . 'property_') === 0) {
+                unset($requestParameter[$key]);
+            }
         }
 
         return $identifier . '?' . http_build_query(array_merge($requestParameter, $parameter), '', $this->getOption('argSeparator'));

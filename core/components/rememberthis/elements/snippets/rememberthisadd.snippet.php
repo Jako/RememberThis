@@ -8,6 +8,7 @@
  * @var modX $modx
  * @var array $scriptProperties
  */
+
 $path = $modx->getOption('rememberthis.core_path', null, $modx->getOption('core_path') . 'components/rememberthis/');
 /** @var RememberThis $rememberthis */
 $rememberthis = $modx->getService('rememberthis', 'RememberThis', $path . 'model/rememberthis/', array(
@@ -17,7 +18,8 @@ $rememberthis = $modx->getService('rememberthis', 'RememberThis', $path . 'model
 // Snippet settings
 $options = array(
     'addTpl' => $modx->getOption('addTpl', $scriptProperties, $rememberthis->getOption('addTpl'), true),
-    'tplPath' => $modx->getOption('tplPath', $scriptProperties, $rememberthis->getOption('tplPath'), true)
+    'tplPath' => $modx->getOption('tplPath', $scriptProperties, $rememberthis->getOption('tplPath'), true),
+    'properties' => $scriptProperties
 );
 
 // Run options

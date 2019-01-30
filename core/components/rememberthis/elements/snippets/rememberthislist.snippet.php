@@ -8,6 +8,7 @@
  * @var modX $modx
  * @var array $scriptProperties
  */
+
 $path = $modx->getOption('rememberthis.core_path', null, $modx->getOption('core_path') . 'components/rememberthis/');
 /** @var RememberThis $rememberthis */
 $rememberthis = $modx->getService('rememberthis', 'RememberThis', $path . 'model/rememberthis/', array(
@@ -23,9 +24,10 @@ $options = array(
     'wrapperTpl' => $modx->getOption('wrapperTpl', $scriptProperties, $rememberthis->getOption('wrapperTpl'), true),
     'noResultsTpl' => $modx->getOption('noResultsTpl', $scriptProperties, $rememberthis->getOption('noResultsTpl'), true),
     'tplPath' => $modx->getOption('tplPath', $scriptProperties, $rememberthis->getOption('tplPath'), true),
-    'hash' => $modx->getOption('rememberthis', $_REQUEST, false, true)
+    'hash' => $modx->getOption('rememberthis', $_REQUEST, false, true),
+    'properties' => $scriptProperties
 );
-$jsonList = (bool) $modx->getOption('jsonList', $scriptProperties, false, true);
+$jsonList = (bool)$modx->getOption('jsonList', $scriptProperties, false, true);
 
 $result = $rememberthis->showList($options);
 if ($jsonList) {

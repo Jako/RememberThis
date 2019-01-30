@@ -1,10 +1,11 @@
-RememberThis
-============
+# RememberThis
 
 Remember list for MODX Revolution.
 
-Features
---------
+- Author: Thomas Jakobi <thomas.jakobi@partout.info>
+- License: GNU GPLv2
+
+## Features
 
 RememberThis is small session based remembering snippet solution for MODX 
 Revolution. It displays the session based list and a link to add elements to
@@ -17,4 +18,19 @@ referenced by the primary key of the class.
 Adding and removing elements from the list could be made by url params or by
 AJAX. A jQuery AJAX script is used by default.
 
-For more information please read the documentation: http://jako.github.io/RememberThis/.
+## Installation
+
+MODX Package Management
+
+## Usage
+
+Install via package manager and use the Snippets of the package.
+
+## Documentation
+
+For more information please read the documentation on
+http://jako.github.io/RememberThis/
+
+## GitHub Repository
+
+https://github.com/Jako/RememberThis

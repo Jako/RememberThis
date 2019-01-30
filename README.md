@@ -15,4 +15,14 @@ referenced by the primary key of the class.
 Adding and removing elements from the list could be made by url params or by
 AJAX. A jQuery AJAX script is used by default.
 
+## Installation
+
+MODX Package Management
+
+## Usage
+
+Install via package manager and use the Snippets of the package.
+
+## Documentation
+
 For more information please read the [documentation](http://jako.github.io/RememberThis/).

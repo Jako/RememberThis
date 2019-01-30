@@ -3,7 +3,7 @@
   "lowCaseName": "rememberthis",
   "description": "Remember List for xPDO Objects",
   "author": "Thomas Jakobi",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "package": {
     "elements": {
       "snippets": [
@@ -263,6 +263,11 @@
   "build": {
     "readme": "docs/readme.md",
     "license": "docs/license.md",
-    "changelog": "docs/changelog.md"
+    "changelog": "docs/changelog.md",
+    "resolver": {
+      "after": [
+        "resolve.treehillstudio.php"
+      ]
+    }
   }
 }

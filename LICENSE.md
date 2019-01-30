@@ -1,0 +1,1 @@
+/Users/jako/Documents/MODx/Develop/Revolution/develop/rememberthis/core/components/rememberthis/docs/license.md
