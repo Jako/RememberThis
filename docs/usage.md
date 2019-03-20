@@ -43,7 +43,7 @@ rowTpl | Row template for the list output. | tplRememberThisRow
 outerTpl | Outer template for the list output, if the list is not empty. | tplRememberThisOuter
 wrapperTpl | Wrapper template for the outer output or the empty output. | tplRememberThisWrapper
 noResultsTpl | Template that is displayed, if the list is empty. | tplRememberThisNoResults
-jsonList | Output a JSON encoded object of element identifiers[^4] and element itemproperties. | No 
+jsonList | Output a JSON encoded object of element identifiers[^4] and element itemproperties. | 0 (No) 
 
 The snippet will try to display a list from the database, when the request parameter `rememberthis` is not empty.
 
@@ -90,9 +90,9 @@ rememberRowTpl | Row template for the list output. | tplRememberThisRow
 rememberOuterTpl | Outer template for the list output, if the list is not empty. | tplRememberThisOuter
 rememberWrapperTpl | Wrapper template for the outer output or the empty output. | tplRememberThisWrapper
 noResultsTpl | Template that is displayed, if the list is empty. | tplRememberThisNoResults
-jsonList | Output a JSON encoded array of associative arrays of element identifiers[^4] and element itemproperties. | No 
-clearList | Clear the list after running the hook. | No
-saveList | Save the list with a hash in the database. | No
+jsonList | Output a JSON encoded array of associative arrays of element identifiers[^4] and element itemproperties. | 0 (No)
+clearList | Clear the list after running the hook. | 0 (No)
+saveList | Save the list with a hash in the database. | 0 (No)
 
 #### Placeholders
 
@@ -129,7 +129,7 @@ rememberthis.wrapperTpl | Wrapper template for the outer output or the empty out
 rememberthis.addTpl | Template for the add link. | tplRememberThisAdd
 rememberthis.noResultsTpl | Template that is displayed, if the list is empty. | tplRememberThisNoResults
 rememberthis.scriptTpl | Template for the javascript call. | tplRememberThisScript
-rememberthis.showZeroCount | Show Zero Values in template. | yes
+rememberthis.showZeroCount | Show Zero Values in template. | Yes
 rememberthis.itemTitleTpl | Template for one list item. | tplRememberThisItemTitle
 rememberthis.ajaxLoaderImg | Image file, that is shown during AJAX requests. | FontAwesome fa-refresh
 rememberthis.tvPrefix | Prefix for template variables in template chunks. | tv.
