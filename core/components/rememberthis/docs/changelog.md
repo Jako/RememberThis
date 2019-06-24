@@ -76,35 +76,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add/Remove query keys are changeable
 
 ## [1.0.0] - 2015-04-15
-### Changed
-- Total rewrite of code
-- Rename Snippet(s)
-
-## [0.6.0] - TBA
 ### Added
-- Added parameter ajaxLoaderImg
-- Prepared rememberthis.js for callbacks
-- Each snippet call could use its own templates in display mode
-
-## [0.5.0] - TBA
-### Added
-- Rewritten rememberthis.js
-- Use of revoChunkie class
-- Better templating
-
-## [0.4.3] - TBA
-### Changed
-- Fix phpthumbof problem in AJAX call
-
-## [0.4.2] - TBA
-### Changed
-- Fix Session problem fixed
-- Fix javascript and styling issues
-
-## [0.4.1] - TBA
-### Added
-- All template system settings could be overridden by snippet parameters
-
-## [0.4.0] - TBA
-### Added
-- Initial public release
+- Initial release for MODX Revolution
