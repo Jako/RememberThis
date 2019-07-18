@@ -26,7 +26,7 @@ class RememberThis
      * The version
      * @var string $namespace
      */
-    public $version = '2.2.1';
+    public $version = '2.2.2';
 
     /**
      * The class options

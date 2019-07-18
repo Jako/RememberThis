@@ -42,10 +42,10 @@
             var _this = this;
 
             if (_this.options.ajaxLoaderImg !== '') {
-                _this.options.loadImage = $('<img>').addClass('rememberload').attr('src', _this.options.ajaxLoaderImg);
+                _this.options.loadImage = $('<img class="rememberload" alt="Loading" src="' + _this.options.ajaxLoaderImg + '">');
             }
             else {
-                _this.options.loadImage = $('<i>').addClass('fa fa-refresh fa-spin rememberload');
+                _this.options.loadImage = $('<i class="fa fa-refresh fa-spin rememberload">');
             }
             if (firstCall) {
                 $(document).on('click', '.rememberadd', function (e) {
