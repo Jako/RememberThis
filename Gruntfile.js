@@ -33,7 +33,7 @@ module.exports = function (grunt) {
             }
         },
         uglify: {
-            js: {
+            web: {
                 src: [
                     'source/js/rememberthis.js'
                 ],
@@ -46,7 +46,7 @@ module.exports = function (grunt) {
                 outputStyle: 'expanded',
                 sourcemap: false
             },
-            dist: {
+            web: {
                 files: {
                     'assets/components/rememberthis/css/rememberthis.css': 'source/sass/rememberthis.scss'
                 }
@@ -56,19 +56,17 @@ module.exports = function (grunt) {
             options: {
                 processors: [
                     require('pixrem')(),
-                    require('autoprefixer')({
-                        browsers: 'last 2 versions, ie >= 8'
-                    })
+                    require('autoprefixer')()
                 ]
             },
-            dist: {
+            web: {
                 src: [
                     'assets/components/rememberthis/css/rememberthis.css'
                 ]
             }
         },
         cssmin: {
-            css: {
+            web: {
                 src: [
                     'assets/components/rememberthis/css/rememberthis.css'
                 ],
@@ -76,16 +74,44 @@ module.exports = function (grunt) {
             }
         },
         imagemin: {
-            img: {
+            png: {
                 options: {
                     optimizationLevel: 7
                 },
-                files: [{
-                    expand: true,
-                    cwd: 'source/img/',
-                    src: ['**/*.{png,jpg,gif}'],
-                    dest: 'assets/components/rememberthis/img'
-                }]
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'source/img/',
+                        src: ['**/*.png'],
+                        dest: 'assets/components/rememberthis/img/',
+                        ext: '.png'
+                    }
+                ]
+            },
+            jpg: {
+                options: {
+                    progressive: true
+                },
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'source/img/',
+                        src: ['**/*.jpg'],
+                        dest: 'assets/components/rememberthis/img/',
+                        ext: '.jpg'
+                    }
+                ]
+            },
+            gif: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'source/img/',
+                        src: ['**/*.gif'],
+                        dest: 'assets/components/rememberthis/img/',
+                        ext: '.gif'
+                    }
+                ]
             }
         },
         watch: {
