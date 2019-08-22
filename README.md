@@ -25,4 +25,4 @@ Install via package manager and use the Snippets of the package.
 
 ## Documentation
 
-For more information please read the [documentation](http://jako.github.io/RememberThis/).
+For more information please read the [documentation](https://jako.github.io/RememberThis/).
