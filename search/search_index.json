@@ -22,7 +22,7 @@
         }, 
         {
             "location": "/installation/", 
-            "text": "Install from MODX Extras\n\n\nSearch for RememberThis in the Package Manager of a MODX installation and\ninstall it in there.\n\n\nManual installation\n\n\nIf you can't access the MODX Extras Repository in your MODX installation, you\ncan manually install RememberThis.\n\n\n\n\nDownload the transport package from \nMODX Extras\n (or one of the pre built transport packages in \n_packages\n)\n\n\nUpload the zip file to your MODX installation's \ncore/packages\n folder.\n\n\nIn the MODX Manager, navigate to the Package Manager page, and select 'Search locally for packages' from the dropdown button.\n\n\nRememberThis should now show up in the list of available packages. Click the corresponding 'Install' button and follow instructions to complete the installation.\n\n\n\n\nBuild it from source\n\n\nTo build and install the package from source you could use \nGit Package\nManagement\n. The GitHub\nrepository of RememberThis contains a\n\nconfig.json\n\nto build that package locally. Use this option, if you want to debug\nRememberThis and/or contribute bugfixes and enhancements.", 
+            "text": "Install from MODX Extras\n\n\nSearch for RememberThis in the Package Manager of a MODX installation and\ninstall it in there.\n\n\nManual installation\n\n\nIf you can't access the MODX Extras Repository in your MODX installation, you\ncan manually install RememberThis.\n\n\n\n\nDownload the transport package from \nMODX Extras\n (or one of the pre built transport packages in \n_packages\n)\n\n\nUpload the zip file to your MODX installation's \ncore/packages\n folder or upload it manually in the MODX Package Manager.\n\n\nIn the MODX Manager, navigate to the Package Manager page, and select 'Search locally for packages' from the dropdown button.\n\n\nRememberThis should now show up in the list of available packages. Click the corresponding 'Install' button and follow instructions to complete the installation.\n\n\n\n\nBuild it from source\n\n\nTo build and install the package from source you could use \nGit Package\nManagement\n. The GitHub\nrepository of RememberThis contains a\n\nconfig.json\n\nto build that package locally. Use this option, if you want to debug\nRememberThis and/or contribute bugfixes and enhancements.", 
             "title": "Installation"
         }, 
         {
@@ -32,7 +32,7 @@
         }, 
         {
             "location": "/installation/#manual-installation", 
-            "text": "If you can't access the MODX Extras Repository in your MODX installation, you\ncan manually install RememberThis.   Download the transport package from  MODX Extras  (or one of the pre built transport packages in  _packages )  Upload the zip file to your MODX installation's  core/packages  folder.  In the MODX Manager, navigate to the Package Manager page, and select 'Search locally for packages' from the dropdown button.  RememberThis should now show up in the list of available packages. Click the corresponding 'Install' button and follow instructions to complete the installation.", 
+            "text": "If you can't access the MODX Extras Repository in your MODX installation, you\ncan manually install RememberThis.   Download the transport package from  MODX Extras  (or one of the pre built transport packages in  _packages )  Upload the zip file to your MODX installation's  core/packages  folder or upload it manually in the MODX Package Manager.  In the MODX Manager, navigate to the Package Manager page, and select 'Search locally for packages' from the dropdown button.  RememberThis should now show up in the list of available packages. Click the corresponding 'Install' button and follow instructions to complete the installation.", 
             "title": "Manual installation"
         }, 
         {
@@ -92,12 +92,12 @@
         }, 
         {
             "location": "/contributors/", 
-            "text": "Contributors\n\n\nThe RememberThis project was started in 2008 by \nThomas\nJakobi\n as a snippet for MODX Evolution. The MODX\nRevolution Extra packagewas started in 2011.\n\n\nThanks to everybody who contributed, either by creating pull requests, sending bug reports or donating.", 
+            "text": "Contributors\n\n\nThe RememberThis project was started in 2008 by \nThomas\nJakobi\n as a snippet for MODX Evolution. The MODX\nRevolution Extra package was started in 2011.\n\n\nThanks to everybody who contributed, either by creating pull requests, sending bug reports or donating.", 
             "title": "Contributors"
         }, 
         {
             "location": "/contributors/#contributors", 
-            "text": "The RememberThis project was started in 2008 by  Thomas\nJakobi  as a snippet for MODX Evolution. The MODX\nRevolution Extra packagewas started in 2011.  Thanks to everybody who contributed, either by creating pull requests, sending bug reports or donating.", 
+            "text": "The RememberThis project was started in 2008 by  Thomas\nJakobi  as a snippet for MODX Evolution. The MODX\nRevolution Extra package was started in 2011.  Thanks to everybody who contributed, either by creating pull requests, sending bug reports or donating.", 
             "title": "Contributors"
         }, 
         {
