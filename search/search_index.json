@@ -102,12 +102,12 @@
         }, 
         {
             "location": "/donate/", 
-            "text": "Support RememberThis\n\n\nRememberThis\n is and always will be free and open-source, but it still requires many man-hours of development, \nbug-fixing, support in MODX forums and on GitHub between the releases.\n\n\nPlease support the ongoing and past development of \nRememberThis\n by making a donation below.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nRememberThis\n development is sponsored by Treehillstudio \u2013 MODX Development in M\u00fcnsterland.", 
+            "text": "Support RememberThis\n\n\nRememberThis\n is and always will be free and open-source, but it still requires\nmany man-hours of development, bug-fixing, support in MODX forums and on GitHub\nbetween the releases.\n\n\nPlease support the ongoing and past development of \nRememberThis\n by making a\ndonation below.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nRememberThis\n development is sponsored by Treehillstudio \u2013 MODX Development in M\u00fcnsterland.", 
             "title": "Donate"
         }, 
         {
             "location": "/donate/#support-rememberthis", 
-            "text": "RememberThis  is and always will be free and open-source, but it still requires many man-hours of development, \nbug-fixing, support in MODX forums and on GitHub between the releases.  Please support the ongoing and past development of  RememberThis  by making a donation below.           RememberThis  development is sponsored by Treehillstudio \u2013 MODX Development in M\u00fcnsterland.", 
+            "text": "RememberThis  is and always will be free and open-source, but it still requires\nmany man-hours of development, bug-fixing, support in MODX forums and on GitHub\nbetween the releases.  Please support the ongoing and past development of  RememberThis  by making a\ndonation below.            RememberThis  development is sponsored by Treehillstudio \u2013 MODX Development in M\u00fcnsterland.", 
             "title": "Support RememberThis"
         }
     ]
