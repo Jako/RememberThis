@@ -3,7 +3,7 @@
 /**
  * RememberThis
  *
- * Copyright 2008-2019 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Copyright 2008-2020 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * @package rememberthis
  * @subpackage classfile
@@ -26,7 +26,7 @@ class RememberThis
      * The version
      * @var string $namespace
      */
-    public $version = '2.2.2';
+    public $version = '2.2.3';
 
     /**
      * The class options
@@ -497,6 +497,7 @@ class RememberThis
             if ($this->getOption('useDatabase') && $this->modx->user->id) {
                 $this->setDBRecord();
             }
+            end($_SESSION['rememberThis']);
             return (key($_SESSION['rememberThis']));
         } else {
             return false;

@@ -3,7 +3,7 @@
   "lowCaseName": "rememberthis",
   "description": "Remember List for xPDO Objects",
   "author": "Thomas Jakobi",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "package": {
     "elements": {
       "snippets": [
