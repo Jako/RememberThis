@@ -307,19 +307,17 @@ class RememberThis
             if ($this->getOption('debug')) {
                 $output['debug'] = 'DEBUG: $_SESSION[\'rememberThis\'] = ' . print_r($_SESSION['rememberThis'], true);
             }
-        } else {
-            if ($options['delete']) {
-                $this->delete($options['delete']);
-                if (count($_SESSION['rememberThis']) > 0) {
-                    $output['result'] = '';
-                    $output['count'] = count($_SESSION['rememberThis']);
-                } else {
-                    $output['result'] = $this->getChunk($this->getOption('noResultsTpl'), $this->options);
-                    $output['count'] = $this->getOption('showZeroCount') ? '0' : '';
-                }
-                if ($this->getOption('debug')) {
-                    $output['debug'] = 'DEBUG: $_SESSION["rememberThis"] = ' . print_r($_SESSION['rememberThis'], true);
-                }
+        } elseif ($options['delete']) {
+            $this->delete($options['delete']);
+            if (count($_SESSION['rememberThis']) > 0) {
+                $output['result'] = '';
+                $output['count'] = count($_SESSION['rememberThis']);
+            } else {
+                $output['result'] = $this->getChunk($this->getOption('noResultsTpl'), $this->options);
+                $output['count'] = $this->getOption('showZeroCount') ? '0' : '';
+            }
+            if ($this->getOption('debug')) {
+                $output['debug'] = 'DEBUG: $_SESSION["rememberThis"] = ' . print_r($_SESSION['rememberThis'], true);
             }
         }
         return $output;
@@ -484,7 +482,7 @@ class RememberThis
             $newElement['itemproperties'] = $properties;
         }
 
-        foreach ($_SESSION['rememberThis'] as & $element) {
+        foreach ($_SESSION['rememberThis'] as &$element) {
             if (!count(array_diff_assoc($element['element'], $newElement))) {
                 $found = 1;
             }
