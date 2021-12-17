@@ -121,34 +121,34 @@ rememberthis.hash | The hash of the saved list in the database. The RememberThis
 
 RememberThis uses the following system settings in the namespace `rememberthis`.
 
-Property | Description | Default
----- | ----------- | -------
-rememberthis.rowTpl | Row template for the list output. | tplRememberThisRow
-rememberthis.outerTpl | Outer template for the list output, if the list is not empty. | tplRememberThisOuter
-rememberthis.wrapperTpl | Wrapper template for the outer output or the empty output. | tplRememberThisWrapper
-rememberthis.addTpl | Template for the add link. | tplRememberThisAdd
-rememberthis.noResultsTpl | Template that is displayed, if the list is empty. | tplRememberThisNoResults
-rememberthis.scriptTpl | Template for the javascript call. | tplRememberThisScript
-rememberthis.showZeroCount | Show Zero Values in template. | Yes
-rememberthis.itemTitleTpl | Template for one list item. | tplRememberThisItemTitle
-rememberthis.ajaxLoaderImg | Image file, that is shown during AJAX requests. | FontAwesome fa-refresh
-rememberthis.tvPrefix | Prefix for template variables in template chunks. | tv.
-rememberthis.queryAdd | Query key, used to add xPDO objects as elements to the list. | add
-rememberthis.queryDelete | Query key, used to remove elements from the list. | delete
-rememberthis.language | Snippet language. | current **cultureKey**
-rememberthis.tplPath | Base path for template chunks using @FILE binding. | `{assets_path}elements/chunks/`
-rememberthis.packagename | xPDO package name where the added data is retreived from. If empty, the data is retrieved from resources. The data row is selected by the id of the resource or by the `keyname` column of the `classname` xPDO class. | -
-rememberthis.classname | xPDO classname where the added data is retreived from. | -
-rememberthis.keyname | xPDO class keyname to retrieve one data row. | id
-rememberthis.joins | Joins defined in the xPDO class, to retreive the added data. | -
-rememberthis.jQueryPath | Path to jQuery script. | -
-rememberthis.includeScripts | Include javascripts (at the end of the body). | Yes
-rememberthis.includeCss | Include css (at the end of the head). | Yes
-rememberthis.useCookie  | Save the remembered data in a cookie. | No
-rememberthis.cookieName  | The name of the cookie. | rememberlist
-rememberthis.cookieExpireDays  | The expiration time of the cookie (in days). | 90
-rememberthis.useDatabase  | Save the remembered list in the database (only if the frontend user is logged into the site). | No
-rememberthis.debug | Display debug informations. | No
+Setting | Description | Default
+------- | ----------- | -------
+rowTpl | Row template for the list output. | tplRememberThisRow
+outerTpl | Outer template for the list output, if the list is not empty. | tplRememberThisOuter
+wrapperTpl | Wrapper template for the outer output or the empty output. | tplRememberThisWrapper
+addTpl | Template for the add link. | tplRememberThisAdd
+noResultsTpl | Template that is displayed, if the list is empty. | tplRememberThisNoResults
+scriptTpl | Template for the javascript call. | tplRememberThisScript
+showZeroCount | Show Zero Values in template. | Yes
+itemTitleTpl | Template for one list item. | tplRememberThisItemTitle
+ajaxLoaderImg | Image file, that is shown during AJAX requests. | FontAwesome fa-refresh
+tvPrefix | Prefix for template variables in template chunks. | tv.
+queryAdd | Query key, used to add xPDO objects as elements to the list. | add
+queryDelete | Query key, used to remove elements from the list. | delete
+language | Snippet language. | current **cultureKey**
+tplPath | Base path for template chunks using @FILE binding. | `{assets_path}elements/chunks/`
+packagename | xPDO package name where the added data is retreived from. If empty, the data is retrieved from resources. The data row is selected by the id of the resource or by the `keyname` column of the `classname` xPDO class. | -
+classname | xPDO classname where the added data is retreived from. | -
+keyname | xPDO class keyname to retrieve one data row. | id
+joins | Joins defined in the xPDO class, to retreive the added data. | -
+jQueryPath | Path to jQuery script. | -
+includeScripts | Include javascripts (at the end of the body). | Yes
+includeCss | Include css (at the end of the head). | Yes
+useCookie  | Save the remembered data in a cookie. | No
+cookieName  | The name of the cookie. | rememberlist
+cookieExpireDays  | The expiration time of the cookie (in days). | 90
+useDatabase  | Save the remembered list in the database (only if the frontend user is logged into the site). | No
+debug | Display debug informations. | No
 
 !!! caution
     If you display the RememberThisList snippet call multiple on the page, all snippet calls have to be different, to show the debug information.
