@@ -3,7 +3,7 @@
 /**
  * RememberThis
  *
- * Copyright 2008-2020 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Copyright 2008-2020 by Thomas Jakobi <office@treehillstudio.com>
  *
  * @package rememberthis
  * @subpackage classfile

@@ -1,7 +1,7 @@
 /**
  * RememberThis
  *
- * @author Thomas Jakobi <thomas.jakobi@partout.info>
+ * @author Thomas Jakobi <office@treehillstudio.com>
  *
  * @package rememberthis
  * @subpackage jqueryplugin
