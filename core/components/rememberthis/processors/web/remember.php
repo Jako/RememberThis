@@ -3,7 +3,7 @@
  * Remember Processor
  *
  * @package rememberthis
- * @subpackage processor
+ * @subpackage processors
  *
  * @var modX $modx
  */
