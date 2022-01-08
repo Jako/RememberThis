@@ -1,6 +1,6 @@
 <?php
 /**
- * RememberThis Connector
+ * RememberThis connector
  *
  * @package rememberthis
  * @subpackage connector
