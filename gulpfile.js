@@ -46,8 +46,10 @@ gulp.task('scripts-web', function () {
 
 gulp.task('sass-web', function () {
     return gulp.src([
-        'source/sass/mgr/rememberthis.scss'
+        'source/sass/rememberthis.scss'
     ])
+        .pipe(gulp.dest('assets/components/rememberthis/scss/'))
+        .pipe(concat('rememberthis.scss'))
         .pipe(sass().on('error', sass.logError))
         .pipe(postcss([
             autoprefixer()
