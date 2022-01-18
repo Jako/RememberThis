@@ -9,8 +9,6 @@
  * @var array $options
  */
 
-set_time_limit(0);
-
 if (!function_exists('updateTableColumns')) {
     /**
      * @param modX $modx
@@ -109,11 +107,11 @@ if ($object->xpdo) {
         case xPDOTransport::ACTION_INSTALL:
         case xPDOTransport::ACTION_UPGRADE:
             /** @var modX $modx */
-            $modx =& $object->xpdo;
+            $modx = &$object->xpdo;
 
-            $tables = array(
-                'RememberThisList'
-            );
+            $tables = [
+                "RememberThisList"
+            ];
 
             $modelPath = $modx->getOption('rememberthis.core_path', null, $modx->getOption('core_path') . 'components/rememberthis/') . 'model/';
             $modx->addPackage('rememberthis', $modelPath);

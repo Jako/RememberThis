@@ -68,7 +68,7 @@ Placeholder | Description
 count | The count of added elements in the list.
 wrapper | The wrapper containing all rows of the list.
 
-[^5]: In the `itemTitleTpl` template chunk all column names of the xPDO object could be referenced by a placeholder with this name. Also all properties could be referenced with the property name, i.e. a property set by `[[+rememberqueryadd]]property_test` could be referenced with the placeholder `[[+test]]`.
+[^5]: In the `itemTitleTpl` template chunk all column names of the xPDO object could be referenced by a placeholder with this name. Also, all properties could be referenced with the property name, i.e. a property set by `[[+rememberqueryadd]]property_test` could be referenced with the placeholder `[[+test]]`.
 
 ### RememberThisHook (FormIt hook)
 
@@ -148,7 +148,7 @@ useCookie  | Save the remembered data in a cookie. | No
 cookieName  | The name of the cookie. | rememberlist
 cookieExpireDays  | The expiration time of the cookie (in days). | 90
 useDatabase  | Save the remembered list in the database (only if the frontend user is logged into the site). | No
-debug | Display debug informations. | No
+debug | Display debug information. | No
 
 !!! caution
     If you display the RememberThisList snippet call multiple on the page, all snippet calls have to be different, to show the debug information.

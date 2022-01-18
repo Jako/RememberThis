@@ -9,33 +9,16 @@
  * @var array $scriptProperties
  */
 
-$path = $modx->getOption('rememberthis.core_path', null, $modx->getOption('core_path') . 'components/rememberthis/');
+use TreehillStudio\RememberThis\Snippets\RememberThisList;
+
+$corePath = $modx->getOption('rememberthis.core_path', null, $modx->getOption('core_path') . 'components/rememberthis/');
 /** @var RememberThis $rememberthis */
-$rememberthis = $modx->getService('rememberthis', 'RememberThis', $path . 'model/rememberthis/', array(
-    'core_path' => $path
-));
-$init = $rememberthis->getOption('init', null, false);
-$rememberthis->init();
+$rememberthis = $modx->getService('rememberthis', 'RememberThis', $corePath . 'model/rememberthis/', [
+    'core_path' => $corePath
+]);
 
-// Snippet settings
-$options = array(
-    'rowTpl' => $modx->getOption('rowTpl', $scriptProperties, $rememberthis->getOption('rowTpl'), true),
-    'outerTpl' => $modx->getOption('outerTpl', $scriptProperties, $rememberthis->getOption('outerTpl'), true),
-    'wrapperTpl' => $modx->getOption('wrapperTpl', $scriptProperties, $rememberthis->getOption('wrapperTpl'), true),
-    'noResultsTpl' => $modx->getOption('noResultsTpl', $scriptProperties, $rememberthis->getOption('noResultsTpl'), true),
-    'tplPath' => $modx->getOption('tplPath', $scriptProperties, $rememberthis->getOption('tplPath'), true),
-    'hash' => $modx->getOption('rememberthis', $_REQUEST, false, true),
-    'properties' => $scriptProperties
-);
-$jsonList = (bool)$modx->getOption('jsonList', $scriptProperties, false, true);
-
-$result = $rememberthis->showList($options);
-if ($jsonList) {
-    $output = json_encode($result['list']);
-} else {
-    $output = $result['result'];
-    if ($rememberthis->getOption('debug') && !$init) {
-        $output .= '<pre class="rememberdebug">' . $result['debug'] . '</pre>';
-    }
+$snippet = new RememberThisList($modx, $scriptProperties);
+if ($snippet instanceof TreehillStudio\RememberThis\Snippets\RememberThisList) {
+    return $snippet->execute();
 }
-return $output;
+return 'TreehillStudio\RememberThis\Snippets\RememberThisList class not found';

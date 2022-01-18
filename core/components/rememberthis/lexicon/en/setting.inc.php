@@ -1,8 +1,13 @@
 <?php
+/**
+ * Settings Lexicon Entries for RememberThis
+ *
+ * @package rememberthis
+ * @subpackage lexicon
+ */
 $_lang['area_cookie'] = 'Cookie';
 $_lang['area_package'] = 'xPDO Package';
 $_lang['area_templates'] = 'Templates';
-
 $_lang['setting_rememberthis.addTpl'] = 'Add Template';
 $_lang['setting_rememberthis.addTpl_desc'] = 'Template for the add link.';
 $_lang['setting_rememberthis.ajaxLoaderImg'] = 'AJAX Loader Image';
@@ -14,7 +19,7 @@ $_lang['setting_rememberthis.cookieExpireDays_desc'] = 'The expiration time of t
 $_lang['setting_rememberthis.cookieName'] = 'Cookie Name';
 $_lang['setting_rememberthis.cookieName_desc'] = 'The name of the cookie.';
 $_lang['setting_rememberthis.debug'] = 'Debug';
-$_lang['setting_rememberthis.debug_desc'] = 'Display debug informations.';
+$_lang['setting_rememberthis.debug_desc'] = 'Display debug information.';
 $_lang['setting_rememberthis.includeCss'] = 'Include CSS';
 $_lang['setting_rememberthis.includeCss_desc'] = 'Include css (at the end of the head).';
 $_lang['setting_rememberthis.includeScripts'] = 'Include Javascripts';

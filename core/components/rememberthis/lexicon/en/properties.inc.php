@@ -1,4 +1,10 @@
 <?php
+/**
+ * Properties Lexicon Entries for RememberThis
+ *
+ * @package rememberthis
+ * @subpackage lexicon
+ */
 $_lang['rememberthis.rememberthisadd.addId'] = 'This value (and the correspondenting item title) is added to the list.';
 $_lang['rememberthis.rememberthisadd.addTpl'] = 'Template for the add link.';
 $_lang['rememberthis.rememberthishook.clearList'] = 'Clear the list after running the hook.';

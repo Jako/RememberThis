@@ -1,0 +1,25 @@
+{
+  "name": "treehillstudio/rememberthis",
+  "description": "Remember List for xPDO Objects",
+  "authors": [
+    {
+      "name": "Thomas Jakobi",
+      "email": "office@treehillstudio.com",
+      "homepage": "https://treehillstudio.com"
+    }
+  ],
+  "license": "GPL-2.0-or-later",
+  "config": {
+    "platform": {
+      "php": "7.2.5"
+    }
+  },
+  "require": {
+    "php": ">=7.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "TreehillStudio\\RememberThis\\": "src/"
+    }
+  }
+}

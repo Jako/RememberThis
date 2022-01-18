@@ -1,8 +1,13 @@
 <?php
+/**
+ * Settings Lexicon Entries for RememberThis
+ *
+ * @package rememberthis
+ * @subpackage lexicon
+ */
 $_lang['area_cookie'] = 'Cookie';
 $_lang['area_package'] = 'xPDO Package';
 $_lang['area_templates'] = 'Templates';
-
 $_lang['setting_rememberthis.addTpl'] = 'Hinzufügen-Template';
 $_lang['setting_rememberthis.addTpl_desc'] = 'Template für den Hinzufügen Link.';
 $_lang['setting_rememberthis.ajaxLoaderImg'] = 'AJAX Loader Bild';

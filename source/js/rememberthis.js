@@ -43,8 +43,7 @@
 
             if (_this.options.ajaxLoaderImg !== '') {
                 _this.options.loadImage = $('<img class="rememberload" alt="Loading" src="' + _this.options.ajaxLoaderImg + '">');
-            }
-            else {
+            } else {
                 _this.options.loadImage = $('<i class="fa fa-refresh fa-spin rememberload">');
             }
             if (firstCall) {

@@ -1,15 +1,15 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('.rememberthis').rememberThis(
-                $.extend([[+options]], {
-                    listSelector: '.rememberthis',
-                    onAfterAdd: function () {
-                        $('.rememberthis').addClass('changed');
-                        window.setTimeout(function () {
-                            $('.rememberthis').removeClass('changed');
-                        }, 1000);
-                    }
-                })
+            $.extend([[+options]], {
+                listSelector: '.rememberthis',
+                onAfterAdd: function () {
+                    $('.rememberthis').addClass('changed');
+                    window.setTimeout(function () {
+                        $('.rememberthis').removeClass('changed');
+                    }, 1000);
+                }
+            })
         );
     });
 </script>

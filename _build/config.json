@@ -3,14 +3,14 @@
   "lowCaseName": "rememberthis",
   "description": "Remember List for xPDO Objects",
   "author": "Thomas Jakobi",
-  "version": "2.2.3",
+  "version": "2.3.0",
   "package": {
     "elements": {
       "snippets": [
         {
           "name": "RememberThisList",
           "file": "rememberthislist.snippet.php",
-          "description": "List output of the remembered xPDO data.",
+          "description": "List output of the remembered xPDO data",
           "properties": [
             {
               "name": "rowTpl",
@@ -38,7 +38,7 @@
         {
           "name": "RememberThisAdd",
           "file": "rememberthisadd.snippet.php",
-          "description": "Show the Add button.",
+          "description": "Show the Add button",
           "properties": [
             {
               "name": "addId",
@@ -53,7 +53,7 @@
         {
           "name": "RememberThisHook",
           "file": "rememberthis.hook.php",
-          "description": "FormIt Hook to set a hook value with the remembered data of RememberThis snippet.",
+          "description": "FormIt Hook to set a hook value with the remembered data",
           "properties": [
             {
               "name": "rememberRowTpl",
@@ -118,6 +118,12 @@
     },
     "systemSettings": [
       {
+        "key": "debug",
+        "type": "combo-boolean",
+        "area": "system",
+        "value": "0"
+      },
+      {
         "key": "rowTpl",
         "area": "templates",
         "value": "tplRememberThisRow"
@@ -149,8 +155,8 @@
       },
       {
         "key": "showZeroCount",
-        "area": "templates",
         "type": "combo-boolean",
+        "area": "templates",
         "value": "1"
       },
       {
@@ -215,20 +221,20 @@
       },
       {
         "key": "includeScripts",
-        "area": "system",
         "type": "combo-boolean",
+        "area": "system",
         "value": "1"
       },
       {
         "key": "includeCss",
-        "area": "system",
         "type": "combo-boolean",
+        "area": "system",
         "value": "1"
       },
       {
         "key": "useCookie",
-        "area": "cookie",
         "type": "combo-boolean",
+        "area": "cookie",
         "value": "0"
       },
       {
@@ -243,14 +249,8 @@
       },
       {
         "key": "useDatabase",
-        "area": "system",
         "type": "combo-boolean",
-        "value": "0"
-      },
-      {
-        "key": "debug",
         "area": "system",
-        "type": "combo-boolean",
         "value": "0"
       }
     ]
@@ -263,7 +263,7 @@
   "dependencies": [
     {
       "name": "php",
-      "version": ">=5.6"
+      "version": ">=7.2"
     },
     {
       "name": "modx",
@@ -279,6 +279,7 @@
     },
     "resolver": {
       "after": [
+        "resolve.synctables.php",
         "resolve.treehillstudio.php"
       ]
     }
