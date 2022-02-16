@@ -1,3 +1,5 @@
+[![Default Lexicon](https://hosted.weblate.org/widgets/modx-extras/-/modx-rememberthis-standard/svg-badge.svg)](https://hosted.weblate.org/projects/modx-extras/modx-rememberthis-standard/)
+
 # RememberThis
 
 Remember list for MODX Revolution.
@@ -26,3 +28,12 @@ Install via package manager and use the Snippets of the package.
 ## Documentation
 
 For more information please read the [documentation](https://jako.github.io/RememberThis/).
+
+## License
+
+The project is licensed under the [GPLv2 license](https://github.com/Jako/RememberThis/blob/master/core/components/rememberthis/docs/license.md).
+
+## Translations
+
+Translations of the package can be made for the [Default Lexicon](https://hosted.weblate.org/projects/modx-extras/modx-rememberthis-standard/), the [Properties Lexicon](https://hosted.weblate.org/projects/modx-extras/modx-rememberthis-properties/) and the [System Setting Lexicon](https://hosted.weblate.org/projects/modx-extras/modx-rememberthis-system-settings/)
+
