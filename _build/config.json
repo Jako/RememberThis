@@ -3,7 +3,7 @@
   "lowCaseName": "rememberthis",
   "description": "Remember List for xPDO Objects",
   "author": "Thomas Jakobi",
-  "version": "2.3.0",
+  "version": "2.3.0-pl2",
   "package": {
     "elements": {
       "snippets": [
@@ -280,6 +280,7 @@
     "resolver": {
       "after": [
         "resolve.synctables.php",
+        "resolve.cleanup.php",
         "resolve.treehillstudio.php"
       ]
     }

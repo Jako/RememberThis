@@ -43,7 +43,7 @@ class RememberThis
      * The version
      * @var string $version
      */
-    public $version = '2.3.0';
+    public $version = '2.3.0-pl2';
 
     /**
      * The class options
