@@ -22,4 +22,4 @@ $snippet = new RememberThisHook($modx, $hook, $scriptProperties);
 if ($snippet instanceof TreehillStudio\RememberThis\Snippets\RememberThisHook) {
     return $snippet->execute();
 }
-return 'TreehillStudio\RememberThis\Snippets\RememberThis2FormitHook class not found';
+return 'TreehillStudio\RememberThis\Snippets\RememberThisHook class not found';
