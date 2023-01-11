@@ -22,7 +22,7 @@ class RememberThisHook extends Hook
             'outerTpl' => $this->modx->getOption('rememberthis.outerTpl', null, ''),
             'wrapperTpl' => $this->modx->getOption('rememberthis.wrapperTpl', null, ''),
             'noResultsTpl' => $this->modx->getOption('rememberthis.noResultsTpl', null, ''),
-            'tplPath' => $this->modx->getOption('rememberthis.rowTpl', null, ''),
+            'tplPath' => $this->modx->getOption('rememberthis.tplPath', null, ''),
             'jsonList::bool' => false,
             'clearList::bool' => false,
             'saveList::bool' => false,
