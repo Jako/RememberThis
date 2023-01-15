@@ -311,21 +311,21 @@ parameters<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></p>
 </thead>
 <tbody>
 <tr>
-<td>addTpl</td>
-<td>Template for the add link/form.</td>
-<td>tplRememberThisAdd</td>
+<td>addId</td>
+<td>This value (and the correspondenting item title) is added to the list.<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup></td>
+<td>Current resource id</td>
 </tr>
 <tr>
-<td>addId</td>
-<td>This xPDO Object referenced by this ID is added to the list.<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup></td>
-<td>Current resource id</td>
+<td>addTpl</td>
+<td>Template for the add link.</td>
+<td>(system setting)</td>
 </tr>
 </tbody>
 </table>
-<p>The add template could contain a link or a form to add xPDO objects as element 
-to the list. The form could contain form fields and the link could contain 
-parameters to set properties of the remembered element. The field names and url 
-parameters have to be prefixed with <code>[[+rememberqueryadd]]property_</code>.</p>
+<p>The Add template can contain a link or a form to add xPDO objects as an element
+to the list. The form can contain form fields and the link can contain
+parameters to set properties of the remembered element. The field names and url
+parameters must be prefixed with <code>[[+rememberqueryadd]]property_</code>.</p>
 <h4 id="placeholders">Placeholders</h4>
 <p>The following placeholders are available in the <strong>addTpl</strong> template chunk:</p>
 <table>
@@ -362,33 +362,33 @@ parameters have to be prefixed with <code>[[+rememberqueryadd]]property_</code>.
 </thead>
 <tbody>
 <tr>
-<td>rowTpl</td>
-<td>Row template for the list output.</td>
-<td>tplRememberThisRow</td>
-</tr>
-<tr>
-<td>outerTpl</td>
-<td>Outer template for the list output, if the list is not empty.</td>
-<td>tplRememberThisOuter</td>
-</tr>
-<tr>
-<td>wrapperTpl</td>
-<td>Wrapper template for the outer output or the empty output.</td>
-<td>tplRememberThisWrapper</td>
+<td>jsonList</td>
+<td>Output a JSON encoded array of associative arrays of element identifiers<sup id="fnref4:4"><a class="footnote-ref" href="#fn:4">4</a></sup> and element itemproperties.</td>
+<td>No</td>
 </tr>
 <tr>
 <td>noResultsTpl</td>
 <td>Template that is displayed, if the list is empty.</td>
-<td>tplRememberThisNoResults</td>
+<td>(system setting)</td>
 </tr>
 <tr>
-<td>jsonList</td>
-<td>Output a JSON encoded object of element identifiers<sup id="fnref4:4"><a class="footnote-ref" href="#fn:4">4</a></sup> and element itemproperties.</td>
-<td>0 (No)</td>
+<td>outerTpl</td>
+<td>Outer template for the output of the list, if the list is not empty.</td>
+<td>(system setting)</td>
+</tr>
+<tr>
+<td>rowTpl</td>
+<td>Row template for the output of a list element.</td>
+<td>(system setting)</td>
+</tr>
+<tr>
+<td>wrapperTpl</td>
+<td>Wrapper template for the outer output or the empty output.</td>
+<td>(system setting)</td>
 </tr>
 </tbody>
 </table>
-<p>The snippet will try to display a list from the database, when the request parameter <code>rememberthis</code> is not empty.</p>
+<p>The snippet tries to display a list from the database if the query parameter <code>rememberthis</code> is not empty.</p>
 <h4 id="placeholders_1">Placeholders</h4>
 <p>The following placeholders are available in the <strong>rowTpl</strong> template chunk:</p>
 <table>
@@ -461,37 +461,37 @@ parameters have to be prefixed with <code>[[+rememberqueryadd]]property_</code>.
 <tr>
 <td>rememberRowTpl</td>
 <td>Row template for the list output.</td>
-<td>tplRememberThisRow</td>
+<td>(system setting)</td>
 </tr>
 <tr>
 <td>rememberOuterTpl</td>
 <td>Outer template for the list output, if the list is not empty.</td>
-<td>tplRememberThisOuter</td>
+<td>(system setting)</td>
 </tr>
 <tr>
 <td>rememberWrapperTpl</td>
 <td>Wrapper template for the outer output or the empty output.</td>
-<td>tplRememberThisWrapper</td>
+<td>(system setting)</td>
 </tr>
 <tr>
 <td>noResultsTpl</td>
 <td>Template that is displayed, if the list is empty.</td>
-<td>tplRememberThisNoResults</td>
+<td>(system setting)</td>
 </tr>
 <tr>
 <td>jsonList</td>
 <td>Output a JSON encoded array of associative arrays of element identifiers<sup id="fnref3:4"><a class="footnote-ref" href="#fn:4">4</a></sup> and element itemproperties.</td>
-<td>0 (No)</td>
+<td>No</td>
 </tr>
 <tr>
 <td>clearList</td>
 <td>Clear the list after running the hook.</td>
-<td>0 (No)</td>
+<td>No</td>
 </tr>
 <tr>
 <td>saveList</td>
 <td>Save the list with a hash in the database.</td>
-<td>0 (No)</td>
+<td>No</td>
 </tr>
 </tbody>
 </table>
@@ -551,7 +551,7 @@ parameters have to be prefixed with <code>[[+rememberqueryadd]]property_</code>.
 </tr>
 <tr>
 <td>rememberthis.hash</td>
-<td>The hash of the saved list in the database. The RememberThisList snippet could be triggered by the request parameter <code>rememberthis</code> containing this hash. That way remembered lists could be mailed to other users.</td>
+<td>The hash of the saved list in the database. The RememberThisList snippet can be triggered by the request parameter <code>rememberthis</code> containing this hash. That way remembered lists can be mailed to other users.</td>
 </tr>
 </tbody>
 </table>
@@ -560,141 +560,168 @@ parameters have to be prefixed with <code>[[+rememberqueryadd]]property_</code>.
 <table>
 <thead>
 <tr>
-<th>Setting</th>
+<th>Key</th>
+<th>Name</th>
 <th>Description</th>
 <th>Default</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>rowTpl</td>
-<td>Row template for the list output.</td>
-<td>tplRememberThisRow</td>
-</tr>
-<tr>
-<td>outerTpl</td>
-<td>Outer template for the list output, if the list is not empty.</td>
-<td>tplRememberThisOuter</td>
-</tr>
-<tr>
-<td>wrapperTpl</td>
-<td>Wrapper template for the outer output or the empty output.</td>
-<td>tplRememberThisWrapper</td>
-</tr>
-<tr>
-<td>addTpl</td>
+<td>rememberthis.addTpl</td>
+<td>Add Template</td>
 <td>Template for the add link.</td>
 <td>tplRememberThisAdd</td>
 </tr>
 <tr>
-<td>noResultsTpl</td>
-<td>Template that is displayed, if the list is empty.</td>
-<td>tplRememberThisNoResults</td>
-</tr>
-<tr>
-<td>scriptTpl</td>
-<td>Template for the javascript call.</td>
-<td>tplRememberThisScript</td>
-</tr>
-<tr>
-<td>showZeroCount</td>
-<td>Show Zero Values in template.</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>itemTitleTpl</td>
-<td>Template for one list item.</td>
-<td>tplRememberThisItemTitle</td>
-</tr>
-<tr>
-<td>ajaxLoaderImg</td>
+<td>rememberthis.ajaxLoaderImg</td>
+<td>AJAX Loader Image</td>
 <td>Image file, that is shown during AJAX requests.</td>
-<td>FontAwesome fa-refresh</td>
-</tr>
-<tr>
-<td>tvPrefix</td>
-<td>Prefix for template variables in template chunks.</td>
-<td>tv.</td>
-</tr>
-<tr>
-<td>queryAdd</td>
-<td>Query key, used to add xPDO objects as elements to the list.</td>
-<td>add</td>
-</tr>
-<tr>
-<td>queryDelete</td>
-<td>Query key, used to remove elements from the list.</td>
-<td>delete</td>
-</tr>
-<tr>
-<td>language</td>
-<td>Snippet language.</td>
-<td>current <strong>cultureKey</strong></td>
-</tr>
-<tr>
-<td>tplPath</td>
-<td>Base path for template chunks using @FILE binding.</td>
-<td><code>{assets_path}elements/chunks/</code></td>
-</tr>
-<tr>
-<td>packagename</td>
-<td>xPDO package name where the added data is retreived from. If empty, the data is retrieved from resources. The data row is selected by the id of the resource or by the <code>keyname</code> column of the <code>classname</code> xPDO class.</td>
 <td>-</td>
 </tr>
 <tr>
-<td>classname</td>
-<td>xPDO classname where the added data is retreived from.</td>
+<td>rememberthis.classname</td>
+<td>Classname</td>
+<td>xPDO class name where the added data is retreived from.</td>
 <td>-</td>
 </tr>
 <tr>
-<td>keyname</td>
-<td>xPDO class keyname to retrieve one data row.</td>
-<td>id</td>
-</tr>
-<tr>
-<td>joins</td>
-<td>Joins defined in the xPDO class, to retreive the added data.</td>
-<td>-</td>
-</tr>
-<tr>
-<td>jQueryPath</td>
-<td>Path to jQuery script.</td>
-<td>-</td>
-</tr>
-<tr>
-<td>includeScripts</td>
-<td>Include javascripts (at the end of the body).</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>includeCss</td>
-<td>Include css (at the end of the head).</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>useCookie</td>
-<td>Save the remembered data in a cookie.</td>
-<td>No</td>
-</tr>
-<tr>
-<td>cookieName</td>
-<td>The name of the cookie.</td>
-<td>rememberlist</td>
-</tr>
-<tr>
-<td>cookieExpireDays</td>
+<td>rememberthis.cookieExpireDays</td>
+<td>Cookie Expiration</td>
 <td>The expiration time of the cookie (in days).</td>
 <td>90</td>
 </tr>
 <tr>
-<td>useDatabase</td>
+<td>rememberthis.cookieName</td>
+<td>Cookie Name</td>
+<td>The name of the cookie.</td>
+<td>rememberlist</td>
+</tr>
+<tr>
+<td>rememberthis.debug</td>
+<td>Debug</td>
+<td>Display debug information.</td>
+<td>No</td>
+</tr>
+<tr>
+<td>rememberthis.includeCss</td>
+<td>Include CSS</td>
+<td>Include css (at the end of the head).</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>rememberthis.includeScripts</td>
+<td>Include Javascripts</td>
+<td>Include javascripts (at the end of the body).</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>rememberthis.itemTitleTpl</td>
+<td>Item Title Template</td>
+<td>Template for one list item.</td>
+<td>tplRememberThisItemTitle</td>
+</tr>
+<tr>
+<td>rememberthis.joins</td>
+<td>Joins</td>
+<td>Joins defined in the xPDO class, to retreive the added data.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>rememberthis.jQueryPath</td>
+<td>Path to jQuery</td>
+<td>Path to jQuery script.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>rememberthis.keyname</td>
+<td>Keyname</td>
+<td>xPDO class keyname to retrieve one data row.</td>
+<td>id</td>
+</tr>
+<tr>
+<td>rememberthis.language</td>
+<td>Language</td>
+<td>The frontend language.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>rememberthis.noResultsTpl</td>
+<td>No Results Template</td>
+<td>Template that is displayed, if the list is empty.</td>
+<td>tplRememberThisNoResults</td>
+</tr>
+<tr>
+<td>rememberthis.outerTpl</td>
+<td>Outer Template</td>
+<td>Outer template for the output of the list, if the list is not empty.</td>
+<td>tplRememberThisOuter</td>
+</tr>
+<tr>
+<td>rememberthis.packagename</td>
+<td>Packagename</td>
+<td>xPDO package name from which the added data is retrieved. If empty, the data is retrieved from resources.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>rememberthis.queryAdd</td>
+<td>Add Query Key</td>
+<td>Query key, that is used to add elements to the list.</td>
+<td>add</td>
+</tr>
+<tr>
+<td>rememberthis.queryDelete</td>
+<td>Delete Query Key</td>
+<td>Query key, that is used to remove elements from the list.</td>
+<td>delete</td>
+</tr>
+<tr>
+<td>rememberthis.rowTpl</td>
+<td>Row Template</td>
+<td>Row template for the output of a list element.</td>
+<td>tplRememberThisRow</td>
+</tr>
+<tr>
+<td>rememberthis.scriptTpl</td>
+<td>Script Template</td>
+<td>Template for the javascript call.</td>
+<td>tplRememberThisScript</td>
+</tr>
+<tr>
+<td>rememberthis.showZeroCount</td>
+<td>Show Zero Value</td>
+<td>Show Zero Values in template.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>rememberthis.tplPath</td>
+<td>Templates Path</td>
+<td>Base path for template chunks using @FILE binding.</td>
+<td>{assets_path}elements/chunks/</td>
+</tr>
+<tr>
+<td>rememberthis.tvPrefix</td>
+<td>Template Variable Prefix</td>
+<td>Prefix for template variables in template chunks.</td>
+<td>tv.</td>
+</tr>
+<tr>
+<td>rememberthis.useCookie</td>
+<td>Use Cookie</td>
+<td>Save the remembered data in a cookie.</td>
+<td>No</td>
+</tr>
+<tr>
+<td>rememberthis.useDatabase</td>
+<td>Use Database</td>
 <td>Save the remembered list in the database (only if the frontend user is logged into the site).</td>
 <td>No</td>
 </tr>
 <tr>
-<td>debug</td>
-<td>Display debug information.</td>
-<td>No</td>
+<td>rememberthis.wrapperTpl</td>
+<td>Wrapper Template</td>
+<td>Wrapper template for the outer output or the empty output.</td>
+<td>tplRememberThisWrapper</td>
 </tr>
 </tbody>
 </table>
@@ -702,21 +729,21 @@ parameters have to be prefixed with <code>[[+rememberqueryadd]]property_</code>.
 <p class="admonition-title">Caution</p>
 <p>If you display the RememberThisList snippet call multiple on the page, all snippet calls have to be different, to show the debug information.</p>
 </div>
-<p>The following templating system settings could be overridden by snippet 
+<p>The following templating system settings can be overridden by snippet 
 properties: <strong>rowTpl</strong>, <strong>outerTpl</strong>, <strong>addTpl</strong>, <strong>noResultsTpl</strong></p>
-<p>In the <strong>rowTpl</strong> template chunk all resource fields could be used as 
+<p>In the <strong>rowTpl</strong> template chunk all resource fields can be used as 
 placeholder (template variables have to be prefixed using the prefix set in 
 <strong>tvPrefix</strong>), if no xPDO package/classname is used. If a xPDO 
-package/classname is used, all fields of the xPDO class could be used as 
+package/classname is used, all fields of the xPDO class can be used as 
 placeholder.</p>
 <div class="footnote">
 <hr/>
 <ol>
 <li id="fn:1">
-<p>Most of the snippet templating settings should be made in the MODX system settings, since they are used by the snippets and with ajax. <a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">↩</a></p>
+<p>Most of the settings for the snippet templates should be done in the MODX system settings, as they are used by the snippets and with Ajax. <a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">↩</a></p>
 </li>
 <li id="fn:2">
-<p>If a xPDO object package and classname is used, the object is referenced by the column with the <code>keyname</code> system setting. <a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">↩</a></p>
+<p>If an xPDO object package and a classname are used, the object is referenced by the column with the system setting <code>keyname</code>. <a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">↩</a></p>
 </li>
 <li id="fn:3">
 <p>The placeholder rememberqueryadd is filled with the <code>addQuery</code> system setting. <a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 3 in the text">↩</a></p>
@@ -725,7 +752,7 @@ placeholder.</p>
 <p>The identifier is set by the <code>keyname</code> system setting, if the xPDO object package and classname is used. <a class="footnote-backref" href="#fnref:4" title="Jump back to footnote 4 in the text">↩</a><a class="footnote-backref" href="#fnref2:4" title="Jump back to footnote 4 in the text">↩</a><a class="footnote-backref" href="#fnref3:4" title="Jump back to footnote 4 in the text">↩</a><a class="footnote-backref" href="#fnref4:4" title="Jump back to footnote 4 in the text">↩</a></p>
 </li>
 <li id="fn:5">
-<p>In the <code>itemTitleTpl</code> template chunk all column names of the xPDO object could be referenced by a placeholder with this name. Also, all properties could be referenced with the property name, i.e. a property set by <code>[[+rememberqueryadd]]property_test</code> could be referenced with the placeholder <code>[[+test]]</code>. <a class="footnote-backref" href="#fnref:5" title="Jump back to footnote 5 in the text">↩</a><a class="footnote-backref" href="#fnref2:5" title="Jump back to footnote 5 in the text">↩</a></p>
+<p>In the <code>itemTitleTpl</code> template chunk all column names of the xPDO object can be referenced by a placeholder with this name. Also, all properties can be referenced with the property name, i.e. a property set by <code>[[+rememberqueryadd]]property_test</code> can be referenced with the placeholder <code>[[+test]]</code>. <a class="footnote-backref" href="#fnref:5" title="Jump back to footnote 5 in the text">↩</a><a class="footnote-backref" href="#fnref2:5" title="Jump back to footnote 5 in the text">↩</a></p>
 </li>
 </ol>
 </div>
