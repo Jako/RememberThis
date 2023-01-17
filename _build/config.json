@@ -29,6 +29,10 @@
               "value": ""
             },
             {
+              "name": "tplPath",
+              "value": ""
+            },
+            {
               "name": "jsonList",
               "type": "combo-boolean",
               "value": "0"
@@ -41,11 +45,15 @@
           "description": "Show the Add button",
           "properties": [
             {
-              "name": "addId",
+              "name": "addTpl",
               "value": ""
             },
             {
-              "name": "addTpl",
+              "name": "tplPath",
+              "value": ""
+            },
+            {
+              "name": "addId",
               "value": ""
             }
           ]
@@ -61,6 +69,18 @@
             },
             {
               "name": "rememberOuterTpl",
+              "value": ""
+            },
+            {
+              "name": "rememberWrapperTpl",
+              "value": ""
+            },
+            {
+              "name": "noResultsTpl",
+              "value": ""
+            },
+            {
+              "name": "tplPath",
               "value": ""
             },
             {

@@ -3,23 +3,23 @@
 The package contains two snippets and a formit hook, that use the following 
 parameters[^1]
 
-[^1]: Most of the snippet templating settings should be made in the MODX system settings, since they are used by the snippets and with ajax.
+[^1]: Most of the settings for the snippet templates should be done in the MODX system settings, as they are used by the snippets and with Ajax.
 
 ### RememberThisAdd
 
 This snippet will display an add button. It has the following properties:
 
-| Property | Description                                                      | Default             |
-|----------|------------------------------------------------------------------|---------------------|
-| addTpl   | Template for the add link/form.                                  | tplRememberThisAdd  |
-| addId    | This xPDO Object referenced by this ID is added to the list.[^2] | Current resource id |
+| Property | Description                                                                | Default             |
+|----------|----------------------------------------------------------------------------|---------------------|
+| addId    | This value (and the correspondenting item title) is added to the list.[^2] | Current resource id |
+| addTpl   | Template for the add link.                                                 | (system setting)    |
 
-[^2]: If a xPDO object package and classname is used, the object is referenced by the column with the `keyname` system setting.
+[^2]: If an xPDO object package and a classname are used, the object is referenced by the column with the system setting `keyname`.
 
-The add template could contain a link or a form to add xPDO objects as element 
-to the list. The form could contain form fields and the link could contain 
-parameters to set properties of the remembered element. The field names and url 
-parameters have to be prefixed with `[[+rememberqueryadd]]property_`.
+The Add template can contain a link or a form to add xPDO objects as an element
+to the list. The form can contain form fields and the link can contain
+parameters to set properties of the remembered element. The field names and url
+parameters must be prefixed with `[[+rememberqueryadd]]property_`.
 
 #### Placeholders
 
@@ -37,15 +37,15 @@ The following placeholders are available in the **addTpl** template chunk:
 
 This snippet will display the remembered list. It has the following properties:
 
-| Property     | Description                                                                         | Default                  |
-|--------------|-------------------------------------------------------------------------------------|--------------------------|
-| rowTpl       | Row template for the list output.                                                   | tplRememberThisRow       |
-| outerTpl     | Outer template for the list output, if the list is not empty.                       | tplRememberThisOuter     |
-| wrapperTpl   | Wrapper template for the outer output or the empty output.                          | tplRememberThisWrapper   |
-| noResultsTpl | Template that is displayed, if the list is empty.                                   | tplRememberThisNoResults |
-| jsonList     | Output a JSON encoded object of element identifiers[^4] and element itemproperties. | 0 (No)                   |
+| Property     | Description                                                                                              | Default          |
+|--------------|----------------------------------------------------------------------------------------------------------|------------------|
+| jsonList     | Output a JSON encoded array of associative arrays of element identifiers[^4] and element itemproperties. | No               |
+| noResultsTpl | Template that is displayed, if the list is empty.                                                        | (system setting) |
+| outerTpl     | Outer template for the output of the list, if the list is not empty.                                     | (system setting) |
+| rowTpl       | Row template for the output of a list element.                                                           | (system setting) |
+| wrapperTpl   | Wrapper template for the outer output or the empty output.                                               | (system setting) |
 
-The snippet will try to display a list from the database, when the request parameter `rememberthis` is not empty.
+The snippet tries to display a list from the database if the query parameter `rememberthis` is not empty.
 
 [^4]: The identifier is set by the `keyname` system setting, if the xPDO object package and classname is used.
 
@@ -68,7 +68,7 @@ The following placeholders are available in the **outerTpl** template chunk:
 | count       | The count of added elements in the list.     |
 | wrapper     | The wrapper containing all rows of the list. |
 
-[^5]: In the `itemTitleTpl` template chunk all column names of the xPDO object could be referenced by a placeholder with this name. Also, all properties could be referenced with the property name, i.e. a property set by `[[+rememberqueryadd]]property_test` could be referenced with the placeholder `[[+test]]`.
+[^5]: In the `itemTitleTpl` template chunk all column names of the xPDO object can be referenced by a placeholder with this name. Also, all properties can be referenced with the property name, i.e. a property set by `[[+rememberqueryadd]]property_test` can be referenced with the placeholder `[[+test]]`.
 
 ### RememberThisHook (FormIt hook)
 
@@ -84,15 +84,15 @@ The FormIt hook sets some placeholders in FormIt. You have to call the hook like
 
 The hook has the following properties:
 
-| Property           | Description                                                                                              | Default                  |
-|--------------------|----------------------------------------------------------------------------------------------------------|--------------------------|
-| rememberRowTpl     | Row template for the list output.                                                                        | tplRememberThisRow       |
-| rememberOuterTpl   | Outer template for the list output, if the list is not empty.                                            | tplRememberThisOuter     |
-| rememberWrapperTpl | Wrapper template for the outer output or the empty output.                                               | tplRememberThisWrapper   |
-| noResultsTpl       | Template that is displayed, if the list is empty.                                                        | tplRememberThisNoResults |
-| jsonList           | Output a JSON encoded array of associative arrays of element identifiers[^4] and element itemproperties. | 0 (No)                   |
-| clearList          | Clear the list after running the hook.                                                                   | 0 (No)                   |
-| saveList           | Save the list with a hash in the database.                                                               | 0 (No)                   |
+| Property           | Description                                                                                              | Default          |
+|--------------------|----------------------------------------------------------------------------------------------------------|------------------|
+| rememberRowTpl     | Row template for the list output.                                                                        | (system setting) |
+| rememberOuterTpl   | Outer template for the list output, if the list is not empty.                                            | (system setting) |
+| rememberWrapperTpl | Wrapper template for the outer output or the empty output.                                               | (system setting) |
+| noResultsTpl       | Template that is displayed, if the list is empty.                                                        | (system setting) |
+| jsonList           | Output a JSON encoded array of associative arrays of element identifiers[^4] and element itemproperties. | No               |
+| clearList          | Clear the list after running the hook.                                                                   | No               |
+| saveList           | Save the list with a hash in the database.                                                               | No               |
 
 #### Placeholders
 
@@ -115,49 +115,49 @@ The following FormIt placeholders (`[[!+fi. ...]]`)  are set by the hook:
 | rememberthis       | The output of the rememberWrapperTpl template chunk (or the JSON encoded array of associative arrays of element identifiers[^4] and element itemproperties in the remembered list, if **jsonList** property is enabled). |
 | rememberthis.list  | An array of associative arrays of element identifiers and element itemproperties in the remembered list.                                                                                                                 |
 | rememberthis.count | The count of added elements in the list                                                                                                                                                                                  |
-| rememberthis.hash  | The hash of the saved list in the database. The RememberThisList snippet could be triggered by the request parameter `rememberthis` containing this hash. That way remembered lists could be mailed to other users.      |
+| rememberthis.hash  | The hash of the saved list in the database. The RememberThisList snippet can be triggered by the request parameter `rememberthis` containing this hash. That way remembered lists can be mailed to other users.          |
 
 ### System Settings
 
 RememberThis uses the following system settings in the namespace `rememberthis`.
 
-| Setting          | Description                                                                                                                                                                                                            | Default                         |
-|------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------|
-| rowTpl           | Row template for the list output.                                                                                                                                                                                      | tplRememberThisRow              |
-| outerTpl         | Outer template for the list output, if the list is not empty.                                                                                                                                                          | tplRememberThisOuter            |
-| wrapperTpl       | Wrapper template for the outer output or the empty output.                                                                                                                                                             | tplRememberThisWrapper          |
-| addTpl           | Template for the add link.                                                                                                                                                                                             | tplRememberThisAdd              |
-| noResultsTpl     | Template that is displayed, if the list is empty.                                                                                                                                                                      | tplRememberThisNoResults        |
-| scriptTpl        | Template for the javascript call.                                                                                                                                                                                      | tplRememberThisScript           |
-| showZeroCount    | Show Zero Values in template.                                                                                                                                                                                          | Yes                             |
-| itemTitleTpl     | Template for one list item.                                                                                                                                                                                            | tplRememberThisItemTitle        |
-| ajaxLoaderImg    | Image file, that is shown during AJAX requests.                                                                                                                                                                        | FontAwesome fa-refresh          |
-| tvPrefix         | Prefix for template variables in template chunks.                                                                                                                                                                      | tv.                             |
-| queryAdd         | Query key, used to add xPDO objects as elements to the list.                                                                                                                                                           | add                             |
-| queryDelete      | Query key, used to remove elements from the list.                                                                                                                                                                      | delete                          |
-| language         | Snippet language.                                                                                                                                                                                                      | current **cultureKey**          |
-| tplPath          | Base path for template chunks using @FILE binding.                                                                                                                                                                     | `{assets_path}elements/chunks/` |
-| packagename      | xPDO package name where the added data is retreived from. If empty, the data is retrieved from resources. The data row is selected by the id of the resource or by the `keyname` column of the `classname` xPDO class. | -                               |
-| classname        | xPDO classname where the added data is retreived from.                                                                                                                                                                 | -                               |
-| keyname          | xPDO class keyname to retrieve one data row.                                                                                                                                                                           | id                              |
-| joins            | Joins defined in the xPDO class, to retreive the added data.                                                                                                                                                           | -                               |
-| jQueryPath       | Path to jQuery script.                                                                                                                                                                                                 | -                               |
-| includeScripts   | Include javascripts (at the end of the body).                                                                                                                                                                          | Yes                             |
-| includeCss       | Include css (at the end of the head).                                                                                                                                                                                  | Yes                             |
-| useCookie        | Save the remembered data in a cookie.                                                                                                                                                                                  | No                              |
-| cookieName       | The name of the cookie.                                                                                                                                                                                                | rememberlist                    |
-| cookieExpireDays | The expiration time of the cookie (in days).                                                                                                                                                                           | 90                              |
-| useDatabase      | Save the remembered list in the database (only if the frontend user is logged into the site).                                                                                                                          | No                              |
-| debug            | Display debug information.                                                                                                                                                                                             | No                              |
+| Key                           | Name                     | Description                                                                                               | Default                       |
+|-------------------------------|--------------------------|-----------------------------------------------------------------------------------------------------------|-------------------------------|
+| rememberthis.addTpl           | Add Template             | Template for the add link.                                                                                | tplRememberThisAdd            |
+| rememberthis.ajaxLoaderImg    | AJAX Loader Image        | Image file, that is shown during AJAX requests.                                                           | -                             |
+| rememberthis.classname        | Classname                | xPDO class name where the added data is retreived from.                                                   | -                             |
+| rememberthis.cookieExpireDays | Cookie Expiration        | The expiration time of the cookie (in days).                                                              | 90                            |
+| rememberthis.cookieName       | Cookie Name              | The name of the cookie.                                                                                   | rememberlist                  |
+| rememberthis.debug            | Debug                    | Display debug information.                                                                                | No                            |
+| rememberthis.includeCss       | Include CSS              | Include css (at the end of the head).                                                                     | Yes                           |
+| rememberthis.includeScripts   | Include Javascripts      | Include javascripts (at the end of the body).                                                             | Yes                           |
+| rememberthis.itemTitleTpl     | Item Title Template      | Template for one list item.                                                                               | tplRememberThisItemTitle      |
+| rememberthis.joins            | Joins                    | Joins defined in the xPDO class, to retreive the added data.                                              | -                             |
+| rememberthis.jQueryPath       | Path to jQuery           | Path to jQuery script.                                                                                    | -                             |
+| rememberthis.keyname          | Keyname                  | xPDO class keyname to retrieve one data row.                                                              | id                            |
+| rememberthis.language         | Language                 | The frontend language.                                                                                    | -                             |
+| rememberthis.noResultsTpl     | No Results Template      | Template that is displayed, if the list is empty.                                                         | tplRememberThisNoResults      |
+| rememberthis.outerTpl         | Outer Template           | Outer template for the output of the list, if the list is not empty.                                      | tplRememberThisOuter          |
+| rememberthis.packagename      | Packagename              | xPDO package name from which the added data is retrieved. If empty, the data is retrieved from resources. | -                             |
+| rememberthis.queryAdd         | Add Query Key            | Query key, that is used to add elements to the list.                                                      | add                           |
+| rememberthis.queryDelete      | Delete Query Key         | Query key, that is used to remove elements from the list.                                                 | delete                        |
+| rememberthis.rowTpl           | Row Template             | Row template for the output of a list element.                                                            | tplRememberThisRow            |
+| rememberthis.scriptTpl        | Script Template          | Template for the javascript call.                                                                         | tplRememberThisScript         |
+| rememberthis.showZeroCount    | Show Zero Value          | Show Zero Values in template.                                                                             | Yes                           |
+| rememberthis.tplPath          | Templates Path           | Base path for template chunks using @FILE binding.                                                        | {assets_path}elements/chunks/ |
+| rememberthis.tvPrefix         | Template Variable Prefix | Prefix for template variables in template chunks.                                                         | tv.                           |
+| rememberthis.useCookie        | Use Cookie               | Save the remembered data in a cookie.                                                                     | No                            |
+| rememberthis.useDatabase      | Use Database             | Save the remembered list in the database (only if the frontend user is logged into the site).             | No                            |
+| rememberthis.wrapperTpl       | Wrapper Template         | Wrapper template for the outer output or the empty output.                                                | tplRememberThisWrapper        |
 
 !!! caution
     If you display the RememberThisList snippet call multiple on the page, all snippet calls have to be different, to show the debug information.
 
-The following templating system settings could be overridden by snippet 
+The following templating system settings can be overridden by snippet 
 properties: **rowTpl**, **outerTpl**, **addTpl**, **noResultsTpl**
 
-In the **rowTpl** template chunk all resource fields could be used as 
+In the **rowTpl** template chunk all resource fields can be used as 
 placeholder (template variables have to be prefixed using the prefix set in 
 **tvPrefix**), if no xPDO package/classname is used. If a xPDO 
-package/classname is used, all fields of the xPDO class could be used as 
+package/classname is used, all fields of the xPDO class can be used as 
 placeholder.

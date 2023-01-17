@@ -18,11 +18,11 @@ class RememberThisHook extends Hook
     public function getDefaultProperties()
     {
         return [
-            'rowTpl' => $this->modx->getOption('rememberthis.rowTpl', null, ''),
-            'outerTpl' => $this->modx->getOption('rememberthis.outerTpl', null, ''),
-            'wrapperTpl' => $this->modx->getOption('rememberthis.wrapperTpl', null, ''),
-            'noResultsTpl' => $this->modx->getOption('rememberthis.noResultsTpl', null, ''),
-            'tplPath' => $this->modx->getOption('rememberthis.tplPath', null, ''),
+            'rowTpl' => $this->modx->getOption('rememberthis.rowTpl'),
+            'outerTpl' => $this->modx->getOption('rememberthis.outerTpl'),
+            'wrapperTpl' => $this->modx->getOption('rememberthis.wrapperTpl'),
+            'noResultsTpl' => $this->modx->getOption('rememberthis.noResultsTpl'),
+            'tplPath' => $this->modx->getOption('rememberthis.tplPath'),
             'jsonList::bool' => false,
             'clearList::bool' => false,
             'saveList::bool' => false,
