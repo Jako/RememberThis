@@ -107,6 +107,13 @@ class RememberThis
             'cacheUrl' => $assetsUrl . 'cache/'
         ], $options);
 
+        $lexicon = $this->modx->getService('lexicon', 'modLexicon');
+        $lexicon->load($this->namespace . ':default');
+
+        $this->packageName = $this->modx->lexicon('rememberthis');
+
+        $this->modx->addPackage($this->namespace, $this->getOption('modelPath'));
+
         // Add default options
         $this->options = array_merge($this->options, [
             'debug' => (bool)$this->getOption('debug', $options, false),
@@ -158,11 +165,6 @@ class RememberThis
         if (!isset($_SESSION['rememberThis'])) {
             $_SESSION['rememberThis'] = [];
         }
-
-        $this->modx->addPackage($this->namespace, $this->getOption('modelPath'));
-
-        $lexicon = $this->modx->getService('lexicon', 'modLexicon');
-        $lexicon->load($this->namespace . ':default');
     }
 
     /**
