@@ -1,4 +1,4 @@
-[![Default Lexicon](https://hosted.weblate.org/widgets/modx-extras/rememberthis/standard/svg-badge.svg)](https://hosted.weblate.org/projects/modx-extras/rememberthis/standard/)
+[![Default Lexicon](https://hosted.weblate.org/widget/modx-extras/rememberthis/standard/svg-badge.svg)](https://hosted.weblate.org/projects/modx-extras/rememberthis/standard/)
 
 # RememberThis
 
