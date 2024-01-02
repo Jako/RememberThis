@@ -1,4 +1,4 @@
-[![Default Lexicon](https://hosted.weblate.org/widgets/modx-extras/-/modx-rememberthis-standard/svg-badge.svg)](https://hosted.weblate.org/projects/modx-extras/modx-rememberthis-standard/)
+[![Default Lexicon](https://hosted.weblate.org/widgets/modx-extras/rememberthis/standard/svg-badge.svg)](https://hosted.weblate.org/projects/modx-extras/rememberthis/standard/)
 
 # RememberThis
 
@@ -35,5 +35,5 @@ The project is licensed under the [GPLv2 license](https://github.com/Jako/Rememb
 
 ## Translations
 
-Translations of the package can be made for the [Default Lexicon](https://hosted.weblate.org/projects/modx-extras/modx-rememberthis-standard/), the [Properties Lexicon](https://hosted.weblate.org/projects/modx-extras/modx-rememberthis-properties/) and the [System Setting Lexicon](https://hosted.weblate.org/projects/modx-extras/modx-rememberthis-system-settings/)
+Translations of the package can be made for the [Default Lexicon](https://hosted.weblate.org/projects/modx-extras/rememberthis/standard/), the [Properties Lexicon](https://hosted.weblate.org/projects/modx-extras/rememberthis/properties/) and the [System Setting Lexicon](https://hosted.weblate.org/projects/modx-extras/rememberthis/system-settings/)
 
