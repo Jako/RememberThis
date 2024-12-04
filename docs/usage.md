@@ -74,7 +74,7 @@ The following placeholders are available in the **outerTpl** template chunk:
 
 The FormIt hook sets some placeholders in FormIt. You have to call the hook like this: 
 
-```
+```html
 [[!FormIt?
 &hooks=`...,RememberThisHook,...`
 &rememberOuterTpl=`tplRememberOuterMail`
