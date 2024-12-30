@@ -2,7 +2,7 @@
 /**
  * RememberThis
  *
- * Copyright 2008-2023 by Thomas Jakobi <office@treehillstudio.com>
+ * Copyright 2008-2024 by Thomas Jakobi <office@treehillstudio.com>
  *
  * @package rememberthis
  * @subpackage classfile

@@ -13,6 +13,7 @@ This snippet will display an add button. It has the following properties:
 |----------|----------------------------------------------------------------------------|---------------------|
 | addId    | This value (and the correspondenting item title) is added to the list.[^2] | Current resource id |
 | addTpl   | Template for the add link.                                                 | (system setting)    |
+| tplPath  | Base path for template chunks using @FILE binding.                         | (system setting)    |
 
 [^2]: If an xPDO object package and a classname are used, the object is referenced by the column with the system setting `keyname`.
 
@@ -39,10 +40,11 @@ This snippet will display the remembered list. It has the following properties:
 
 | Property     | Description                                                                                              | Default          |
 |--------------|----------------------------------------------------------------------------------------------------------|------------------|
-| jsonList     | Output a JSON encoded array of associative arrays of element identifiers[^4] and element itemproperties. | No               |
+| jsonList     | Output a JSON-encoded array of associative arrays of element identifiers[^4] and element itemproperties. | 0 (No)           |
 | noResultsTpl | Template that is displayed, if the list is empty.                                                        | (system setting) |
 | outerTpl     | Outer template for the output of the list, if the list is not empty.                                     | (system setting) |
 | rowTpl       | Row template for the output of a list element.                                                           | (system setting) |
+| tplPath      | Base path for template chunks using @FILE binding.                                                       | (system setting) |
 | wrapperTpl   | Wrapper template for the outer output or the empty output.                                               | (system setting) |
 
 The snippet tries to display a list from the database if the query parameter `rememberthis` is not empty.
@@ -84,15 +86,16 @@ The FormIt hook sets some placeholders in FormIt. You have to call the hook like
 
 The hook has the following properties:
 
-| Property           | Description                                                                                              | Default          |
-|--------------------|----------------------------------------------------------------------------------------------------------|------------------|
-| rememberRowTpl     | Row template for the list output.                                                                        | (system setting) |
-| rememberOuterTpl   | Outer template for the list output, if the list is not empty.                                            | (system setting) |
-| rememberWrapperTpl | Wrapper template for the outer output or the empty output.                                               | (system setting) |
-| noResultsTpl       | Template that is displayed, if the list is empty.                                                        | (system setting) |
-| jsonList           | Output a JSON encoded array of associative arrays of element identifiers[^4] and element itemproperties. | No               |
-| clearList          | Clear the list after running the hook.                                                                   | No               |
-| saveList           | Save the list with a hash in the database.                                                               | No               |
+| Property             | Description                                                                                              | Default          |
+|----------------------|----------------------------------------------------------------------------------------------------------|------------------|
+| rememberClearList    | Clear the list after running the hook.                                                                   | 0 (No)           |
+| rememberJsonList     | Output a JSON-encoded array of associative arrays of element identifiers[^4] and element itemproperties. | 0 (No)           |
+| rememberNoResultsTpl | Template that is displayed, if the list is empty.                                                        | (system setting) |
+| rememberOuterTpl     | Outer template for the output of the list, if the list is not empty.                                     | (system setting) |
+| rememberRowTpl       | Row template for the output of a list element.                                                           | (system setting) |
+| rememberSaveList     | Save the remembered list with a hash in the database and fill a placeholder with this hash.              | 0 (No)           |
+| rememberTplPath      | Base path for template chunks using @FILE binding.                                                       | (system setting) |
+| rememberWrapperTpl   | Wrapper template for the outer output or the empty output.                                               | (system setting) |
 
 #### Placeholders
 
@@ -117,6 +120,10 @@ The following FormIt placeholders (`[[!+fi. ...]]`)  are set by the hook:
 | rememberthis.count | The count of added elements in the list                                                                                                                                                                                  |
 | rememberthis.hash  | The hash of the saved list in the database. The RememberThisList snippet can be triggered by the request parameter `rememberthis` containing this hash. That way remembered lists can be mailed to other users.          |
 
+### RememberThisClear (FormIt hook)
+
+The FormIt hook clears the list and can be used as one of the last entries in the FormIt hook list.
+
 ### System Settings
 
 RememberThis uses the following system settings in the namespace `rememberthis`.
@@ -129,6 +136,7 @@ RememberThis uses the following system settings in the namespace `rememberthis`.
 | rememberthis.cookieExpireDays | Cookie Expiration        | The expiration time of the cookie (in days).                                                              | 90                            |
 | rememberthis.cookieName       | Cookie Name              | The name of the cookie.                                                                                   | rememberlist                  |
 | rememberthis.debug            | Debug                    | Display debug information.                                                                                | No                            |
+| rememberthis.fields           | Fields                   | Comma separated list of field names of the xPDO class, that are remembered in the list.                   | -                             |
 | rememberthis.includeCss       | Include CSS              | Include css (at the end of the head).                                                                     | Yes                           |
 | rememberthis.includeScripts   | Include Javascripts      | Include javascripts (at the end of the body).                                                             | Yes                           |
 | rememberthis.itemTitleTpl     | Item Title Template      | Template for one list item.                                                                               | tplRememberThisItemTitle      |

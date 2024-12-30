@@ -3,7 +3,7 @@
   "lowCaseName": "rememberthis",
   "description": "Remember List for xPDO Objects",
   "author": "Thomas Jakobi",
-  "version": "2.3.1",
+  "version": "2.4.0",
   "package": {
     "elements": {
       "snippets": [
@@ -76,29 +76,34 @@
               "value": ""
             },
             {
-              "name": "noResultsTpl",
+              "name": "rememberNoResultsTpl",
               "value": ""
             },
             {
-              "name": "tplPath",
+              "name": "rememberTplPath",
               "value": ""
             },
             {
-              "name": "jsonList",
+              "name": "rememberJsonList",
               "type": "combo-boolean",
               "value": "0"
             },
             {
-              "name": "clearList",
+              "name": "rememberClearList",
               "type": "combo-boolean",
               "value": "0"
             },
             {
-              "name": "saveList",
+              "name": "rememberSaveList",
               "type": "combo-boolean",
               "value": "0"
             }
           ]
+        },
+        {
+          "name": "RememberThisClear",
+          "file": "rememberthisclear.hook.php",
+          "description": "FormIt Hook clear the list"
         }
       ],
       "chunks": [
@@ -231,6 +236,11 @@
       },
       {
         "key": "joins",
+        "area": "package",
+        "value": ""
+      },
+      {
+        "key": "fields",
         "area": "package",
         "value": ""
       },

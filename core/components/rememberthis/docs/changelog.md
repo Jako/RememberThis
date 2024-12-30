@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.0] - 2024-12-30
+
+### Added
+
+- Add RememberThisClear hook to clear the list at the end of all hooks
+- Add `rememberthis.fields` system setting to restrict the fields that are remembered in the list.
+
+### Changed
+
+- The `rememberthis.joins` system setting can also use a JSON encoded array with class, alias and conditions for each join
+- Use the Parse helper class
+- Flatten the retrieved row by dot notation to access nested values directly
+
 ## [2.3.1] - 2023-01-11
 
 ### Fixed
@@ -49,7 +62,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- The remembered list could be saved in the database (only if the frontend user is logged into the site and the useDatabase system setting is active)
+- The remembered list could be saved in the database (only if the frontend user is logged into the site and the `rememberthis.useDatabase` system setting is active)
 - Save the remembered list in a FormIt hook with a hash in the database and make it possible to mail remembered lists to other users
 
 ## [2.0.2] - 2017-09-01
@@ -79,13 +92,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - @FILE/@INLINE/@CHUNK binding for template chunks
-- tplPath system setting
+- Add `rememberthis.tplPath` system setting
 
 ## [1.1.6] - 2015-06-10
 
 ### Added
 
-- showZeroCount system setting
+- Add `rememberthis.showZeroCount` system setting
 - Default script template chunk contains an example for onAfterAdd callback
 
 ## [1.1.5] - 2015-05-05

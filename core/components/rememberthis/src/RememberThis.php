@@ -2,7 +2,7 @@
 /**
  * RememberThis
  *
- * Copyright 2008-2023 by Thomas Jakobi <office@treehillstudio.com>
+ * Copyright 2008-2024 by Thomas Jakobi <office@treehillstudio.com>
  *
  * @package rememberthis
  * @subpackage classfile
@@ -13,6 +13,7 @@ namespace TreehillStudio\RememberThis;
 use modTemplateVar;
 use modX;
 use RememberThisList;
+use TreehillStudio\RememberThis\Helper\Parse;
 use xPDO;
 use xPDOObject;
 
@@ -43,7 +44,7 @@ class RememberThis
      * The version
      * @var string $version
      */
-    public $version = '2.3.1';
+    public $version = '2.4.0';
 
     /**
      * The class options
@@ -52,20 +53,9 @@ class RememberThis
     public $options = [];
 
     /**
-     * Template cache
-     * @var array $_tplCache
+     * @var Parse $parse
      */
-    private $_tplCache;
-
-    /**
-     * Valid binding types
-     * @var array $_validTypes
-     */
-    private $_validTypes = [
-        '@CHUNK',
-        '@FILE',
-        '@INLINE'
-    ];
+    public $parse = null;
 
     /**
      * RememberThis constructor
@@ -116,12 +106,12 @@ class RememberThis
 
         // Add default options
         $this->options = array_merge($this->options, [
-            'debug' => (bool)$this->getOption('debug', $options, false),
+            'debug' => $this->getBooleanOption('debug', $options, false),
             'modxversion' => $modxversion['version'],
             'wrapperTpl' => $this->getOption('wrapperTpl', $options, 'tplRememberThisWrapper'),
             'noResultsTpl' => $this->getOption('noResultsTpl', $options, 'tplRememberThisNoResults'),
             'scriptTpl' => $this->getOption('scriptTpl', $options, 'tplRememberThisScript'),
-            'showZeroCount' => (bool)$this->getOption('showZeroCount', $options, 1),
+            'showZeroCount' => $this->getBooleanOption('showZeroCount', $options, true),
             'rowTpl' => $this->getOption('rowTpl', $options, 'tplRememberThisRow'),
             'outerTpl' => $this->getOption('outerTpl', $options, 'tplRememberThisOuter'),
             'addTpl' => $this->getOption('addTpl', $options, 'tplRememberThisAdd'),
@@ -129,10 +119,11 @@ class RememberThis
             'packagename' => $this->getOption('packagename', null, ''),
             'classname' => $this->getOption('classname', null, ''),
             'keyname' => $this->getOption('keyname', null, 'id'),
-            'joins' => $this->modx->fromJson($this->getOption('joins', null, '')),
+            'joins' => $this->getJsonOption('joins', null, ''),
+            'fields' => $this->getSeparatedOption('fields', null, ''),
             'jQueryPath' => $this->getOption('jQueryPath', null, ''),
-            'includeScripts' => intval($this->getOption('includeScripts', null, 1)),
-            'includeCss' => (bool)$this->getOption('includeCss', null, 1),
+            'includeScripts' => $this->getBooleanOption('includeScripts', null, true),
+            'includeCss' => $this->getBooleanOption('includeCss', null, true),
             'tvPrefix' => $this->getOption('tvPrefix', $options, 'tv.'),
             'ajaxLoaderImg' => $this->getOption('ajaxLoaderImg', null, ''),
             'language' => $this->modx->getOption('language', $options, $this->modx->getOption('cultureKey')),
@@ -141,10 +132,10 @@ class RememberThis
             'argSeparator' => ($this->modx->getOption('xhtml_urls')) ? '&amp;' : '&',
             'queryAdd' => $this->getOption('queryAdd', $options, 'add'),
             'queryDelete' => $this->getOption('queryDelete', $options, 'delete'),
-            'useCookie' => (bool)$this->getOption('useCookie', null, 0),
+            'useCookie' => $this->getBooleanOption('useCookie', null, false),
             'cookieName' => $this->getOption('cookieName', $options, 'rememberlist'),
             'cookieExpireDays' => (int)$this->getOption('cookieExpireDays', $options, 90),
-            'useDatabase' => (bool)$this->getOption('useDatabase', null, 0),
+            'useDatabase' => $this->getBooleanOption('useDatabase', null, false),
             'init' => false
         ]);
 
@@ -162,6 +153,9 @@ class RememberThis
                 'ajaxLoaderImg' => $this->getOption('ajaxLoaderImg')
             ]);
         }
+
+        $this->parse = new Parse($this->modx);
+
         if (!isset($_SESSION['rememberThis'])) {
             $_SESSION['rememberThis'] = [];
         }
@@ -192,6 +186,48 @@ class RememberThis
     }
 
     /**
+     * Get Boolean Option
+     *
+     * @param string $key
+     * @param array $options
+     * @param mixed $default
+     * @return bool
+     */
+    public function getBooleanOption($key, $options = [], $default = null)
+    {
+        $option = $this->getOption($key, $options, $default);
+        return ($option === 'true' || $option === true || $option === '1' || $option === 1);
+    }
+
+    /**
+     * Get JSON Option
+     *
+     * @param string $key
+     * @param array $options
+     * @param mixed $default
+     * @return array
+     */
+    public function getJsonOption($key, $options = [], $default = null)
+    {
+        $value = json_decode($this->getOption($key, $options, $default ?? ''), true);
+        return (is_array($value)) ? $value : [];
+    }
+
+    /**
+     * Get Separated Option
+     *
+     * @param string $key
+     * @param array $options
+     * @param mixed $default
+     * @return array
+     */
+    public function getSeparatedOption($key, $options = [], $default = null)
+    {
+        $value = $this->getOption($key, $options, $default ?? '');
+        return ($value) ? array_map('trim', explode(',', $value)) : [];
+    }
+
+    /**
      * Init scripts and add/delete only once
      */
     public function init()
@@ -210,7 +246,7 @@ class RememberThis
                 } else {
                     $this->modx->regClientScript($this->getOption('assetsUrl') . 'js/rememberthis.js' . $version);
                 }
-                $script = $this->getChunk($this->getOption('scriptTpl'), array_merge($this->options, [
+                $script = $this->parse->getChunk($this->getOption('scriptTpl'), array_merge($this->options, [
                     'options' => json_encode($this->getOption('scriptOptions'), JSON_UNESCAPED_SLASHES)
                 ]));
                 $this->modx->regClientScript($script);
@@ -281,7 +317,7 @@ class RememberThis
      */
     public function showButton($addId, $options)
     {
-        return $this->getChunk($options['addTpl'], array_merge($options, [
+        return $this->parse->getChunk($options['addTpl'], array_merge($options, [
             'rememberurl' => $this->makeUrl([$this->getOption('queryAdd') => $addId]),
             'rememberidentifier' => $this->modx->request->getResourceIdentifier('alias'),
             'rememberqueryadd' => $this->getOption('queryAdd'),
@@ -309,10 +345,10 @@ class RememberThis
                     'deleteid' => $index + 1,
                     'iteration' => count($_SESSION['rememberThis']) - 1
                 ]);
-                $output['result'] = $this->getChunk($this->getOption('rowTpl'), array_merge($this->options, $fields));
+                $output['result'] = $this->parse->getChunk($this->getOption('rowTpl'), array_merge($this->options, $fields));
                 $output['count'] = count($_SESSION['rememberThis']);
                 if ($output['count'] == 1) {
-                    $output['result'] = $this->getChunk($this->getOption('outerTpl'), array_merge($this->options, [
+                    $output['result'] = $this->parse->getChunk($this->getOption('outerTpl'), array_merge($this->options, [
                         'count' => $output['count'],
                         'wrapper' => $output['result']
                     ]));
@@ -327,7 +363,7 @@ class RememberThis
                 $output['result'] = '';
                 $output['count'] = count($_SESSION['rememberThis']);
             } else {
-                $output['result'] = $this->getChunk($this->getOption('noResultsTpl'), $this->options);
+                $output['result'] = $this->parse->getChunk($this->getOption('noResultsTpl'), $this->options);
                 $output['count'] = $this->getOption('showZeroCount') ? '0' : '';
             }
             if ($this->getOption('debug')) {
@@ -374,19 +410,19 @@ class RememberThis
         // Generate the result
         if (!count($list)) {
             if (!$this->getOption('notRememberRedirect')) {
-                $output['result'] = $this->getChunk($options['wrapperTpl'], array_merge($options, [
-                    'wrapper' => $this->getChunk($options['noResultsTpl']),
+                $output['result'] = $this->parse->getChunk($options['wrapperTpl'], array_merge($options, [
+                    'wrapper' => $this->parse->getChunk($options['noResultsTpl']),
                     'count' => $this->getOption('showZeroCount') ? '0' : ''
                 ]));
             } else {
                 $this->modx->sendRedirect($this->modx->makeUrl($this->getOption('notRememberRedirect')));
             }
         } else {
-            $outer = $this->getChunk($options['outerTpl'], array_merge($options, [
+            $outer = $this->parse->getChunk($options['outerTpl'], array_merge($options, [
                 'wrapper' => $this->showElements($list, $options['rowTpl']),
                 'count' => (string)count($_SESSION['rememberThis'])
             ]));
-            $output['result'] = $this->getChunk($options['wrapperTpl'], array_merge($options, [
+            $output['result'] = $this->parse->getChunk($options['wrapperTpl'], array_merge($options, [
                 'wrapper' => $outer,
                 'count' => (string)count($_SESSION['rememberThis'])
             ]));
@@ -431,7 +467,7 @@ class RememberThis
                     ]);
                 }
 
-                $output[] = $this->getChunk($tpl, array_merge($this->options, $fields));
+                $output[] = $this->parse->getChunk($tpl, array_merge($this->options, $fields));
                 $iteration++;
             } else {
                 $output[] = '<pre>' . print_r($element, true) . '</pre>';
@@ -455,7 +491,7 @@ class RememberThis
             $resource = $this->modx->getObject('modResource', ['id' => $docId]);
             $tvs = [];
             /** @var modTemplateVar[] $templateVars */
-            $templateVars = &$resource->getMany('TemplateVars');
+            $templateVars = $resource->getMany('TemplateVars');
             foreach ($templateVars as $templateVar) {
                 $tvs[$this->getOption('tvPrefix') . $templateVar->get('name')] = $templateVar->renderOutput($resource->get('id'));
             }
@@ -470,28 +506,60 @@ class RememberThis
 
             $this->modx->addPackage($this->getOption('packagename'), $modelpath);
             /** @var xPDOObject $resource */
-            $resource = $this->modx->getObject($this->getOption('classname'), [$this->getOption('keyname') => $docId]);
-            if ($resource) {
-                $joinvalues = [];
-                $joinoption = $this->getOption('joins');
-                if ($joinoption) {
-                    foreach ($joinoption as $join) {
-                        $values = $resource->getOne($join);
-                        $joinvalues[$join] = $values->toArray();
+            $c = $this->modx->newQuery($this->getOption('classname'));
+            $c->select($this->modx->getSelectColumns($this->getOption('classname'), $this->getOption('classname')));
+            $joins = $this->getOption('joins');
+            $joinOnes = [];
+            if ($joins) {
+                foreach ($joins as $join) {
+                    if (is_array($join) && isset($join['class'])) {
+                        $class = $join['class'];
+                        $alias = $join['alias'] ?? $class;
+                        $conditions = $join['conditions'] ?? [];
+                        $c->leftJoin($class, $alias ?? $class, $conditions ?? []);
+                        $c->select($this->modx->getSelectColumns($class, $alias ?? $class, $alias . '.'));
+                    } elseif (is_string($join)) {
+                        $joinOnes[] = $join;
+                    } else {
+                        $this->modx->log(xPDO::LOG_LEVEL_INFO, 'The join option does not use a class value: "' . print_r($join, true), '', 'RememberThis');
                     }
                 }
-                $row = array_merge($joinvalues, $resource->toArray());
+            }
+            $c->where([$this->getOption('keyname') => $docId]);
+
+            $resource = $this->modx->getObject($this->getOption('classname'), $c);
+            if ($resource) {
+                if (method_exists($resource, 'toExtendedArray')) {
+                    $row = $resource->toExtendedArray();
+                } else {
+                    $joinvalues = [];
+                    if ($joinOnes) {
+                        foreach ($joinOnes as $join) {
+                            $values = $resource->getOne($join);
+                            $joinvalues[$join] = $values->toArray();
+                        }
+                    }
+                    $row = array_merge($joinvalues, $resource->toArray());
+                }
+                $row = Parse::flattenArray($row);
             } else {
                 $this->modx->log(xPDO::LOG_LEVEL_INFO, 'Could not retreive an object with key "' . $this->getOption('keyname') . '" and value "' . $docId . '"', '', 'RememberThis');
                 return false;
             }
         }
 
-        $newElement = $row;
+        if ($this->getOption('fields')) {
+            $newElement = [];
+            foreach ($this->getOption('fields') as $field) {
+                $newElement[$field] = $row[$field];
+            }
+        } else {
+            $newElement = $row;
+        }
         $newElement['rememberId'] = $docId;
         $newElement['identifier'] = $row[$this->getOption('keyname')];
         $newElement['properties'] = ($properties) ? http_build_query($properties) : '';
-        $newElement['itemtitle'] = $this->getChunk($this->getOption('itemTitleTpl'), array_merge($this->options, $row, $properties));
+        $newElement['itemtitle'] = $this->parse->getChunk($this->getOption('itemTitleTpl'), array_merge($this->options, $row, $properties));
         if (!empty($properties)) {
             $newElement['itemproperties'] = $properties;
         }
@@ -646,108 +714,5 @@ class RememberThis
     {
         $string = strip_tags($string);
         return preg_replace('/\[\[([^\[\]]++|(?R))*?]]/s', '', $string);
-    }
-
-    /**
-     * Parse a chunk (with template bindings)
-     * Modified parseTplElement method from getResources package (https://github.com/opengeek/getResources)
-     *
-     * @param $type
-     * @param $source
-     * @param null $properties
-     * @return bool|string
-     */
-    private function parseChunk($type, $source, $properties = null)
-    {
-        $output = false;
-
-        if (!is_string($type) || !in_array($type, $this->_validTypes)) {
-            $type = $this->modx->getOption('tplType', $properties, '@CHUNK');
-        }
-
-        $content = false;
-        switch ($type) {
-            case '@FILE':
-                $path = $this->modx->getOption('tplPath', $properties, $this->modx->getOption('assets_path', $properties, MODX_ASSETS_PATH) . 'elements/chunks/');
-                $key = $path . $source;
-                if (!isset($this->_tplCache['@FILE'])) {
-                    $this->_tplCache['@FILE'] = [];
-                }
-                if (!array_key_exists($key, $this->_tplCache['@FILE'])) {
-                    if (file_exists($key)) {
-                        $content = file_get_contents($key);
-                    }
-                    $this->_tplCache['@FILE'][$key] = $content;
-                } else {
-                    $content = $this->_tplCache['@FILE'][$key];
-                }
-                if (!empty($content) && $content !== '0') {
-                    $chunk = $this->modx->newObject('modChunk', ['name' => $key]);
-                    $chunk->setCacheable(false);
-                    $output = $chunk->process($properties, $content);
-                }
-                break;
-            case '@INLINE':
-                $uniqid = uniqid();
-                $chunk = $this->modx->newObject('modChunk', ['name' => "$type-$uniqid"]);
-                $chunk->setCacheable(false);
-                $output = $chunk->process($properties, $source);
-                break;
-            case '@CHUNK':
-            default:
-                $chunk = null;
-                if (!isset($this->_tplCache['@CHUNK'])) {
-                    $this->_tplCache['@CHUNK'] = [];
-                }
-                if (!array_key_exists($source, $this->_tplCache['@CHUNK'])) {
-                    if ($chunk = $this->modx->getObject('modChunk', ['name' => $source])) {
-                        $this->_tplCache['@CHUNK'][$source] = $chunk->toArray('', true);
-                    } else {
-                        $this->_tplCache['@CHUNK'][$source] = false;
-                    }
-                } elseif (is_array($this->_tplCache['@CHUNK'][$source])) {
-                    $chunk = $this->modx->newObject('modChunk');
-                    $chunk->fromArray($this->_tplCache['@CHUNK'][$source], '', true, true, true);
-                }
-                if (is_object($chunk)) {
-                    $chunk->setCacheable(false);
-                    $output = $chunk->process($properties);
-                }
-                break;
-        }
-        return $output;
-    }
-
-    /**
-     * Get and parse a chunk (with template bindings)
-     * Modified parseTpl method from getResources package (https://github.com/opengeek/getResources)
-     *
-     * @param $tpl
-     * @param null $properties
-     * @return bool|string
-     */
-    public function getChunk($tpl, $properties = null)
-    {
-        $output = false;
-        if (!empty($tpl)) {
-            $bound = [
-                'type' => '@CHUNK',
-                'value' => $tpl
-            ];
-            if (strpos($tpl, '@') === 0) {
-                $endPos = strpos($tpl, ' ');
-                if ($endPos > 2 && $endPos < 10) {
-                    $tt = substr($tpl, 0, $endPos);
-                    if (in_array($tt, $this->_validTypes)) {
-                        $bound['type'] = $tt;
-                        $bound['value'] = substr($tpl, $endPos + 1);
-                    }
-                }
-            }
-            if (is_array($bound) && isset($bound['type']) && isset($bound['value'])) {
-                $output = $this->parseChunk($bound['type'], $bound['value'], $properties);
-            }
-        }
-        return $output;
     }
 }
