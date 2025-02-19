@@ -515,9 +515,10 @@ class RememberThis
                     if (is_array($join) && isset($join['class'])) {
                         $class = $join['class'];
                         $alias = $join['alias'] ?? $class;
+                        $prefix = $join['prefix'] ?? $alias . '.';
                         $conditions = $join['conditions'] ?? [];
-                        $c->leftJoin($class, $alias ?? $class, $conditions ?? []);
-                        $c->select($this->modx->getSelectColumns($class, $alias ?? $class, $alias . '.'));
+                        $c->leftJoin($class, $alias, $conditions ?? []);
+                        $c->select($this->modx->getSelectColumns($class, $alias, $prefix));
                     } elseif (is_string($join)) {
                         $joinOnes[] = $join;
                     } else {
@@ -562,6 +563,11 @@ class RememberThis
         $newElement['itemtitle'] = $this->parse->getChunk($this->getOption('itemTitleTpl'), array_merge($this->options, $row, $properties));
         if (!empty($properties)) {
             $newElement['itemproperties'] = $properties;
+        }
+
+        if ($this->modx->user->hasSessionContext('mgr') && false) {
+            echo('<pre>$newElement: ' . print_r($newElement, true) . '</pre>');
+            die('<pre>$resource->toExtendedArray(): ' . print_r($resource->toExtendedArray(), true) . '</pre>');
         }
 
         foreach ($_SESSION['rememberThis'] as $element) {
