@@ -558,16 +558,11 @@ class RememberThis
             $newElement = $row;
         }
         $newElement['rememberId'] = $docId;
-        $newElement['identifier'] = $row[$this->getOption('keyname')];
+        $newElement['identifier'] = $row[$this->getOption('keyname')] ?? $docId;
         $newElement['properties'] = ($properties) ? http_build_query($properties) : '';
         $newElement['itemtitle'] = $this->parse->getChunk($this->getOption('itemTitleTpl'), array_merge($this->options, $row, $properties));
         if (!empty($properties)) {
             $newElement['itemproperties'] = $properties;
-        }
-
-        if ($this->modx->user->hasSessionContext('mgr') && false) {
-            echo('<pre>$newElement: ' . print_r($newElement, true) . '</pre>');
-            die('<pre>$resource->toExtendedArray(): ' . print_r($resource->toExtendedArray(), true) . '</pre>');
         }
 
         foreach ($_SESSION['rememberThis'] as $element) {
