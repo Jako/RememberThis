@@ -452,6 +452,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="System Settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#joins-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Joins Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -604,6 +619,21 @@
       System Settings
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="System Settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#joins-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Joins Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1088,6 +1118,13 @@ placeholder (template variables have to be prefixed using the prefix set in
 <strong>tvPrefix</strong>), if no xPDO package/classname is used. If a xPDO 
 package/classname is used, all fields of the xPDO class can be used as 
 placeholder.</p>
+<p>The <code>rememberthis.joins</code> system setting can contain a JSON encoded array of join
+options. Each join option has to contain the joined <code>class</code>, the <code>alias</code> of the
+joined class (defaults to <code>class</code>), the <code>prefix</code> for each retrieved field of the
+joined class and the <code>conditions</code> for the join.</p>
+<h4 id="joins-example">Joins Example</h4>
+<div class="highlight"><pre><span></span><code>[{&quot;class&quot;:&quot;&lt;class_name&gt;&quot;,&quot;alias&quot;:&quot;&lt;class_alias&gt;&quot;,&quot;prefix&quot;:&quot;&lt;prefix&gt;_&quot;,&quot;conditions&quot;:[&quot;&lt;class_alias&gt;.&lt;fieldname&gt; = &lt;joining_class_alias&gt;.&lt;fieldname&gt;&quot;]}]
+</code></pre></div>
 <div class="footnote">
 <hr />
 <ol>
@@ -1139,7 +1176,7 @@ placeholder.</p>
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      &copy; 2008-2024 <a href="https://treehillstudio.com">Treehill Studio</a>
+      &copy; 2008-2025 <a href="https://treehillstudio.com">Treehill Studio</a>
     </div>
   
   
