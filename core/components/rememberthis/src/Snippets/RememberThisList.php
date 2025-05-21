@@ -38,7 +38,7 @@ class RememberThisList extends Snippet
         $init = $this->rememberthis->getOption('init', null, false);
         $this->rememberthis->init();
 
-        $this->properties['hash'] =  $this->modx->getOption('rememberthis', $_REQUEST, false, true);
+        $this->properties['hash'] = $this->modx->getOption('rememberthis', $_REQUEST, false, true);
 
         $result = $this->rememberthis->showList($this->getProperties());
         if ($this->getProperty('jsonList')) {

@@ -170,3 +170,14 @@ placeholder (template variables have to be prefixed using the prefix set in
 **tvPrefix**), if no xPDO package/classname is used. If a xPDO 
 package/classname is used, all fields of the xPDO class can be used as 
 placeholder.
+
+The `rememberthis.joins` system setting can contain a JSON encoded array of join
+options. Each join option has to contain the joined `class`, the `alias` of the
+joined class (defaults to `class`), the `prefix` for each retrieved field of the
+joined class and the `conditions` for the join.
+
+#### Joins Example
+
+```
+[{"class":"<class_name>","alias":"<class_alias>","prefix":"<prefix>_","conditions":["<class_alias>.<fieldname> = <joining_class_alias>.<fieldname>"]}]
+```

@@ -1,6 +1,7 @@
 {
   "name": "treehillstudio/rememberthis",
   "description": "Remember List for xPDO Objects",
+  "version": "2.4.1",
   "authors": [
     {
       "name": "Thomas Jakobi",

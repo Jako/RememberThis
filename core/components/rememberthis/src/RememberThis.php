@@ -2,7 +2,7 @@
 /**
  * RememberThis
  *
- * Copyright 2008-2024 by Thomas Jakobi <office@treehillstudio.com>
+ * Copyright 2008-2025 by Thomas Jakobi <office@treehillstudio.com>
  *
  * @package rememberthis
  * @subpackage classfile
@@ -44,7 +44,7 @@ class RememberThis
      * The version
      * @var string $version
      */
-    public $version = '2.4.0';
+    public $version = '2.4.1';
 
     /**
      * The class options
