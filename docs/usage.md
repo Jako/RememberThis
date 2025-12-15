@@ -136,7 +136,7 @@ RememberThis uses the following system settings in the namespace `rememberthis`.
 | rememberthis.cookieExpireDays | Cookie Expiration        | The expiration time of the cookie (in days).                                                              | 90                            |
 | rememberthis.cookieName       | Cookie Name              | The name of the cookie.                                                                                   | rememberlist                  |
 | rememberthis.debug            | Debug                    | Display debug information.                                                                                | No                            |
-| rememberthis.fields           | Fields                   | Comma separated list of field names of the xPDO class, that are remembered in the list.                   | -                             |
+| rememberthis.fields           | Fields                   | Comma-separated list of field names of the xPDO class, that are remembered in the list.                   | -                             |
 | rememberthis.includeCss       | Include CSS              | Include css (at the end of the head).                                                                     | Yes                           |
 | rememberthis.includeScripts   | Include Javascripts      | Include javascripts (at the end of the body).                                                             | Yes                           |
 | rememberthis.itemTitleTpl     | Item Title Template      | Template for one list item.                                                                               | tplRememberThisItemTitle      |
