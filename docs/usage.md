@@ -160,7 +160,8 @@ RememberThis uses the following system settings in the namespace `rememberthis`.
 
 !!! caution "Multiple snippet calls and debug output"
 
-    If you display the RememberThisList snippet call multiple on the page, all snippet calls have to be different, to show the debug information.
+    If you display the RememberThisList snippet call multiple on the page, all
+    snippet calls have to be different, to show the debug information.
 
 The following templating system settings can be overridden by snippet 
 properties: **rowTpl**, **outerTpl**, **addTpl**, **noResultsTpl**
