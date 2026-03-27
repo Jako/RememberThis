@@ -158,7 +158,7 @@ RememberThis uses the following system settings in the namespace `rememberthis`.
 | rememberthis.useDatabase      | Use Database             | Save the remembered list in the database (only if the frontend user is logged into the site).             | No                            |
 | rememberthis.wrapperTpl       | Wrapper Template         | Wrapper template for the outer output or the empty output.                                                | tplRememberThisWrapper        |
 
-!!! caution "Multiple snippet calls and debug output"
+!!! warning "Multiple snippet calls and debug output"
 
     If you display the RememberThisList snippet call multiple on the page, all
     snippet calls have to be different, to show the debug information.
