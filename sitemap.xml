@@ -1,3 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+      <url>
+        <loc>https://jako.github.io/RememberThis/</loc>
+      </url>
+      <url>
+        <loc>https://jako.github.io/RememberThis/installation/</loc>
+      </url>
+      <url>
+        <loc>https://jako.github.io/RememberThis/usage/</loc>
+      </url>
+      <url>
+        <loc>https://jako.github.io/RememberThis/changelog/</loc>
+      </url>
+      <url>
+        <loc>https://jako.github.io/RememberThis/contributors/</loc>
+      </url>
 </urlset>
