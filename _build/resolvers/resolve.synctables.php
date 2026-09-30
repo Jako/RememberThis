@@ -5,8 +5,8 @@
  * @package rememberthis
  * @subpackage build
  *
- * @var mixed $object
  * @var array $options
+ * @var xPDOTransport $transport
  */
 
 if (!function_exists('updateTableColumns')) {
@@ -80,7 +80,9 @@ if (!function_exists('updateTableIndexes')) {
         $indexes = array_keys($meta);
 
         foreach ($indexes as $index) {
-            if ($index == 'PRIMARY') continue;
+            if ($index == 'PRIMARY') {
+                continue;
+            }
             $m->addIndex($table, $index);
             $modx->log(xPDO::LOG_LEVEL_INFO, ' -- added index: ' . $index);
         }
@@ -102,26 +104,25 @@ if (!function_exists('alterTable')) {
     }
 }
 
-if ($object->xpdo) {
-    switch ($options[xPDOTransport::PACKAGE_ACTION]) {
-        case xPDOTransport::ACTION_INSTALL:
-        case xPDOTransport::ACTION_UPGRADE:
-            /** @var modX $modx */
-            $modx = &$object->xpdo;
+/** @var modX $modx */
+$modx = $transport->xpdo;
 
-            $tables = [
-                "RememberThisList"
-            ];
+$success = true;
 
-            $modelPath = $modx->getOption('rememberthis.core_path', null, $modx->getOption('core_path') . 'components/rememberthis/') . 'model/';
-            $modx->addPackage('rememberthis', $modelPath);
+switch ($options[xPDOTransport::PACKAGE_ACTION]) {
+    case xPDOTransport::ACTION_INSTALL:
+    case xPDOTransport::ACTION_UPGRADE:
+        $tables = [
+            "RememberThisList"
+        ];
 
-            foreach ($tables as $table) {
-                $modx->log(xPDO::LOG_LEVEL_INFO, 'Altering table: ' . $table);
-                alterTable($modx, $table);
-            }
+        $modelPath = $modx->getOption('rememberthis.core_path', null, $modx->getOption('core_path') . 'components/rememberthis/') . 'model/';
+        $modx->addPackage('rememberthis', $modelPath);
 
-            break;
-    }
+        foreach ($tables as $table) {
+            $modx->log(xPDO::LOG_LEVEL_INFO, 'Altering table: ' . $table);
+            alterTable($modx, $table);
+        }
+        break;
 }
 return true;
