@@ -17,17 +17,14 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.6.1",
-    "chokidar-cli": "^3.0.0",
-    "cssnano": "^9.1.0",
-    "postcss": "^8.5.28",
-    "sass": "^1.105.0",
+    "cssnano": "^9.9.0",
+    "postcss": "^8.5.31",
+    "sass": "^1.106.1",
     "terser": "^5.51.2"
   },
   "browserslist": [
-    "last 2 version",
     "> 1%",
-    "maintained node versions",
-    "not dead"
+    "defaults"
   ],
   "allowScripts": {
     "@parcel/watcher@2.6.0": true,
