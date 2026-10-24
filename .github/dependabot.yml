@@ -1,0 +1,10 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "composer"
+    directory: "core/components/rememberthis/"
+    schedule:
+      interval: "weekly"
