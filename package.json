@@ -16,7 +16,7 @@
     "build:images": "node build.js images"
   },
   "devDependencies": {
-    "autoprefixer": "^10.6.1",
+    "autoprefixer": "^10.6.2",
     "cssnano": "^9.9.0",
     "postcss": "^8.5.31",
     "sass": "^1.106.1",
